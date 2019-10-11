@@ -5,6 +5,8 @@
 //  Created by GIKI on 2019/10/11.
 //  Copyright © 2019 GIKI. All rights reserved.
 //
+//  This code reference from GSKStretchyHeaderView! Thanks!
+//  github: http://github.com/gskbyte
 
 #import <UIKit/UIKit.h>
 

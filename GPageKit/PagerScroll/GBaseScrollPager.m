@@ -25,9 +25,10 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
         
     } _pageScrollViewFlags;
 }
-@property (nonatomic, assign) NSMutableDictionary<NSString *, NSValue *> *pagerClasses;
 
 @property (nonatomic, strong, readwrite) UIScrollView *scrollView;
+
+@property (nonatomic, assign) NSMutableDictionary<NSString *, NSValue *> *pagerClasses;
 
 @property (nonatomic, strong) NSMutableDictionary<NSNumber *, id> *visiblePagers;
 
@@ -35,13 +36,6 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
 
 /* Works out how many slots this pager view has, including accessory views. */
 @property (nonatomic, readonly) NSInteger numberOfPageSlots;
-
-/* Returns the view displayed at the front of the pages (Whether it is the header, or headerFooter view) */
-@property (nonatomic, nullable, readonly) UIView *leadingAccessoryView;
-
-/* Returns the view displayed at the end of the pages (Whether it is the footer, or headerFooter view) */
-@property (nonatomic, nullable, readonly) UIView *trailingAccessoryView;
-
 
 @end
 
@@ -240,29 +234,6 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
     return pager;
 }
 
-/** The currently visible primary view on screen. Can be a page or accessories. */
-- (nullable __kindof UIView *)visibleView
-{
-    // If it's an accessory view, return it
-    UIView *page = self.leadingAccessoryView;
-    if (page && self.scrollIndex == 0) {
-        return page;
-    }
-    
-    page = self.trailingAccessoryView;
-    if (page && self.scrollIndex >= self.numberOfPageSlots-1) {
-        return page;
-    }
-    
-    //if it's a standard page, return it
-    page = [self.visiblePagers objectForKey:@(self.scrollIndex)];
-    if (page) {
-        return page;
-    }
-    
-    return nil;
-}
-
 - (nullable __kindof id)visiblePager
 {
     return [self pagerForIndex:self.pageIndex];
@@ -277,16 +248,6 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
 /** Returns the page view currently assigned to the provided index, or nil otherwise. */
 - (nullable __kindof id)pagerForIndex:(NSInteger)pageIndex
 {
-    // Skip leading accessory view
-    if (self.leadingAccessoryView && pageIndex == 0) {
-        return nil;
-    }
-    
-    // Skip trailing accessory view
-    if (self.trailingAccessoryView && pageIndex >= self.numberOfPageSlots-1) {
-        return nil;
-    }
-    
     // Return page
     id page = [self.visiblePagers objectForKey:@(pageIndex)];
     return page;
@@ -311,9 +272,6 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
     }
     
     NSInteger index = self.scrollIndex;
-    if (self.leadingAccessoryView) {
-        index--;
-    }
     
     [self turnToPageAtIndex:index+1 animated:YES];
 }
@@ -325,34 +283,16 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
     }
     
     NSInteger index = self.scrollIndex;
-    if (self.leadingAccessoryView) {
-        index--;
-    }
-    
     [self turnToPageAtIndex:index-1 animated:YES];
 }
 
 /* Jump to a specific page (-1 for header, self.numberOfPages for footer) */
 - (void)turnToPageAtIndex:(NSInteger)index animated:(BOOL)animated
 {
-    //verify index is valid (Still in page space and not scroll space)
-    if (self.leadingAccessoryView) {
-        index = MAX(-1, index);
-    } else {
-        index = MAX(0, index);
-    }
-    
-    if (self.trailingAccessoryView) {
-        index = MIN(self.numberOfPages, index);
-    } else {
-        index = MIN(self.numberOfPages-1, index);
-    }
-    
-    //convert to scroll space
-    if (self.leadingAccessoryView) {
-        index++;
-    }
-    
+
+    index = MAX(0, index);
+    index = MIN(self.numberOfPages-1, index);
+
     // Inform the delegate
     if (_pageScrollViewFlags.delegateWillJumpToIndex) {
         [self.delegate pagerView:self willJumpToPageAtIndex:index];
@@ -378,7 +318,7 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
     // If we're turning more than one page away, move the current page right up
     // to the side of the target page so we can have a seamless jump animation
     if (labs(index - self.scrollIndex) > 1) {
-        id page = [self visibleView];
+        id page = [self visiblePager];
         NSInteger newIndex = 0;
         if (index > self.scrollIndex) {
             newIndex = index - 1;
@@ -446,10 +386,7 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
         [[self recycledPagesSetForPage:page] addObject:page];
     }];
     [self.visiblePagers removeAllObjects];
-    // Remove all accessory views
-    [self.leadingAccessoryView removeFromSuperview];
-    [self.trailingAccessoryView removeFromSuperview];
-    
+
     // Perform relayout calculation
     [self layoutPages];
     
@@ -530,40 +467,6 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
         return NO;
     }];
     [self.visiblePagers removeObjectsForKeys:[keysToRemove allObjects]];
-    /*
-    //if there are any accessory views, work out if they need to be removed
-    //remove either headerFooter view
-    if (self.headerFooterView.superview) {
-        if (visiblePagesRange.location > 0 && (NSMaxRange(visiblePagesRange)-1) < numberOfPageSlots-1) {
-            [self.headerFooterView removeFromSuperview];
-        }
-        else {
-            visiblePagesCount++;
-        }
-    }
-    
-    //remove header view if necessary
-    if (self.headerView.superview) {
-        if (visiblePagesRange.location > 0) {
-            [self.headerView removeFromSuperview];
-        }
-        else {
-            visiblePagesCount++;
-        }
-    }
-    
-    //remove footer view if necessary
-    if (self.footerView.superview)
-    {
-        if ((NSMaxRange(visiblePagesRange)-1) < numberOfPageSlots-1) {
-            [self.footerView removeFromSuperview];
-        }
-        else {
-            visiblePagesCount++;
-        }
-    }
-     */
-    
     //-------------------------------------------------------------------
     
     //if the number of visible pages is what we were expecting, there's no need to continue
@@ -581,51 +484,14 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
     NSInteger numberOfPageSlots = self.numberOfPageSlots;
     scrollIndex = MAX(0, scrollIndex);
     scrollIndex = MIN(numberOfPageSlots, scrollIndex);
-    
-    //add the header view
-    UIView *headerView = self.leadingAccessoryView;
-    if (headerView && scrollIndex == 0) {
-        if (headerView.superview == nil) {
-            //configure frame to match
-            headerView.frame    = [self frameForViewAtIndex:0];
-            headerView.tag      = 0;
-            
-            //inform the delegate in case it needs to update itself
-            if (_pageScrollViewFlags.delegateWillInsertHeader) {
-                [self.delegate pagerView:self willInsertHeaderView:headerView];
-            }
-            
-            [self.scrollView addSubview:headerView];
-        }
-        
-        return;
-    }
-    
-    UIView *footerView = self.trailingAccessoryView;
-    if (footerView && scrollIndex >= numberOfPageSlots-1) { //add the footer view
-        if (footerView.superview == nil) {
-            //configure frame to match
-            footerView.frame    = [self frameForViewAtIndex:numberOfPageSlots-1];
-            footerView.tag      = numberOfPageSlots-1;
-            
-            //inform the delegate in case it needs to update itself
-            if (_pageScrollViewFlags.delegateWillInsertFooter) {
-                [self.delegate pagerView:self willInsertFooterView:footerView];
-            }
-            
-            [self.scrollView addSubview:footerView];
-        }
-        
-        return;
-    }
-    
+ 
     //add as a page
     if ([self.visiblePagers objectForKey:@(scrollIndex)]) {
         return;
     }
     
     id page = nil;
-    NSInteger publicIndex = self.leadingAccessoryView ? scrollIndex - 1 : scrollIndex;
+    NSInteger publicIndex = scrollIndex;
     if (_pageScrollViewFlags.dataSourcePageForIndex) {
         page = [self.dataSource pagerView:self pagerForIndex:publicIndex];
     }
@@ -670,12 +536,6 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
 - (NSInteger)pageIndex
 {
     NSInteger pageIndex = self.scrollIndex;
-    
-    //subtract by one to remove the header
-    if (self.leadingAccessoryView && pageIndex > 0) {
-        pageIndex--;
-    }
-    
     //cap to the maximum number of pages (which will remove the footer)
     if (pageIndex >= self.numberOfPages) {
         pageIndex = self.numberOfPages - 1;
@@ -712,7 +572,7 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
 
 - (NSInteger)numberOfPageSlots
 {
-    return self.numberOfPages + (self.leadingAccessoryView ? 1 : 0) + (self.trailingAccessoryView ? 1 : 0);
+    return self.numberOfPages;
 }
 
 #pragma mark - Override Method
