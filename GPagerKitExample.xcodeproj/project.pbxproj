@@ -17,6 +17,7 @@
 		2BC0D2652350AF36006129CF /* GBaseScrollPager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC0D2612350AF36006129CF /* GBaseScrollPager.m */; };
 		2BC0D2672350AF36006129CF /* GViewScrollPager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC0D2632350AF36006129CF /* GViewScrollPager.m */; };
 		2BC0D26A2350AF73006129CF /* GPagerVCTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC0D2682350AF73006129CF /* GPagerVCTestViewController.m */; };
+		2BC0D26D2350B0C3006129CF /* GPagerViewTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC0D26C2350B0C3006129CF /* GPagerViewTestController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,8 @@
 		2BC0D2632350AF36006129CF /* GViewScrollPager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GViewScrollPager.m; sourceTree = "<group>"; };
 		2BC0D2682350AF73006129CF /* GPagerVCTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GPagerVCTestViewController.m; sourceTree = "<group>"; };
 		2BC0D2692350AF73006129CF /* GPagerVCTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPagerVCTestViewController.h; sourceTree = "<group>"; };
+		2BC0D26B2350B0C3006129CF /* GPagerViewTestController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPagerViewTestController.h; sourceTree = "<group>"; };
+		2BC0D26C2350B0C3006129CF /* GPagerViewTestController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPagerViewTestController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +80,8 @@
 				2BC0D2472350AEED006129CF /* ViewController.m */,
 				2BC0D2692350AF73006129CF /* GPagerVCTestViewController.h */,
 				2BC0D2682350AF73006129CF /* GPagerVCTestViewController.m */,
+				2BC0D26B2350B0C3006129CF /* GPagerViewTestController.h */,
+				2BC0D26C2350B0C3006129CF /* GPagerViewTestController.m */,
 				2BC0D2492350AEED006129CF /* Main.storyboard */,
 				2BC0D24C2350AEEE006129CF /* Assets.xcassets */,
 				2BC0D24E2350AEEE006129CF /* LaunchScreen.storyboard */,
@@ -187,6 +192,7 @@
 			files = (
 				2BC0D2642350AF36006129CF /* GControllerScrollPager.m in Sources */,
 				2BC0D2482350AEED006129CF /* ViewController.m in Sources */,
+				2BC0D26D2350B0C3006129CF /* GPagerViewTestController.m in Sources */,
 				2BC0D2672350AF36006129CF /* GViewScrollPager.m in Sources */,
 				2BC0D2532350AEEE006129CF /* main.m in Sources */,
 				2BC0D2652350AF36006129CF /* GBaseScrollPager.m in Sources */,

@@ -7,15 +7,15 @@
 //
 
 #import "ViewController.h"
-#import "GViewScrollPager.h"
+
 #import "GPagerVCTestViewController.h"
 #define XCColorRGB(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
 #define XCColorRGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:a]
 
 // 随机色
 #define XCRandomColor XCColorRGB(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
-@interface ViewController ()<GScrollPagerDataSource,UITableViewDelegate,UITableViewDataSource>
-@property (nonatomic, strong) GViewScrollPager * pager;
+@interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
+
 @property (nonatomic, strong) UITableView * tableView;
 @property (nonatomic, strong) NSArray * datas;
 @end
@@ -25,7 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.datas = @[@"GPagerVCTestViewController"];
+    self.datas = @[@"GPagerVCTestViewController",@"GPagerViewTestController"];
     
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     tableView.delegate = self;
@@ -36,25 +36,7 @@
     self.tableView = tableView;
     self.tableView.frame = self.view.bounds;
     [self.view addSubview:self.tableView];
-//    self.pager = [[GViewScrollPager alloc] initWithFrame:CGRectMake(0, 100, [UIScreen mainScreen].bounds.size.width, 500)];
-//    self.pager.dataSource = self;
-//    [self.view addSubview:self.pager];
-//    [self.pager registerPagerClass:UIView.class];
-}
 
-- (NSInteger)numberOfPagesInPagerView:(__kindof GBaseScrollPager *)pageScrollView;
-{
-    return 5;
-}
-
-- (id)pagerView:(__kindof GBaseScrollPager *)pagerView pagerForIndex:(NSInteger)pageIndex
-{
-    UIView * view = [pagerView dequeueReusablePager];
-    if (!view) {
-        view = [UIView new];
-        view.backgroundColor = XCRandomColor;
-    }
-    return view;
 }
 
 #pragma mark -- TableView DataSource

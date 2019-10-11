@@ -8,23 +8,27 @@
 
 #import "GPagerVCTestViewController.h"
 #import "GControllerScrollPager.h"
-@interface GPagerVCTestViewController ()<GScrollPagerDataSource>
-@property (nonatomic, strong) GControllerScrollPager * pager;
-@end
+
 #define XCColorRGB(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
 #define XCColorRGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:a]
 
 // 随机色
 #define XCRandomColor XCColorRGB(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
+
+@interface GPagerVCTestViewController ()<GScrollPagerDataSource>
+@property (nonatomic, strong) GControllerScrollPager * pager;
+@end
+
 @implementation GPagerVCTestViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-        self.pager = [[GControllerScrollPager alloc] initWithFrame:self.view.bounds];
-        self.pager.dataSource = self;
-        [self.view addSubview:self.pager];
-        [self.pager registerPagerClass:UIViewController.class];
+    self.pager = [[GControllerScrollPager alloc] initWithFrame:CGRectMake(0, 88+10, self.view.bounds.size.width, self.view.bounds.size.height-88-20)];
+    self.pager.dataSource = self;
+    self.pager.pageSpacing = 10;
+    [self.view addSubview:self.pager];
+    [self.pager registerPagerClass:UIViewController.class];
 }
 
 - (NSInteger)numberOfPagesInPagerView:(__kindof GBaseScrollPager *)pageScrollView;
