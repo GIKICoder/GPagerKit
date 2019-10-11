@@ -18,6 +18,10 @@
 		2BC0D2672350AF36006129CF /* GViewScrollPager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC0D2632350AF36006129CF /* GViewScrollPager.m */; };
 		2BC0D26A2350AF73006129CF /* GPagerVCTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC0D2682350AF73006129CF /* GPagerVCTestViewController.m */; };
 		2BC0D26D2350B0C3006129CF /* GPagerViewTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC0D26C2350B0C3006129CF /* GPagerViewTestController.m */; };
+		2BC0D2712350B6CE006129CF /* GBasePagerMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC0D2702350B6CE006129CF /* GBasePagerMenu.m */; };
+		2BC0D2742350B75A006129CF /* GStretchyHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC0D2732350B75A006129CF /* GStretchyHeaderView.m */; };
+		2BC0D2782350B914006129CF /* UIScrollView+GStretchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC0D2772350B914006129CF /* UIScrollView+GStretchy.m */; };
+		2BC0D27B2350B922006129CF /* UIView+GStretchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC0D27A2350B922006129CF /* UIView+GStretchy.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +45,15 @@
 		2BC0D2692350AF73006129CF /* GPagerVCTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GPagerVCTestViewController.h; sourceTree = "<group>"; };
 		2BC0D26B2350B0C3006129CF /* GPagerViewTestController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPagerViewTestController.h; sourceTree = "<group>"; };
 		2BC0D26C2350B0C3006129CF /* GPagerViewTestController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPagerViewTestController.m; sourceTree = "<group>"; };
+		2BC0D26F2350B6CE006129CF /* GBasePagerMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBasePagerMenu.h; sourceTree = "<group>"; };
+		2BC0D2702350B6CE006129CF /* GBasePagerMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GBasePagerMenu.m; sourceTree = "<group>"; };
+		2BC0D2722350B75A006129CF /* GStretchyHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GStretchyHeaderView.h; sourceTree = "<group>"; };
+		2BC0D2732350B75A006129CF /* GStretchyHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GStretchyHeaderView.m; sourceTree = "<group>"; };
+		2BC0D2752350B8D5006129CF /* GStretchHeaderViewInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GStretchHeaderViewInternal.h; sourceTree = "<group>"; };
+		2BC0D2762350B914006129CF /* UIScrollView+GStretchy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+GStretchy.h"; sourceTree = "<group>"; };
+		2BC0D2772350B914006129CF /* UIScrollView+GStretchy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+GStretchy.m"; sourceTree = "<group>"; };
+		2BC0D2792350B922006129CF /* UIView+GStretchy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+GStretchy.h"; sourceTree = "<group>"; };
+		2BC0D27A2350B922006129CF /* UIView+GStretchy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+GStretchy.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +107,7 @@
 		2BC0D2592350AF35006129CF /* GPageKit */ = {
 			isa = PBXGroup;
 			children = (
+				2BC0D26E2350B325006129CF /* StretchyHeaderView */,
 				2BC0D25A2350AF35006129CF /* PagerMenu */,
 				2BC0D25B2350AF35006129CF /* PagerScroll */,
 			);
@@ -103,6 +117,8 @@
 		2BC0D25A2350AF35006129CF /* PagerMenu */ = {
 			isa = PBXGroup;
 			children = (
+				2BC0D26F2350B6CE006129CF /* GBasePagerMenu.h */,
+				2BC0D2702350B6CE006129CF /* GBasePagerMenu.m */,
 			);
 			path = PagerMenu;
 			sourceTree = "<group>";
@@ -118,6 +134,20 @@
 				2BC0D2632350AF36006129CF /* GViewScrollPager.m */,
 			);
 			path = PagerScroll;
+			sourceTree = "<group>";
+		};
+		2BC0D26E2350B325006129CF /* StretchyHeaderView */ = {
+			isa = PBXGroup;
+			children = (
+				2BC0D2722350B75A006129CF /* GStretchyHeaderView.h */,
+				2BC0D2732350B75A006129CF /* GStretchyHeaderView.m */,
+				2BC0D2752350B8D5006129CF /* GStretchHeaderViewInternal.h */,
+				2BC0D2762350B914006129CF /* UIScrollView+GStretchy.h */,
+				2BC0D2772350B914006129CF /* UIScrollView+GStretchy.m */,
+				2BC0D2792350B922006129CF /* UIView+GStretchy.h */,
+				2BC0D27A2350B922006129CF /* UIView+GStretchy.m */,
+			);
+			path = StretchyHeaderView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,7 +223,11 @@
 				2BC0D2642350AF36006129CF /* GControllerScrollPager.m in Sources */,
 				2BC0D2482350AEED006129CF /* ViewController.m in Sources */,
 				2BC0D26D2350B0C3006129CF /* GPagerViewTestController.m in Sources */,
+				2BC0D2712350B6CE006129CF /* GBasePagerMenu.m in Sources */,
+				2BC0D2782350B914006129CF /* UIScrollView+GStretchy.m in Sources */,
 				2BC0D2672350AF36006129CF /* GViewScrollPager.m in Sources */,
+				2BC0D27B2350B922006129CF /* UIView+GStretchy.m in Sources */,
+				2BC0D2742350B75A006129CF /* GStretchyHeaderView.m in Sources */,
 				2BC0D2532350AEEE006129CF /* main.m in Sources */,
 				2BC0D2652350AF36006129CF /* GBaseScrollPager.m in Sources */,
 				2BC0D26A2350AF73006129CF /* GPagerVCTestViewController.m in Sources */,
