@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import <objc/runtime.h>
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, GPageDirection) {
@@ -16,6 +16,10 @@ typedef NS_ENUM(NSUInteger, GPageDirection) {
 };
 
 @class GBaseScrollPager;
+
+@interface NSObject (PageIdentifier)
+@property (nonatomic, copy) NSString * pageIdentifier;
+@end
 
 @protocol GViewPagerProtocol <NSObject>
 @optional
@@ -89,6 +93,7 @@ typedef NS_ENUM(NSUInteger, GPageDirection) {
 
 /// registers a pager class
 - (void)registerPagerClass:(Class)pagerClass;
+- (void)registerPagerClass:(Class)pagerClass identifier:(NSString *)identifier;
 
 /// return a recycled pager
 - (nullable __kindof id)dequeueReusablePager;

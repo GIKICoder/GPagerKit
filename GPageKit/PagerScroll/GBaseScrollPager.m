@@ -212,6 +212,17 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
     self.pagerClasses[identifier] = encodedStruct;
 }
 
+- (void)registerPagerClass:(Class)pagerClass identifier:(NSString *)identifier
+{
+    identifier = (identifier.length > 0) ? identifier :  kGPagerDefaultPageIdentifier;
+    if ([pagerClass respondsToSelector:@selector(pageIdentifier)]) {
+        identifier = [pagerClass pageIdentifier];
+    }
+    
+    NSValue *encodedStruct = [NSValue valueWithBytes:&pagerClass objCType:@encode(Class)];
+    self.pagerClasses[identifier] = encodedStruct;
+}
+
 - (nullable __kindof id)dequeueReusablePager
 {
     return [self dequeueReusablePagerForIdentifier:kGPagerDefaultPageIdentifier];
@@ -230,7 +241,6 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
         [self.pagerClasses[identifier] getValue:&pageClass];
         pager = [self __constructPager:pageClass];
     }
-    
     return pager;
 }
 
@@ -514,14 +524,16 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
     self.scrollView.contentInset = insets;
 }
 
-- (NSMutableSet *)recycledPagesSetForPage:(UIView *)pageView
+- (NSMutableSet *)recycledPagesSetForPage:(id)pager
 {
     // See if the page implemented an identifier, but defer to the default if not
     NSString *identifier = kGPagerDefaultPageIdentifier;
-    if ([[pageView class] respondsToSelector:@selector(pageIdentifier)]) {
-        identifier = [[pageView class] pageIdentifier];
+    if ([[pager class] respondsToSelector:@selector(pageIdentifier)]) {
+        identifier = [[pager class] pageIdentifier];
     }
-    
+    if ([pager respondsToSelector:@selector(pageIdentifier)]) {
+        identifier = [pager pageIdentifier];
+    }
     // See if a set object already exists for that identifier. Create a new one if not
     NSMutableSet *set = self.recycledPageSets[identifier];
     if (set == nil) {
@@ -634,5 +646,16 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
     pageFrame.origin        = [self contentOffsetForScrollViewAtIndex:index];
     pageFrame.origin.x      += (self.pageSpacing * 0.5f);
     return pageFrame;
+}
+@end
+
+@implementation NSObject (PageIdentifier)
+static char kAssociatedObjectKey_pageIdentifier;
+- (void)setPageIdentifier:(NSString *)pageIdentifier {
+    objc_setAssociatedObject(self, &kAssociatedObjectKey_pageIdentifier, pageIdentifier, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+- (NSString *)pageIdentifier {
+    return (NSString *)objc_getAssociatedObject(self, &kAssociatedObjectKey_pageIdentifier);
 }
 @end
