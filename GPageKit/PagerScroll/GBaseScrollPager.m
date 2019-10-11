@@ -28,7 +28,7 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
 
 @property (nonatomic, strong, readwrite) UIScrollView *scrollView;
 
-@property (nonatomic, assign) NSMutableDictionary<NSString *, NSValue *> *pagerClasses;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, NSValue *> *pagerClasses;
 
 @property (nonatomic, strong) NSMutableDictionary<NSNumber *, id> *visiblePagers;
 
@@ -169,6 +169,29 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
     }
 }
 
+- (NSMutableDictionary<NSString *,NSValue *> *)pagerClasses
+{
+    if (!_pagerClasses) {
+        _pagerClasses = [[NSMutableDictionary alloc] init];
+    }
+    return _pagerClasses;
+}
+
+- (NSMutableDictionary<NSNumber *,id> *)visiblePagers
+{
+    if (!_visiblePagers) {
+        _visiblePagers = [[NSMutableDictionary alloc] init];
+    }
+    return _visiblePagers;
+}
+
+- (NSMutableDictionary<NSString *, NSMutableSet *> *)recycledPageSets
+{
+    if (!_recycledPageSets) {
+        _recycledPageSets = [[NSMutableDictionary alloc] init];
+    }
+    return _recycledPageSets;
+}
 #pragma mark - Public Method
 
 - (void)reloadPageScrollView
@@ -205,7 +228,10 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
 {
     NSString *identifier = kGPagerDefaultPageIdentifier;
     if ([pagerClass respondsToSelector:@selector(pageIdentifier)]) {
-        identifier = [pagerClass pageIdentifier];
+        NSString * temp = [pagerClass pageIdentifier];
+        if (temp && temp.length > 0) {
+            identifier = temp;
+        }
     }
     
     NSValue *encodedStruct = [NSValue valueWithBytes:&pagerClass objCType:@encode(Class)];
@@ -528,12 +554,12 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
 {
     // See if the page implemented an identifier, but defer to the default if not
     NSString *identifier = kGPagerDefaultPageIdentifier;
-    if ([[pager class] respondsToSelector:@selector(pageIdentifier)]) {
-        identifier = [[pager class] pageIdentifier];
-    }
-    if ([pager respondsToSelector:@selector(pageIdentifier)]) {
-        identifier = [pager pageIdentifier];
-    }
+//    if ([[pager class] respondsToSelector:@selector(pageIdentifier)]) {
+//        identifier = [[pager class] pageIdentifier];
+//    }
+//    if ([pager respondsToSelector:@selector(pageIdentifier)]) {
+//        identifier = [pager pageIdentifier];
+//    }
     // See if a set object already exists for that identifier. Create a new one if not
     NSMutableSet *set = self.recycledPageSets[identifier];
     if (set == nil) {
