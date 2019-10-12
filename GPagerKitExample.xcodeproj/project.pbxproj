@@ -22,6 +22,7 @@
 		2BC0D2742350B75A006129CF /* GStretchyHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC0D2732350B75A006129CF /* GStretchyHeaderView.m */; };
 		2BC0D2782350B914006129CF /* UIScrollView+GStretchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC0D2772350B914006129CF /* UIScrollView+GStretchy.m */; };
 		2BC0D27B2350B922006129CF /* UIView+GStretchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC0D27A2350B922006129CF /* UIView+GStretchy.m */; };
+		2BC0D27E23520EE7006129CF /* GPagerMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC0D27D23520EE7006129CF /* GPagerMenuViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,8 @@
 		2BC0D2772350B914006129CF /* UIScrollView+GStretchy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+GStretchy.m"; sourceTree = "<group>"; };
 		2BC0D2792350B922006129CF /* UIView+GStretchy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+GStretchy.h"; sourceTree = "<group>"; };
 		2BC0D27A2350B922006129CF /* UIView+GStretchy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+GStretchy.m"; sourceTree = "<group>"; };
+		2BC0D27C23520EE7006129CF /* GPagerMenuViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPagerMenuViewController.h; sourceTree = "<group>"; };
+		2BC0D27D23520EE7006129CF /* GPagerMenuViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPagerMenuViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +98,8 @@
 				2BC0D2682350AF73006129CF /* GPagerVCTestViewController.m */,
 				2BC0D26B2350B0C3006129CF /* GPagerViewTestController.h */,
 				2BC0D26C2350B0C3006129CF /* GPagerViewTestController.m */,
+				2BC0D27C23520EE7006129CF /* GPagerMenuViewController.h */,
+				2BC0D27D23520EE7006129CF /* GPagerMenuViewController.m */,
 				2BC0D2492350AEED006129CF /* Main.storyboard */,
 				2BC0D24C2350AEEE006129CF /* Assets.xcassets */,
 				2BC0D24E2350AEEE006129CF /* LaunchScreen.storyboard */,
@@ -225,6 +230,7 @@
 				2BC0D26D2350B0C3006129CF /* GPagerViewTestController.m in Sources */,
 				2BC0D2712350B6CE006129CF /* GBasePagerMenu.m in Sources */,
 				2BC0D2782350B914006129CF /* UIScrollView+GStretchy.m in Sources */,
+				2BC0D27E23520EE7006129CF /* GPagerMenuViewController.m in Sources */,
 				2BC0D2672350AF36006129CF /* GViewScrollPager.m in Sources */,
 				2BC0D27B2350B922006129CF /* UIView+GStretchy.m in Sources */,
 				2BC0D2742350B75A006129CF /* GStretchyHeaderView.m in Sources */,

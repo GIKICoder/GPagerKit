@@ -38,10 +38,7 @@
 - (id)pagerView:(__kindof GBaseScrollPager *)pagerView pagerForIndex:(NSInteger)pageIndex
 {
     UIView * view = [pagerView dequeueReusablePager];
-    if (!view) {
-        view = [UIView new];
-        view.backgroundColor = XCRandomColor;
-    }
+    view.backgroundColor = XCRandomColor;
     return view;
 }
 

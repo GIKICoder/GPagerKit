@@ -25,7 +25,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.datas = @[@"GPagerVCTestViewController",@"GPagerViewTestController"];
+    self.datas = @[@"GPagerVCTestViewController",
+                   @"GPagerViewTestController",
+                   @"GPagerMenuViewController"];
     
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     tableView.delegate = self;

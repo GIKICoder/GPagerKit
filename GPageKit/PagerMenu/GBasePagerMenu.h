@@ -9,8 +9,36 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
+@class GBasePagerMenu;
+@protocol GPagerMenuDataSource <NSObject>
+@required
+- (nullable __kindof UIView *)pagerMenu:(GBasePagerMenu *)menu itemAtIndex:(NSUInteger)index;
+@optional
+- (NSArray *)pagerMenuItems:(GBasePagerMenu *)menu;
+- (nullable __kindof UIView *)pagerMenu:(GBasePagerMenu *)menu menuItem:(id)item;
+
+- (CGSize)pagerMenu:(GBasePagerMenu *)menu itemSizeAtIndex:(NSUInteger)index;
+- (CGFloat)pagerMenu:(GBasePagerMenu *)menu itemSpacingAtIndex:(NSUInteger)index;
+@end
+
+@protocol GPagerMenuDelegate <NSObject>
+@optional
+- (void)pagerMenu:(GBasePagerMenu *)menu didSelectItemAtIndex:(NSUInteger)index;
+@end
 
 @interface GBasePagerMenu : UIView
+
+@property (nonatomic, strong, readonly) __kindof UIScrollView * scrollView;
+@property (nonatomic, strong, readonly) NSArray<id> * menuItems;
+
+@property (nonatomic, weak  ) id<GPagerMenuDataSource>   dataSource;
+@property (nonatomic, weak  ) id<GPagerMenuDelegate>   delegate;
+
+@property (nonatomic, assign) CGFloat  itemSpacing;
+
+- (void)reloadData;
+- (void)reloadWithIndexs:(NSArray<NSNumber *> *)indexs;
+- (void)selectMenuItemAtIndex:(NSUInteger)index;
 
 @end
 
