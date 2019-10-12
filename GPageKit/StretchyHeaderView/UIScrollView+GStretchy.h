@@ -12,10 +12,10 @@ NS_ASSUME_NONNULL_BEGIN
 @class GStretchyHeaderView;
 @interface UIScrollView (GStretchy)
 
-- (void)gsk_fixZPositionsForStretchyHeaderView:(GStretchyHeaderView *)headerView;
+- (void)g_fixZPositionsForStretchyHeaderView:(GStretchyHeaderView *)headerView;
 
-- (void)gsk_arrangeStretchyHeaderView:(GStretchyHeaderView *)headerView;
-- (void)gsk_layoutStretchyHeaderView:(GStretchyHeaderView *)headerView
+- (void)g_arrangeStretchyHeaderView:(GStretchyHeaderView *)headerView;
+- (void)g_layoutStretchyHeaderView:(GStretchyHeaderView *)headerView
                        contentOffset:(CGPoint)contentOffset
                previousContentOffset:(CGPoint)previousContentOffset;
 @end

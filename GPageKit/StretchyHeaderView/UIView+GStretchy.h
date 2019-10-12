@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UIView (GStretchy)
-- (void)gsk_transplantSubviewsToView:(UIView *)newSuperview;
+- (void)g_transplantSubviewsToView:(UIView *)newSuperview;
 @end
 
 NS_ASSUME_NONNULL_END

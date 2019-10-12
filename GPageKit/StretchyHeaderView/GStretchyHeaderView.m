@@ -64,7 +64,7 @@ static const CGFloat kNibDefaultMaximumContentHeight = 240;
 
 - (void)setupContentView {
     _contentView = [[GSKStretchyHeaderContentView alloc] initWithFrame:self.bounds];
-    [self gsk_transplantSubviewsToView:_contentView];
+    [self g_transplantSubviewsToView:_contentView];
     [self addSubview:_contentView];
     [self setNeedsLayoutContentView];
 }
@@ -73,7 +73,7 @@ static const CGFloat kNibDefaultMaximumContentHeight = 240;
 
 - (void)setExpansionMode:(GStretchyHeaderViewExpansionMode)expansionMode {
     _expansionMode = expansionMode;
-    [self.scrollView gsk_layoutStretchyHeaderView:self
+    [self.scrollView g_layoutStretchyHeaderView:self
                                     contentOffset:self.scrollView.contentOffset
                             previousContentOffset:self.scrollView.contentOffset];
 }
@@ -85,7 +85,7 @@ static const CGFloat kNibDefaultMaximumContentHeight = 240;
     
     _maximumContentHeight = maximumContentHeight;
     [self setupScrollViewInsetsIfNeeded];
-    [self.scrollView gsk_layoutStretchyHeaderView:self
+    [self.scrollView g_layoutStretchyHeaderView:self
                                     contentOffset:self.scrollView.contentOffset
                             previousContentOffset:self.scrollView.contentOffset];
 }
@@ -135,7 +135,7 @@ static const CGFloat kNibDefaultMaximumContentHeight = 240;
     }
     
     if (@available(iOS 11.0, *)) { // it has to be used like this :/
-        [self.scrollView gsk_fixZPositionsForStretchyHeaderView:self];
+        [self.scrollView g_fixZPositionsForStretchyHeaderView:self];
     }
 }
 
@@ -200,7 +200,7 @@ static const CGFloat kNibDefaultMaximumContentHeight = 240;
         
         CGPoint contentOffset = change[NSKeyValueChangeNewKey].CGPointValue;
         CGPoint previousContentOffset = change[NSKeyValueChangeOldKey].CGPointValue;
-        [self.scrollView gsk_layoutStretchyHeaderView:self
+        [self.scrollView g_layoutStretchyHeaderView:self
                                         contentOffset:contentOffset
                                 previousContentOffset:previousContentOffset];
     } else if (object == self.scrollView.layer) {
@@ -210,7 +210,7 @@ static const CGFloat kNibDefaultMaximumContentHeight = 240;
         
         if (!self.arrangingSelfInScrollView && self.manageScrollViewSubviewHierarchy) {
             self.arrangingSelfInScrollView = YES;
-            [self.scrollView gsk_arrangeStretchyHeaderView:self];
+            [self.scrollView g_arrangeStretchyHeaderView:self];
             self.arrangingSelfInScrollView = NO;
         }
     }

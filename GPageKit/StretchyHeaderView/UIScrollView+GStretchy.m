@@ -24,7 +24,7 @@
 @end
 
 @implementation UIScrollView (GStretchy)
-- (void)gsk_fixZPositionsForStretchyHeaderView:(GStretchyHeaderView *)headerView {
+- (void)g_fixZPositionsForStretchyHeaderView:(GStretchyHeaderView *)headerView {
     headerView.layer.zPosition = 1;
     for (UIView *subview in self.subviews) {
         if (![subview gsk_shouldBeBelowStretchyHeaderView] && (subview.layer.zPosition == 0 || subview.layer.zPosition == 1)) {
@@ -33,7 +33,7 @@
     }
 }
 
-- (void)gsk_arrangeStretchyHeaderView:(GStretchyHeaderView *)headerView {
+- (void)g_arrangeStretchyHeaderView:(GStretchyHeaderView *)headerView {
     NSAssert(headerView.superview == self, @"The provided header view must be a subview of %@", self);
     NSUInteger stretchyHeaderViewIndex = [self.subviews indexOfObjectIdenticalTo:headerView];
     NSUInteger stretchyHeaderViewNewIndex = stretchyHeaderViewIndex;
@@ -50,7 +50,7 @@
     }
 }
 
-- (void)gsk_layoutStretchyHeaderView:(GStretchyHeaderView *)headerView
+- (void)g_layoutStretchyHeaderView:(GStretchyHeaderView *)headerView
                        contentOffset:(CGPoint)contentOffset
                previousContentOffset:(CGPoint)previousContentOffset {
     // First of all, move the header view to the top of the visible part of the scroll view,

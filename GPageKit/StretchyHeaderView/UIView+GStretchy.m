@@ -10,13 +10,13 @@
 
 @interface NSLayoutConstraint (GSKTransplantSubviews)
 
-- (NSLayoutConstraint *)gsk_copyWithFirstItem:(id)firstItem secondItem:(id)secondItem;
+- (NSLayoutConstraint *)g_copyWithFirstItem:(id)firstItem secondItem:(id)secondItem;
 
 @end
 
 @implementation NSLayoutConstraint (GSKTransplantSubviews)
 
-- (NSLayoutConstraint *)gsk_copyWithFirstItem:(id)firstItem secondItem:(id)secondItem {
+- (NSLayoutConstraint *)g_copyWithFirstItem:(id)firstItem secondItem:(id)secondItem {
     NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:firstItem
                                                                   attribute:self.firstAttribute
                                                                   relatedBy:self.relation
@@ -35,7 +35,7 @@
 
 @implementation UIView (GStretchy)
 
-- (BOOL)gsk_isSelfOrLayoutGuide:(id)object {
+- (BOOL)g_isSelfOrLayoutGuide:(id)object {
     // We can't transplant constraints to layout guides like safe area insets (introduced in iOS 11)
     // So we assume the constraints will be related to the superview
     // This may become a problem if the safe area insets are not zero, but for header views it's always the case
@@ -47,7 +47,7 @@
     return false;
 }
 
-- (void)gsk_transplantSubviewsToView:(UIView *)newSuperview {
+- (void)g_transplantSubviewsToView:(UIView *)newSuperview {
     NSArray<UIView *> *oldSubviews = self.subviews;
     NSArray<NSLayoutConstraint *> *oldConstraints = self.constraints;
     NSMutableArray<NSNumber *> *oldConstraintsActiveValues = [NSMutableArray array];
@@ -65,9 +65,9 @@
     
     [self removeConstraints:oldConstraints];
     [oldConstraints enumerateObjectsUsingBlock:^(NSLayoutConstraint *oldConstraint, NSUInteger index, BOOL *stop) {
-        id firstItem = [self gsk_isSelfOrLayoutGuide:oldConstraint.firstItem] ? newSuperview : oldConstraint.firstItem;
-        id secondItem = [self gsk_isSelfOrLayoutGuide:oldConstraint.secondItem] ? newSuperview : oldConstraint.secondItem;
-        NSLayoutConstraint *constraint = [oldConstraint gsk_copyWithFirstItem:firstItem
+        id firstItem = [self g_isSelfOrLayoutGuide:oldConstraint.firstItem] ? newSuperview : oldConstraint.firstItem;
+        id secondItem = [self g_isSelfOrLayoutGuide:oldConstraint.secondItem] ? newSuperview : oldConstraint.secondItem;
+        NSLayoutConstraint *constraint = [oldConstraint g_copyWithFirstItem:firstItem
                                                                    secondItem:secondItem];
         if ([constraint respondsToSelector:@selector(setActive:)]) {
             constraint.active = oldConstraintsActiveValues[index].boolValue;
