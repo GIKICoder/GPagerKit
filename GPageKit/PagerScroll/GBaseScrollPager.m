@@ -199,17 +199,6 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
     if (!self.dataSource) {
         return;
     }
-    
-    /// Initialize the containers
-    if(!self.pagerClasses) {
-        self.pagerClasses = [NSMutableDictionary dictionary];
-    }
-    if (!self.visiblePagers) {
-        self.visiblePagers = [NSMutableDictionary dictionary];
-    }
-    if (!self.recycledPageSets) {
-        self.recycledPageSets = [NSMutableDictionary dictionary];
-    }
     //start getting information from the data source
     self.numberOfPages = 0;
     if (_pageScrollViewFlags.dataSourceNumberOfPages) {
@@ -240,13 +229,18 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
 
 - (void)registerPagerClass:(Class)pagerClass identifier:(NSString *)identifier
 {
-    identifier = (identifier.length > 0) ? identifier :  kGPagerDefaultPageIdentifier;
+    NSString *identifier_new = kGPagerDefaultPageIdentifier;
     if ([pagerClass respondsToSelector:@selector(pageIdentifier)]) {
-        identifier = [pagerClass pageIdentifier];
+        NSString * temp = [pagerClass pageIdentifier];
+        if (temp && temp.length > 0) {
+            identifier_new = temp;
+        }
     }
-    
+    if (identifier && identifier.length > 0) {
+        identifier_new = identifier;
+    }
     NSValue *encodedStruct = [NSValue valueWithBytes:&pagerClass objCType:@encode(Class)];
-    self.pagerClasses[identifier] = encodedStruct;
+    self.pagerClasses[identifier_new] = encodedStruct;
 }
 
 - (nullable __kindof id)dequeueReusablePager
@@ -265,7 +259,7 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
     } else if (self.pagerClasses[identifier]) {
         Class pageClass;
         [self.pagerClasses[identifier] getValue:&pageClass];
-        pager = [self __constructPager:pageClass];
+        pager = [self __constructPager:pageClass identifier:identifier];
     }
     return pager;
 }
@@ -554,12 +548,18 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
 {
     // See if the page implemented an identifier, but defer to the default if not
     NSString *identifier = kGPagerDefaultPageIdentifier;
-//    if ([[pager class] respondsToSelector:@selector(pageIdentifier)]) {
-//        identifier = [[pager class] pageIdentifier];
-//    }
-//    if ([pager respondsToSelector:@selector(pageIdentifier)]) {
-//        identifier = [pager pageIdentifier];
-//    }
+    if ([[pager class] respondsToSelector:@selector(pageIdentifier)]) {
+        NSString * identifierT = [[pager class] pageIdentifier];
+        if (identifierT && identifierT.length > 0) {
+            identifier = identifierT;
+        }
+    }
+    if ([pager respondsToSelector:@selector(pageIdentifier)]) {
+        NSString * identifierT = [pager pageIdentifier];;
+        if (identifierT && identifierT.length > 0) {
+            identifier = identifierT;
+        }
+    }
     // See if a set object already exists for that identifier. Create a new one if not
     NSMutableSet *set = self.recycledPageSets[identifier];
     if (set == nil) {
@@ -624,9 +624,10 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
 - (void)__removeFromSuperview:(id)pager
 {}
 
-- (__kindof id)__constructPager:(Class)clazz
+- (__kindof id)__constructPager:(Class)clazz identifier:(NSString *)identifier
 {
-    return [[clazz alloc] init];
+    id pager = [[clazz alloc] init];
+    return pager;
 }
 
 #pragma mark - Helper Method

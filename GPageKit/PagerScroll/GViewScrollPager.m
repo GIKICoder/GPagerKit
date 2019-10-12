@@ -67,9 +67,11 @@
     }
 }
 
-- (__kindof UIView *)__constructPager:(Class)clazz
+- (__kindof id)__constructPager:(Class)clazz identifier:(NSString *)identifier
 {
-    return [[clazz alloc] initWithFrame:self.bounds];
+    UIView * pager = [[clazz alloc] initWithFrame:self.bounds];
+    pager.pageIdentifier = identifier;
+    return pager;
 }
 
 @end

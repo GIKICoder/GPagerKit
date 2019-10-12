@@ -78,9 +78,10 @@
     }
 }
 
-- (__kindof UIViewController *)__constructPager:(Class)clazz
+- (__kindof id)__constructPager:(Class)clazz identifier:(NSString *)identifier
 {
     UIViewController * vc = [[clazz alloc] init];
+    vc.pageIdentifier = identifier;
     [self.targetController addChildViewController:vc];
     [vc didMoveToParentViewController:self.targetController];
     return vc;
