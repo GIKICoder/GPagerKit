@@ -28,7 +28,7 @@
     self.pager.dataSource = self;
     self.pager.pageSpacing = 10;
     [self.view addSubview:self.pager];
-//    [self.pager registerPagerClass:UIViewController.class];
+    [self.pager registerPagerClass:UIViewController.class];
 }
 
 - (NSInteger)numberOfPagesInPagerView:(__kindof GBaseScrollPager *)pageScrollView;
@@ -47,6 +47,7 @@
 //        vc.pageIdentifier = key;
         vc.view.backgroundColor = XCRandomColor;
     }
+    vc.view.backgroundColor = XCRandomColor;
     return vc;
 }
 
