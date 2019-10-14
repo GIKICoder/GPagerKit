@@ -16,7 +16,7 @@
 @property (nonatomic, assign) CGFloat  itemSpace;
 @end
 
-@interface GBasePagerMenu () {
+@interface GBasePagerMenu () <UIScrollViewDelegate>{
     struct {
         //dataSource flags
         unsigned int ds_MenuItems;
@@ -31,7 +31,7 @@
 }
 @property (nonatomic, strong) GPagerMenuScrollView * scrollView;
 @property (nonatomic, strong) NSArray * menuItems;
-@property (nonatomic, strong) NSMutableArray * menuViewsM;
+@property (nonatomic, strong) NSArray<GPagerMenuLayoutInternal *> * menuLayouts;
 @end
 
 @implementation GBasePagerMenu
@@ -59,9 +59,14 @@
     
 }
 
+- (void)layoutSubviews
+{
+    self.scrollView.frame = self.bounds;
+    [self __setupMenuItemLayouts];
+}
+
 - (void)__setup
 {
-    self.menuViewsM = [NSMutableArray array];
     [self __setupUI];
 }
 
@@ -69,33 +74,74 @@
 {
     self.scrollView = [[GPagerMenuScrollView alloc] initWithFrame:self.bounds];
     [self addSubview:self.scrollView];
+    self.scrollView.frame = self.bounds;
+    self.scrollView.showsVerticalScrollIndicator = NO;
+    self.scrollView.showsHorizontalScrollIndicator = NO;
+    self.scrollView.delegate = self;
 }
 
 - (void)__clean
 {
-    [self.menuViewsM enumerateObjectsUsingBlock:^(UIView *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (obj && [obj isKindOfClass:UIView.class]) {
-            [obj removeFromSuperview];
+    [self.menuLayouts enumerateObjectsUsingBlock:^(GPagerMenuLayoutInternal *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (obj && [obj.itemView isKindOfClass:UIView.class]) {
+            [obj.itemView removeFromSuperview];
         }
     }];
-    [self.menuViewsM removeAllObjects];
+    self.menuLayouts = nil;
 }
 
 - (void)__reloadLayoutMenuItems
 {
+    if (_pagerMenuFlags.ds_MenuItems) {
+        self.menuItems = [self.dataSource pagerMenuItems:self];
+    } else {
+        return;
+    }
     __weak typeof(self) weakSelf = self;
+    __block NSMutableArray * layoutsM = [NSMutableArray array];
     [self.menuItems enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        GPagerMenuLayoutInternal * layout = [GPagerMenuLayoutInternal new];
+        
         if (self->_pagerMenuFlags.ds_MenuItemAtIndex) {
             UIView * menuItemView  = [weakSelf.dataSource pagerMenu:weakSelf itemAtIndex:idx];
             if (menuItemView) {
                 [weakSelf.scrollView addSubview:menuItemView];
-                [weakSelf.menuViewsM addObject:menuItemView];
+                layout.itemView = menuItemView;
             }
-        }
-        if (self->_pagerMenuFlags.ds_MenuItemSizeAtIndex) {
-            CGSize size = [weakSelf.dataSource pagerMenu:weakSelf itemSizeAtIndex:idx];
+            if (self->_pagerMenuFlags.ds_MenuItemSizeAtIndex) {
+                CGSize size = [weakSelf.dataSource pagerMenu:weakSelf itemSizeAtIndex:idx];
+                layout.itemSize = size;
+            }
+            if (self->_pagerMenuFlags.ds_MenuItemSpacingAtIndex) {
+                CGFloat sapcing = [weakSelf.dataSource pagerMenu:weakSelf itemSpacingAtIndex:idx];
+                layout.itemSpace = sapcing;
+            }
+            [layoutsM addObject:layout];
         }
     }];
+    self.menuLayouts = layoutsM.copy;
+}
+
+- (void)__setupMenuItemLayouts
+{
+    __block UIView * preView = nil;
+    [self.menuLayouts enumerateObjectsUsingBlock:^(GPagerMenuLayoutInternal * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        {
+            CGFloat width = obj.itemSize.width;
+            CGFloat height = MIN(obj.itemSize.height, self.bounds.size.height);
+            CGFloat left = CGRectGetMaxX(preView.frame) + obj.itemSpace;
+            CGFloat top = 0.5*(self.frame.size.height-height);
+            obj.itemView.frame = CGRectMake(left, top, width, height);
+            preView = obj.itemView;
+        }
+    }];
+    [self __layoutScrollerContentSize];
+}
+
+- (void)__layoutScrollerContentSize
+{
+    GPagerMenuLayoutInternal * lastMenu = [self.menuLayouts lastObject];
+    self.scrollView.contentSize = CGSizeMake(CGRectGetMaxX(lastMenu.itemView.frame),self.scrollView.frame.size.height);
 }
 
 #pragma mark - Public Method
@@ -121,6 +167,7 @@
 {
     [self __clean];
     [self __reloadLayoutMenuItems];
+    [self __setupMenuItemLayouts];
 }
 
 - (void)reloadWithIndexs:(NSArray<NSNumber *> *)indexs
@@ -128,9 +175,88 @@
     
 }
 
-- (void)selectMenuItemAtIndex:(NSUInteger)index
+- (void)scrollToRowAtIndex:(NSUInteger)index
+          atScrollPosition:(GPagerMenuScrollPosition)scrollPosition
+                  animated:(BOOL)animated
 {
+    if (index >= self.menuLayouts.count) {
+        return;
+    }
+    switch (scrollPosition) {
+        case GPagerMenuScrollPositionNone:
+        {
+            [self __scrollToMenuDefaultAtIndex:index animated:animated];
+        }
+            break;
+        case GPagerMenuScrollPositionMiddle:
+        case GPagerMenuScrollPositionRight:
+        case GPagerMenuScrollPositionLeft:
+        {
+            [self __scrollToMenuPosition:scrollPosition atIndex:index animated:animated];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)__scrollToMenuPosition:(GPagerMenuScrollPosition)position atIndex:(NSUInteger)index animated:(BOOL)animated
+{
+    if (index >= self.menuLayouts.count) {
+        return;
+    }
+    GPagerMenuLayoutInternal * layout = [self.menuLayouts objectAtIndex:index];
+    CGRect rect = layout.itemView.frame;
+    CGPoint offset = self.scrollView.contentOffset;
+    CGFloat distance = 0;
+    switch (position) {
+        case GPagerMenuScrollPositionMiddle:
+        {
+            distance = (CGRectGetMidX(rect)-offset.x) - CGRectGetMidX(self.scrollView.frame);
+        }
+            break;
+        case GPagerMenuScrollPositionLeft:
+        {
+            distance = (CGRectGetMinX(rect)-offset.x) - CGRectGetMinX(self.scrollView.frame);
+        }
+            break;
+        case GPagerMenuScrollPositionRight:
+        {
+            distance = (CGRectGetMaxX(rect)-offset.x) - CGRectGetMaxX(self.scrollView.frame);
+        }
+            break;
+        default:
+            break;
+    }
+    CGFloat newOffset = (offset.x+distance);
+    CGFloat maxOffset = self.scrollView.contentSize.width - self.scrollView.frame.size.width;
+    if (newOffset >= 0 && newOffset <= maxOffset) {
+        offset.x += distance;
+    } else {
+        if (distance < 0) {
+            offset.x = 0;
+        } else {
+            offset.x = maxOffset;
+        }
+    }
     
+    [self.scrollView setContentOffset:offset animated:animated];
+}
+
+- (void)__scrollToMenuDefaultAtIndex:(NSUInteger)index animated:(BOOL)animated
+{
+    if (index >= self.menuLayouts.count) {
+        return;
+    }
+    GPagerMenuLayoutInternal * layout = [self.menuLayouts objectAtIndex:index];
+    CGRect rect = layout.itemView.frame;
+    [self.scrollView scrollRectToVisible:rect animated:animated];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    //    CGPoint offset = self.scrollView.contentOffset;
+    //    NSLog(@"offset--%f",offset);
 }
 @end
 

@@ -15,8 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable __kindof UIView *)pagerMenu:(GBasePagerMenu *)menu itemAtIndex:(NSUInteger)index;
 @optional
 - (NSArray *)pagerMenuItems:(GBasePagerMenu *)menu;
-- (nullable __kindof UIView *)pagerMenu:(GBasePagerMenu *)menu menuItem:(id)item;
-
 - (CGSize)pagerMenu:(GBasePagerMenu *)menu itemSizeAtIndex:(NSUInteger)index;
 - (CGFloat)pagerMenu:(GBasePagerMenu *)menu itemSpacingAtIndex:(NSUInteger)index;
 @end
@@ -25,6 +23,13 @@ NS_ASSUME_NONNULL_BEGIN
 @optional
 - (void)pagerMenu:(GBasePagerMenu *)menu didSelectItemAtIndex:(NSUInteger)index;
 @end
+
+typedef NS_ENUM(NSInteger, GPagerMenuScrollPosition) {
+    GPagerMenuScrollPositionNone,
+    GPagerMenuScrollPositionLeft,
+    GPagerMenuScrollPositionMiddle,
+    GPagerMenuScrollPositionRight
+};
 
 @interface GBasePagerMenu : UIView
 
@@ -38,8 +43,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)reloadData;
 - (void)reloadWithIndexs:(NSArray<NSNumber *> *)indexs;
-- (void)selectMenuItemAtIndex:(NSUInteger)index;
 
+- (void)scrollToRowAtIndex:(NSUInteger)index
+          atScrollPosition:(GPagerMenuScrollPosition)scrollPosition
+                  animated:(BOOL)animated;
 @end
 
 NS_ASSUME_NONNULL_END
