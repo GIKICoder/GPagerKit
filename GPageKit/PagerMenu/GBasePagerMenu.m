@@ -26,6 +26,7 @@
         
         //delegate flags
         unsigned int dg_DidSelectItem;
+        unsigned int dg_DidSelectIndex;
         
     } _pagerMenuFlags;
 }
@@ -62,12 +63,13 @@
 - (void)layoutSubviews
 {
     self.scrollView.frame = self.bounds;
-    [self __setupMenuItemLayouts];
+    [self __reloadLayoutMenuItems];
 }
 
 - (void)__setup
 {
     [self __setupUI];
+    [self __setupGesture];
 }
 
 - (void)__setupUI
@@ -80,6 +82,34 @@
     self.scrollView.delegate = self;
 }
 
+- (void)__setupGesture
+{
+    UITapGestureRecognizer * gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(__tapGesture:)];
+    [self.scrollView addGestureRecognizer:gesture];
+}
+
+- (void)__tapGesture:(UITapGestureRecognizer *)gesture
+{
+    CGPoint point = [gesture locationInView:self.scrollView];
+    __weak typeof(self) weakSelf = self;
+    [self.menuLayouts enumerateObjectsUsingBlock:^(GPagerMenuLayoutInternal * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        BOOL temp = CGRectContainsPoint(obj.itemView.frame,point);
+        if (temp) {
+            [weakSelf __invokeTapDelegate:obj index:idx];
+            *stop = YES;
+        }
+    }];
+}
+
+- (void)__invokeTapDelegate:(GPagerMenuLayoutInternal *)layout index:(NSInteger)index
+{
+    if (_pagerMenuFlags.dg_DidSelectItem)
+        [self.delegate pagerMenu:self didSelectItem:layout.itemView];
+    
+    if (_pagerMenuFlags.dg_DidSelectIndex)
+        [self.delegate pagerMenu:self didSelectItemAtIndex:index];
+}
+
 - (void)__clean
 {
     [self.menuLayouts enumerateObjectsUsingBlock:^(GPagerMenuLayoutInternal *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -90,7 +120,7 @@
     self.menuLayouts = nil;
 }
 
-- (void)__reloadLayoutMenuItems
+- (void)__setupMenuItemLayouts
 {
     if (_pagerMenuFlags.ds_MenuItems) {
         self.menuItems = [self.dataSource pagerMenuItems:self];
@@ -122,7 +152,7 @@
     self.menuLayouts = layoutsM.copy;
 }
 
-- (void)__setupMenuItemLayouts
+- (void)__reloadLayoutMenuItems
 {
     __block UIView * preView = nil;
     [self.menuLayouts enumerateObjectsUsingBlock:^(GPagerMenuLayoutInternal * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -132,6 +162,7 @@
             CGFloat left = CGRectGetMaxX(preView.frame) + obj.itemSpace;
             CGFloat top = 0.5*(self.frame.size.height-height);
             obj.itemView.frame = CGRectMake(left, top, width, height);
+            obj.itemView.userInteractionEnabled = NO;
             preView = obj.itemView;
         }
     }];
@@ -150,7 +181,8 @@
 {
     _delegate = delegate;
     
-    _pagerMenuFlags.dg_DidSelectItem = [delegate respondsToSelector:@selector(pagerMenu:didSelectItemAtIndex:)];
+    _pagerMenuFlags.dg_DidSelectIndex = [delegate respondsToSelector:@selector(pagerMenu:didSelectItemAtIndex:)];
+    _pagerMenuFlags.dg_DidSelectItem = [delegate respondsToSelector:@selector(pagerMenu:didSelectItem:)];
 }
 
 - (void)setDataSource:(id<GPagerMenuDataSource>)dataSource
@@ -166,13 +198,47 @@
 - (void)reloadData
 {
     [self __clean];
-    [self __reloadLayoutMenuItems];
     [self __setupMenuItemLayouts];
+    [self __reloadLayoutMenuItems];
 }
 
 - (void)reloadWithIndexs:(NSArray<NSNumber *> *)indexs
 {
+    if (!indexs || indexs.count <= 0) {
+        return;
+    }
     
+    __weak typeof(self) weakSelf = self;
+    NSMutableArray * arrayM = self.menuLayouts.mutableCopy;
+    [indexs enumerateObjectsUsingBlock:^(NSNumber * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSInteger index = [obj integerValue];
+        if (index >= self.menuLayouts.count) {
+            return;
+        }
+        GPagerMenuLayoutInternal * remove = [arrayM objectAtIndex:index];
+        [remove.itemView removeFromSuperview];
+        [arrayM removeObject:remove];
+        
+        GPagerMenuLayoutInternal * layout = [GPagerMenuLayoutInternal new];
+        if (self->_pagerMenuFlags.ds_MenuItemAtIndex) {
+            UIView * menuItemView  = [weakSelf.dataSource pagerMenu:weakSelf itemAtIndex:index];
+            if (menuItemView) {
+                [weakSelf.scrollView addSubview:menuItemView];
+                layout.itemView = menuItemView;
+            }
+            if (self->_pagerMenuFlags.ds_MenuItemSizeAtIndex) {
+                CGSize size = [weakSelf.dataSource pagerMenu:weakSelf itemSizeAtIndex:index];
+                layout.itemSize = size;
+            }
+            if (self->_pagerMenuFlags.ds_MenuItemSpacingAtIndex) {
+                CGFloat sapcing = [weakSelf.dataSource pagerMenu:weakSelf itemSpacingAtIndex:index];
+                layout.itemSpace = sapcing;
+            }
+        }
+        [arrayM insertObject:layout atIndex:index];
+    }];
+    self.menuLayouts = arrayM.copy;
+    [self __reloadLayoutMenuItems];
 }
 
 - (void)scrollToRowAtIndex:(NSUInteger)index

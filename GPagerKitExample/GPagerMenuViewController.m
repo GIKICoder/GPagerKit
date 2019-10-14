@@ -13,7 +13,7 @@
 
 // 随机色
 #define XCRandomColor XCColorRGB(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
-@interface GPagerMenuViewController ()<GPagerMenuDataSource>
+@interface GPagerMenuViewController ()<GPagerMenuDataSource,GPagerMenuDelegate>
 @property (nonatomic, strong) GBasePagerMenu * pagerMenuView;
 @property (nonatomic, strong) NSArray * items;
 @property (nonatomic, assign) NSInteger  selectIndex;
@@ -28,7 +28,7 @@
     [self.view addSubview:self.pagerMenuView];
     self.pagerMenuView.backgroundColor = UIColor.redColor;
     self.pagerMenuView.dataSource = self;
-    
+    self.pagerMenuView.delegate = self;
     self.items = @[@"消息",@"推荐",@"最近",@"聊天到这里结束",@"活跃",@"动态",@"广场",@"世界",@"时光",@"北京",@"天气",@"好友"];
     self.pagerMenuView.frame = CGRectMake(0, 100, [UIScreen mainScreen].bounds.size.width, 50);
     [self.pagerMenuView reloadData];
@@ -44,11 +44,16 @@
 
 - (void)buttonClick
 {
+    /*
     self.selectIndex ++;
     if (self.selectIndex >= self.items.count) {
         self.selectIndex = 0;
     }
     [self.pagerMenuView scrollToRowAtIndex:self.selectIndex atScrollPosition:GPagerMenuScrollPositionMiddle animated:YES];
+     */
+    self.items = @[@"消息",@"推荐哈哈哈",@"最近",@"聊天到这里结束",@"活跃",@"动态",@"广场",@"世界",@"时光",@"北京",@"天气",@"好友"];
+    self.selectIndex = 1;
+    [self.pagerMenuView reloadWithIndexs:@[@1]];
 }
 
 - (NSArray *)pagerMenuItems:(GBasePagerMenu *)menu
@@ -72,12 +77,26 @@
     if (index == 3) {
         return CGSizeMake(120, 23);
     }
+    if (self.selectIndex >0 && self.selectIndex == index) {
+        return CGSizeMake(120, 23);
+    }
     return CGSizeMake(60, 23);
 }
 
 - (CGFloat)pagerMenu:(GBasePagerMenu *)menu itemSpacingAtIndex:(NSUInteger)index
 {
     return 12;
+}
+
+- (void)pagerMenu:(GBasePagerMenu *)menu didSelectItemAtIndex:(NSUInteger)index
+{
+    NSString * string = [self.items objectAtIndex:index];
+    NSLog(@"点击了-- %@",string);
+}
+
+- (void)pagerMenu:(GBasePagerMenu *)menu didSelectItem:(UIButton *)itemView
+{
+    [itemView setTitle:@"旋涡" forState:UIControlStateNormal];
 }
 
 @end
