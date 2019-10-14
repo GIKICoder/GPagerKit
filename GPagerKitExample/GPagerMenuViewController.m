@@ -68,7 +68,7 @@
     button.titleLabel.font = [UIFont systemFontOfSize:13];
     [button setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
     [button setTitle:string forState:UIControlStateNormal];
-    button.backgroundColor = XCRandomColor;
+//    button.backgroundColor = XCRandomColor;
     return button;
 }
 
@@ -80,7 +80,7 @@
     if (self.selectIndex >0 && self.selectIndex == index) {
         return CGSizeMake(120, 23);
     }
-    return CGSizeMake(60, 23);
+    return CGSizeMake(40, 23);
 }
 
 - (CGFloat)pagerMenu:(GBasePagerMenu *)menu itemSpacingAtIndex:(NSUInteger)index
@@ -91,12 +91,20 @@
 - (void)pagerMenu:(GBasePagerMenu *)menu didSelectItemAtIndex:(NSUInteger)index
 {
     NSString * string = [self.items objectAtIndex:index];
+    menu.selectIndex = index;
+    [menu reloadMenuLayout];
     NSLog(@"点击了-- %@",string);
+    [menu scrollToRowAtIndex:index atScrollPosition:GPagerMenuScrollPositionMiddle animated:YES];
 }
 
 - (void)pagerMenu:(GBasePagerMenu *)menu didSelectItem:(UIButton *)itemView
 {
-    [itemView setTitle:@"旋涡" forState:UIControlStateNormal];
+//    [UIView animateWithDuration:0.25 animations:^{
+//        [menu.menuLayouts enumerateObjectsUsingBlock:^(GPagerMenuLayoutInternal * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//            obj.itemView.transform = CGAffineTransformIdentity;
+//        }];
+//        itemView.transform = CGAffineTransformMakeScale(1.25, 1.25);
+//    }];
 }
 
 @end

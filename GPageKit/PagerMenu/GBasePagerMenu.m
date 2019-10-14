@@ -10,11 +10,7 @@
 @interface GPagerMenuScrollView : UIScrollView
 @end
 
-@interface GPagerMenuLayoutInternal : NSObject
-@property (nonatomic, strong) UIView * itemView;
-@property (nonatomic, assign) CGSize  itemSize;
-@property (nonatomic, assign) CGFloat  itemSpace;
-@end
+
 
 @interface GBasePagerMenu () <UIScrollViewDelegate>{
     struct {
@@ -155,8 +151,14 @@
 - (void)__reloadLayoutMenuItems
 {
     __block UIView * preView = nil;
+    __block UIView * selectView = nil;
     [self.menuLayouts enumerateObjectsUsingBlock:^(GPagerMenuLayoutInternal * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         {
+            if (self.selectIndex != idx) {
+                obj.itemView.transform = CGAffineTransformIdentity;
+            } else {
+                selectView = obj.itemView;
+            }
             CGFloat width = obj.itemSize.width;
             CGFloat height = MIN(obj.itemSize.height, self.bounds.size.height);
             CGFloat left = CGRectGetMaxX(preView.frame) + obj.itemSpace;
@@ -166,6 +168,11 @@
             preView = obj.itemView;
         }
     }];
+    if (selectView) {
+        [UIView animateWithDuration:0.25 animations:^{
+            selectView.transform = CGAffineTransformMakeScale(1.5, 1.5);
+        }];
+    }
     [self __layoutScrollerContentSize];
 }
 
@@ -238,6 +245,11 @@
         [arrayM insertObject:layout atIndex:index];
     }];
     self.menuLayouts = arrayM.copy;
+    [self __reloadLayoutMenuItems];
+}
+
+- (void)reloadMenuLayout
+{
     [self __reloadLayoutMenuItems];
 }
 

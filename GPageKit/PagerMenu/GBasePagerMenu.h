@@ -32,18 +32,28 @@ typedef NS_ENUM(NSInteger, GPagerMenuScrollPosition) {
     GPagerMenuScrollPositionRight
 };
 
+@interface GPagerMenuLayoutInternal : NSObject
+@property (nonatomic, strong) UIView * itemView;
+@property (nonatomic, assign) CGSize  itemSize;
+@property (nonatomic, assign) CGFloat  itemSpace;
+@property (nonatomic, assign) BOOL  isSelected;
+@end
+
 @interface GBasePagerMenu : UIView
 
 @property (nonatomic, strong, readonly) __kindof UIScrollView * scrollView;
 @property (nonatomic, strong, readonly) NSArray<id> * menuItems;
-
+@property (nonatomic, strong, readonly) NSArray<GPagerMenuLayoutInternal *> * menuLayouts;
 @property (nonatomic, weak  ) id<GPagerMenuDataSource>   dataSource;
 @property (nonatomic, weak  ) id<GPagerMenuDelegate>   delegate;
 
 @property (nonatomic, assign) CGFloat  itemSpacing;
+@property (nonatomic, assign) NSInteger  selectIndex;
 
 - (void)reloadData;
 - (void)reloadWithIndexs:(NSArray<NSNumber *> *)indexs;
+
+- (void)reloadMenuLayout;
 
 - (void)scrollToRowAtIndex:(NSUInteger)index
           atScrollPosition:(GPagerMenuScrollPosition)scrollPosition
