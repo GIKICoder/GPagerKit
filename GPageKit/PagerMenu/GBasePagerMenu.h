@@ -48,7 +48,7 @@ typedef NS_ENUM(NSInteger, GPagerMenuScrollPosition) {
 @property (nonatomic, weak  ) id<GPagerMenuDelegate>   delegate;
 
 @property (nonatomic, assign) CGFloat  itemSpacing;
-@property (nonatomic, assign) CGSize  itemSize;
+@property (nonatomic, assign) CGSize   itemSize;
 @property (nonatomic, assign) NSInteger  selectIndex;
 
 - (void)reloadData;
