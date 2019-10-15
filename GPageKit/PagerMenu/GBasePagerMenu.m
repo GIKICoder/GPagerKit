@@ -7,10 +7,9 @@
 //
 
 #import "GBasePagerMenu.h"
+#import "GPagerMenuInternal.h"
 @interface GPagerMenuScrollView : UIScrollView
 @end
-
-
 
 @interface GBasePagerMenu () <UIScrollViewDelegate>{
     struct {
@@ -167,9 +166,9 @@
         }
     }];
     if (selectView) {
-        [UIView animateWithDuration:0.25 animations:^{
-            selectView.transform = CGAffineTransformMakeScale(1.5, 1.5);
-        }];
+//        [UIView animateWithDuration:0.25 animations:^{
+//            selectView.transform = CGAffineTransformMakeScale(1.5, 1.5);
+//        }];
     }
     [self __layoutScrollerContentSize];
 }

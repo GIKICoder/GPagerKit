@@ -44,16 +44,16 @@
 
 - (void)buttonClick
 {
-    /*
     self.selectIndex ++;
     if (self.selectIndex >= self.items.count) {
         self.selectIndex = 0;
     }
     [self.pagerMenuView scrollToRowAtIndex:self.selectIndex atScrollPosition:GPagerMenuScrollPositionMiddle animated:YES];
-     */
+    /*
     self.items = @[@"消息",@"推荐哈哈哈",@"最近",@"聊天到这里结束",@"活跃",@"动态",@"广场",@"世界",@"时光",@"北京",@"天气",@"好友"];
     self.selectIndex = 1;
     [self.pagerMenuView reloadWithIndexs:@[@1]];
+     */
 }
 
 - (NSArray *)pagerMenuItems:(GBasePagerMenu *)menu

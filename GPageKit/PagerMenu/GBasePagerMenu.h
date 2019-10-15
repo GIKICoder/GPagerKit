@@ -44,10 +44,10 @@ typedef NS_ENUM(NSInteger, GPagerMenuScrollPosition) {
 @property (nonatomic, strong, readonly) NSArray<id> * menuItems;
 @property (nonatomic, strong, readonly) NSArray<GPagerMenuLayoutInternal *> * menuLayouts;
 @property (nonatomic, weak  ) id<GPagerMenuDataSource>   dataSource;
-@property (nonatomic, weak  ) id<GPagerMenuDelegate>   delegate;
+@property (nonatomic, weak  ) id<GPagerMenuDelegate>     delegate;
 
-@property (nonatomic, assign) CGFloat  itemSpacing;
-@property (nonatomic, assign) CGSize   itemSize;
+@property (nonatomic, assign) CGFloat    itemSpacing;
+@property (nonatomic, assign) CGSize     itemSize;
 @property (nonatomic, assign) NSInteger  selectIndex;
 
 - (void)reloadData;

@@ -10,8 +10,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSInteger, GPagerMenuStyle) {
+    GPagerMenuStyleNone,
+    GPagerMenuStyleLine,
+    GPagerMenuStyleRect,
+};
+
 @interface GPagerMenu : GBasePagerMenu
 
+@property (nonatomic, assign) GPagerMenuStyle  menuStyle;
+@property (nonatomic, assign) NSInteger  selectedIndex;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -27,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2BA624512355C313000CE215 /* GPagerMenuInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPagerMenuInternal.h; sourceTree = "<group>"; };
 		2BC0D2402350AEED006129CF /* GPagerKitExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GPagerKitExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BC0D2432350AEED006129CF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2BC0D2442350AEED006129CF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -127,6 +128,7 @@
 			children = (
 				2BC0D26F2350B6CE006129CF /* GBasePagerMenu.h */,
 				2BC0D2702350B6CE006129CF /* GBasePagerMenu.m */,
+				2BA624512355C313000CE215 /* GPagerMenuInternal.h */,
 				2BDE30C623557B2600112C77 /* GPagerMenu.h */,
 				2BDE30C723557B2600112C77 /* GPagerMenu.m */,
 			);
