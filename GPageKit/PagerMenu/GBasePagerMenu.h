@@ -22,7 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol GPagerMenuDelegate <NSObject>
 @optional
 - (void)pagerMenu:(GBasePagerMenu *)menu didSelectItemAtIndex:(NSUInteger)index;
-- (void)pagerMenu:(GBasePagerMenu *)menu didSelectItem:(__kindof UIView *)itemView;
 @end
 
 typedef NS_ENUM(NSInteger, GPagerMenuScrollPosition) {

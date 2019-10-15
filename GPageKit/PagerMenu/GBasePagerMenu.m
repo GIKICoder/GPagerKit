@@ -21,7 +21,6 @@
         unsigned int ds_MenuItemSpacingAtIndex;
         
         //delegate flags
-        unsigned int dg_DidSelectItem;
         unsigned int dg_DidSelectIndex;
         
     } _pagerMenuFlags;
@@ -99,9 +98,6 @@
 
 - (void)__invokeTapDelegate:(GPagerMenuLayoutInternal *)layout index:(NSInteger)index
 {
-    if (_pagerMenuFlags.dg_DidSelectItem)
-        [self.delegate pagerMenu:self didSelectItem:layout.itemView];
-    
     if (_pagerMenuFlags.dg_DidSelectIndex)
         [self.delegate pagerMenu:self didSelectItemAtIndex:index];
 }
@@ -191,7 +187,6 @@
     _delegate = delegate;
     
     _pagerMenuFlags.dg_DidSelectIndex = [delegate respondsToSelector:@selector(pagerMenu:didSelectItemAtIndex:)];
-    _pagerMenuFlags.dg_DidSelectItem = [delegate respondsToSelector:@selector(pagerMenu:didSelectItem:)];
 }
 
 - (void)setDataSource:(id<GPagerMenuDataSource>)dataSource
