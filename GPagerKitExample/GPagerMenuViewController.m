@@ -26,9 +26,10 @@
     self.view.backgroundColor = UIColor.whiteColor;
     self.pagerMenuView = [[GBasePagerMenu alloc] init];
     [self.view addSubview:self.pagerMenuView];
-    self.pagerMenuView.backgroundColor = UIColor.redColor;
+    self.pagerMenuView.backgroundColor = UIColor.whiteColor;
     self.pagerMenuView.dataSource = self;
     self.pagerMenuView.delegate = self;
+    self.pagerMenuView.selectItemScale = 1.4;
     self.items = @[@"消息",@"推荐",@"最近",@"聊天到这里结束",@"活跃",@"动态",@"广场",@"世界",@"时光",@"北京",@"天气",@"好友"];
     self.pagerMenuView.frame = CGRectMake(0, 100, [UIScreen mainScreen].bounds.size.width, 50);
     [self.pagerMenuView reloadData];
@@ -44,11 +45,12 @@
 
 - (void)buttonClick
 {
-    self.selectIndex ++;
+   
     if (self.selectIndex >= self.items.count) {
         self.selectIndex = 0;
     }
-    [self.pagerMenuView scrollToRowAtIndex:self.selectIndex atScrollPosition:GPagerMenuScrollPositionMiddle animated:YES];
+    [self.pagerMenuView setSelectIndex:self.selectIndex animated:YES];
+    self.selectIndex ++;
     /*
     self.items = @[@"消息",@"推荐哈哈哈",@"最近",@"聊天到这里结束",@"活跃",@"动态",@"广场",@"世界",@"时光",@"北京",@"天气",@"好友"];
     self.selectIndex = 1;
@@ -80,31 +82,28 @@
     if (self.selectIndex >0 && self.selectIndex == index) {
         return CGSizeMake(120, 23);
     }
-    return CGSizeMake(40, 23);
+    NSString * string = [self.items objectAtIndex:index];
+    CGSize size = [string sizeWithFont:[UIFont systemFontOfSize:13]];
+    return CGSizeMake(size.width+10, 23);
 }
 
 - (CGFloat)pagerMenu:(GBasePagerMenu *)menu itemSpacingAtIndex:(NSUInteger)index
 {
-    return 12;
+    return 10;
 }
 
-- (void)pagerMenu:(GBasePagerMenu *)menu didSelectItemAtIndex:(NSUInteger)index
+- (void)pagerMenu:(GBasePagerMenu *)menu didselectItemAtIndex:(NSUInteger)index
 {
     NSString * string = [self.items objectAtIndex:index];
-    menu.selectIndex = index;
-    [menu reloadMenuLayout];
     NSLog(@"点击了-- %@",string);
-    [menu scrollToRowAtIndex:index atScrollPosition:GPagerMenuScrollPositionMiddle animated:YES];
+    UIButton * btn = [menu objectAtIndex:index];
+    [btn setTitleColor:UIColor.redColor forState:UIControlStateNormal];
 }
 
-- (void)pagerMenu:(GBasePagerMenu *)menu didSelectItem:(UIButton *)itemView
+- (void)pagerMenu:(GBasePagerMenu *)menu deselectItemAtIndex:(NSUInteger)index
 {
-//    [UIView animateWithDuration:0.25 animations:^{
-//        [menu.menuLayouts enumerateObjectsUsingBlock:^(GPagerMenuLayoutInternal * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//            obj.itemView.transform = CGAffineTransformIdentity;
-//        }];
-//        itemView.transform = CGAffineTransformMakeScale(1.25, 1.25);
-//    }];
+    UIButton * btn = [menu objectAtIndex:index];
+    [btn setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
 }
 
 @end

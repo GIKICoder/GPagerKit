@@ -11,22 +11,10 @@
 @interface GPagerMenuScrollView : UIScrollView
 @end
 
-@interface GBasePagerMenu () <UIScrollViewDelegate>{
-    struct {
-        //dataSource flags
-        unsigned int ds_MenuItems;
-        unsigned int ds_MenuItemAtIndex;
-        unsigned int ds_MenuItemSizeAtIndex;
-        unsigned int ds_MenuItemSpacingAtIndex;
-        
-        //delegate flags
-        unsigned int dg_DidSelectIndex;
-        
-    } _pagerMenuFlags;
-}
+
+@interface GBasePagerMenu () <UIScrollViewDelegate>
 @property (nonatomic, strong) GPagerMenuScrollView * scrollView;
 @property (nonatomic, strong) NSArray * menuItems;
-@property (nonatomic, strong) NSArray<GPagerMenuLayoutInternal *> * menuLayouts;
 @end
 
 @implementation GBasePagerMenu
@@ -62,8 +50,15 @@
 
 - (void)__setup
 {
+    [self __setupDefault];
     [self __setupUI];
     [self __setupGesture];
+}
+
+- (void)__setupDefault
+{
+    self.selectIndex = 0;
+    self.selectItemScale = 1;
 }
 
 - (void)__setupUI
@@ -89,17 +84,12 @@
     [self.menuLayouts enumerateObjectsUsingBlock:^(GPagerMenuLayoutInternal * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         BOOL temp = CGRectContainsPoint(obj.itemView.frame,point);
         if (temp) {
-            [weakSelf __invokeTapDelegate:obj index:idx];
+            [weakSelf setSelectIndex:idx];
             *stop = YES;
         }
     }];
 }
 
-- (void)__invokeTapDelegate:(GPagerMenuLayoutInternal *)layout index:(NSInteger)index
-{
-    if (_pagerMenuFlags.dg_DidSelectIndex)
-        [self.delegate pagerMenu:self didSelectItemAtIndex:index];
-}
 
 - (void)__clean
 {
@@ -148,13 +138,14 @@
 - (void)__reloadLayoutMenuItems
 {
     __block UIView * preView = nil;
-    __block UIView * selectView = nil;
+    __block GPagerMenuLayoutInternal * selectLayout = nil;
     [self.menuLayouts enumerateObjectsUsingBlock:^(GPagerMenuLayoutInternal * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         {
             if (self.selectIndex != idx) {
                 obj.itemView.transform = CGAffineTransformIdentity;
+                [self __invokeDeselectItem:obj index:idx];
             } else {
-                selectView = obj.itemView;
+                selectLayout = obj;
             }
             CGFloat width = obj.itemSize.width;
             CGFloat height = MIN(obj.itemSize.height, self.bounds.size.height);
@@ -165,10 +156,11 @@
             preView = obj.itemView;
         }
     }];
-    if (selectView) {
-//        [UIView animateWithDuration:0.25 animations:^{
-//            selectView.transform = CGAffineTransformMakeScale(1.5, 1.5);
-//        }];
+    if (selectLayout) {
+        [UIView animateWithDuration:0.25 animations:^{
+            selectLayout.itemView.transform = CGAffineTransformMakeScale(self.selectItemScale, self.selectItemScale);
+        }];
+        [self __invokeDeselectItem:selectLayout index:self.selectIndex];
     }
     [self __layoutScrollerContentSize];
 }
@@ -179,13 +171,48 @@
     self.scrollView.contentSize = CGSizeMake(CGRectGetMaxX(lastMenu.itemView.frame),self.scrollView.frame.size.height);
 }
 
+- (void)__invokeDeselectItem:(GPagerMenuLayoutInternal *)obj index:(NSInteger)idx
+{
+    [self __deselectItemAtIndex:idx];
+    
+    if (_pagerMenuFlags.dg_DeselectIndex)
+        [self.delegate pagerMenu:self deselectItemAtIndex:idx];
+}
+
+- (void)__invokeDidselectItem:(GPagerMenuLayoutInternal *)layout index:(NSInteger)index
+{
+    [self __didselectItemAtIndex:index];
+    
+    if (_pagerMenuFlags.dg_DidselectIndex)
+        [self.delegate pagerMenu:self didselectItemAtIndex:index];
+}
+
+#pragma mark - Override Method
+
+- (void)__didselectItemAtIndex:(NSUInteger)index
+{}
+
+- (void)__deselectItemAtIndex:(NSUInteger)index
+{}
+
+- (CGSize)__itemSizeAtIndex:(NSUInteger)index
+{
+    return CGSizeZero;
+}
+
+- (CGFloat)__itemSpacingAtIndex:(NSUInteger)index
+{
+    return 0;
+}
+
 #pragma mark - Public Method
 
 - (void)setDelegate:(id<GPagerMenuDelegate>)delegate
 {
     _delegate = delegate;
     
-    _pagerMenuFlags.dg_DidSelectIndex = [delegate respondsToSelector:@selector(pagerMenu:didSelectItemAtIndex:)];
+    _pagerMenuFlags.dg_DidselectIndex = [delegate respondsToSelector:@selector(pagerMenu:didselectItemAtIndex:)];
+    _pagerMenuFlags.dg_DeselectIndex = [delegate respondsToSelector:@selector(pagerMenu:deselectItemAtIndex:)];
 }
 
 - (void)setDataSource:(id<GPagerMenuDataSource>)dataSource
@@ -196,6 +223,15 @@
     _pagerMenuFlags.ds_MenuItemAtIndex = [dataSource respondsToSelector:@selector(pagerMenu:itemAtIndex:)];
     _pagerMenuFlags.ds_MenuItemSizeAtIndex = [dataSource respondsToSelector:@selector(pagerMenu:itemSizeAtIndex:)];
     _pagerMenuFlags.ds_MenuItemSpacingAtIndex = [dataSource respondsToSelector:@selector(pagerMenu:itemSpacingAtIndex:)];
+}
+
+- (UIView *)objectAtIndex:(NSInteger)index
+{
+    if (index >= self.menuLayouts.count) {
+        return nil;
+    }
+    GPagerMenuLayoutInternal * layout = [self.menuLayouts objectAtIndex:index];
+    return layout.itemView;
 }
 
 - (void)reloadData
@@ -247,6 +283,21 @@
 - (void)reloadMenuLayout
 {
     [self __reloadLayoutMenuItems];
+}
+
+- (void)setSelectIndex:(NSInteger)selectIndex
+{
+    [self setSelectIndex:selectIndex animated:YES];
+}
+
+- (void)setSelectIndex:(NSInteger)selectIndex animated:(BOOL)animated
+{
+    if (_selectIndex == selectIndex) {
+        return;
+    }
+    _selectIndex = selectIndex;
+    [self reloadMenuLayout];
+    [self scrollToRowAtIndex:selectIndex atScrollPosition:GPagerMenuScrollPositionMiddle animated:animated];
 }
 
 - (void)scrollToRowAtIndex:(NSUInteger)index

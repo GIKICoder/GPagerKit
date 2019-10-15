@@ -21,7 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol GPagerMenuDelegate <NSObject>
 @optional
-- (void)pagerMenu:(GBasePagerMenu *)menu didSelectItemAtIndex:(NSUInteger)index;
+- (void)pagerMenu:(GBasePagerMenu *)menu didselectItemAtIndex:(NSUInteger)index;
+- (void)pagerMenu:(GBasePagerMenu *)menu deselectItemAtIndex:(NSUInteger)index;
 @end
 
 typedef NS_ENUM(NSInteger, GPagerMenuScrollPosition) {
@@ -32,28 +33,30 @@ typedef NS_ENUM(NSInteger, GPagerMenuScrollPosition) {
 };
 
 @interface GPagerMenuLayoutInternal : NSObject
-@property (nonatomic, strong) UIView * itemView;
-@property (nonatomic, assign) CGSize  itemSize;
-@property (nonatomic, assign) CGFloat  itemSpace;
-@property (nonatomic, assign) BOOL  isSelected;
+
 @end
 
 @interface GBasePagerMenu : UIView
 
 @property (nonatomic, strong, readonly) __kindof UIScrollView * scrollView;
 @property (nonatomic, strong, readonly) NSArray<id> * menuItems;
-@property (nonatomic, strong, readonly) NSArray<GPagerMenuLayoutInternal *> * menuLayouts;
+
 @property (nonatomic, weak  ) id<GPagerMenuDataSource>   dataSource;
 @property (nonatomic, weak  ) id<GPagerMenuDelegate>     delegate;
 
 @property (nonatomic, assign) CGFloat    itemSpacing;
 @property (nonatomic, assign) CGSize     itemSize;
 @property (nonatomic, assign) NSInteger  selectIndex;
+@property (nonatomic, assign) CGFloat    selectItemScale;
+
+- (__kindof UIView *)objectAtIndex:(NSInteger)index;
 
 - (void)reloadData;
 - (void)reloadWithIndexs:(NSArray<NSNumber *> *)indexs;
 
 - (void)reloadMenuLayout;
+
+- (void)setSelectIndex:(NSInteger)selectIndex animated:(BOOL)animated;
 
 - (void)scrollToRowAtIndex:(NSUInteger)index
           atScrollPosition:(GPagerMenuScrollPosition)scrollPosition

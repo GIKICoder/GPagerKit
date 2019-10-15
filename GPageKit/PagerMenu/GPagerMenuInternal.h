@@ -11,6 +11,31 @@
 #import "GBasePagerMenu.h"
 
 @interface GBasePagerMenu ()
+{
+    struct {
+        //dataSource flags
+        unsigned int ds_MenuItems;
+        unsigned int ds_MenuItemAtIndex;
+        unsigned int ds_MenuItemSizeAtIndex;
+        unsigned int ds_MenuItemSpacingAtIndex;
+        
+        //delegate flags
+        unsigned int dg_DidselectIndex;
+        unsigned int dg_DeselectIndex;
+        
+    } _pagerMenuFlags;
+}
+@property (nonatomic, strong) NSArray<GPagerMenuLayoutInternal *> * menuLayouts;
 
+- (void)__didselectItemAtIndex:(NSUInteger)index;
+- (void)__deselectItemAtIndex:(NSUInteger)index;
+- (CGSize)__itemSizeAtIndex:(NSUInteger)index;
+- (CGFloat)__itemSpacingAtIndex:(NSUInteger)index;
+@end
+
+@interface GPagerMenuLayoutInternal ()
+@property (nonatomic, strong) UIView * itemView;
+@property (nonatomic, assign) CGSize  itemSize;
+@property (nonatomic, assign) CGFloat  itemSpace;
 @end
 #endif /* GPagerMenuInternal_h */
