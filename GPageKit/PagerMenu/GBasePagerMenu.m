@@ -134,10 +134,12 @@
                 [weakSelf.scrollView addSubview:menuItemView];
                 layout.itemView = menuItemView;
             }
+            layout.itemSize = self.itemSize;
             if (self->_pagerMenuFlags.ds_MenuItemSizeAtIndex) {
                 CGSize size = [weakSelf.dataSource pagerMenu:weakSelf itemSizeAtIndex:idx];
                 layout.itemSize = size;
             }
+            layout.itemSpace = self.itemSpacing;
             if (self->_pagerMenuFlags.ds_MenuItemSpacingAtIndex) {
                 CGFloat sapcing = [weakSelf.dataSource pagerMenu:weakSelf itemSpacingAtIndex:idx];
                 layout.itemSpace = sapcing;
