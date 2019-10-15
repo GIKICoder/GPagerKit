@@ -59,17 +59,11 @@ typedef NS_ENUM(NSUInteger, GPageDirection) {
 @protocol GScrollPagerDelegate <NSObject>
 @optional
 
-/** Informs the delegate when the page scroll view is about to move to another page, possibly far away. */
+/**  move to another page */
 - (void)pagerView:(__kindof GBaseScrollPager *)pagerView willJumpToPageAtIndex:(NSInteger)pageIndex;
 
-/** Informs the delegate that the page completed turning to a new  */
+/** completed turning to a new page */
 - (void)pagerView:(__kindof GBaseScrollPager *)pagerView didTurnToPageAtIndex:(NSInteger)pageIndex;
-
-/** Informs the delegate that the header view is about to be inserted into the scroll view */
-- (void)pagerView:(__kindof GBaseScrollPager *)pagerView willInsertHeaderView:(UIView *)headerView;
-
-/** Informs the delegate that the footer view is about to be inserted into the scroll view */
-- (void)pagerView:(__kindof GBaseScrollPager *)pagerView willInsertFooterView:(UIView *)footerView;
 
 @end
 

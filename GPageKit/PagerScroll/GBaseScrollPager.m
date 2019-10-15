@@ -18,8 +18,6 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
         unsigned int dataSourcePageForIndex;
         
         //delegate flags
-        unsigned int delegateWillInsertHeader;
-        unsigned int delegateWillInsertFooter;
         unsigned int delegateWillJumpToIndex;
         unsigned int delegateDidTurnToIndex;
         
@@ -590,8 +588,6 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
 - (void)setDelegate:(id<GScrollPagerDelegate>)delegate
 {
     _delegate = delegate;
-    _pageScrollViewFlags.delegateWillInsertFooter   = [_delegate respondsToSelector:@selector(pagerView:willInsertFooterView:)];
-    _pageScrollViewFlags.delegateWillInsertHeader   = [_delegate respondsToSelector:@selector(pagerView:willInsertHeaderView:)];
     _pageScrollViewFlags.delegateWillJumpToIndex    = [_delegate respondsToSelector:@selector(pagerView:willJumpToPageAtIndex:)];
     _pageScrollViewFlags.delegateDidTurnToIndex     = [_delegate respondsToSelector:@selector(pagerView:didTurnToPageAtIndex:)];
 }
