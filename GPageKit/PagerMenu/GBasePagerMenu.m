@@ -160,7 +160,7 @@
         [UIView animateWithDuration:0.25 animations:^{
             selectLayout.itemView.transform = CGAffineTransformMakeScale(self.selectItemScale, self.selectItemScale);
         }];
-        [self __invokeDeselectItem:selectLayout index:self.selectIndex];
+        [self __invokeDidselectItem:selectLayout index:self.selectIndex];
     }
     [self __layoutScrollerContentSize];
 }

@@ -8,13 +8,14 @@
 
 #import "GPagerMenuViewController.h"
 #import "GBasePagerMenu.h"
+#import "GPagerMenu.h"
 #define XCColorRGB(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
 #define XCColorRGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:a]
 
 // 随机色
 #define XCRandomColor XCColorRGB(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
 @interface GPagerMenuViewController ()<GPagerMenuDataSource,GPagerMenuDelegate>
-@property (nonatomic, strong) GBasePagerMenu * pagerMenuView;
+@property (nonatomic, strong) GPagerMenu * pagerMenuView;
 @property (nonatomic, strong) NSArray * items;
 @property (nonatomic, assign) NSInteger  selectIndex;
 @end
@@ -24,7 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = UIColor.whiteColor;
-    self.pagerMenuView = [[GBasePagerMenu alloc] init];
+    self.pagerMenuView = [[GPagerMenu alloc] init];
     [self.view addSubview:self.pagerMenuView];
     self.pagerMenuView.backgroundColor = UIColor.whiteColor;
     self.pagerMenuView.dataSource = self;
