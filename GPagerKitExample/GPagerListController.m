@@ -66,4 +66,7 @@
     return 70;
 }
 
+- (void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath
+{}
+
 @end

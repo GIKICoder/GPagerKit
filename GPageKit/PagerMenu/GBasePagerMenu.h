@@ -23,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 @optional
 - (void)pagerMenu:(GBasePagerMenu *)menu didselectItemAtIndex:(NSUInteger)index;
 - (void)pagerMenu:(GBasePagerMenu *)menu deselectItemAtIndex:(NSUInteger)index;
+- (void)pagerMenu:(GBasePagerMenu *)menu didHighlightAtIndex:(NSUInteger)index;
+- (void)pagerMenu:(GBasePagerMenu *)menu didUnhighlightAtIndex:(NSUInteger)index;
 @end
 
 typedef NS_ENUM(NSInteger, GPagerMenuScrollPosition) {

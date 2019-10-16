@@ -22,7 +22,8 @@
         //delegate flags
         unsigned int dg_DidselectIndex;
         unsigned int dg_DeselectIndex;
-        
+        unsigned int dg_DidHighlight;
+        unsigned int dg_DidUnhighlight;        
     } _pagerMenuFlags;
 }
 @property (nonatomic, strong) NSArray<GPagerMenuLayoutInternal *> * menuLayouts;

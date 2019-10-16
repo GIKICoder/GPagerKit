@@ -162,6 +162,9 @@
 {
     [self __deselectItemAtIndex:idx];
     
+    if (_pagerMenuFlags.dg_DidUnhighlight) {
+        [self.delegate pagerMenu:self didHighlightAtIndex:idx];
+    }
     if (_pagerMenuFlags.dg_DeselectIndex)
         [self.delegate pagerMenu:self deselectItemAtIndex:idx];
 }
@@ -170,6 +173,9 @@
 {
     [self __didselectItemAtIndex:index];
     
+    if (_pagerMenuFlags.dg_DidHighlight) {
+        [self.delegate pagerMenu:self didHighlightAtIndex:index];
+    }
     if (_pagerMenuFlags.dg_DidselectIndex)
         [self.delegate pagerMenu:self didselectItemAtIndex:index];
 }
@@ -200,6 +206,8 @@
     
     _pagerMenuFlags.dg_DidselectIndex = [delegate respondsToSelector:@selector(pagerMenu:didselectItemAtIndex:)];
     _pagerMenuFlags.dg_DeselectIndex = [delegate respondsToSelector:@selector(pagerMenu:deselectItemAtIndex:)];
+    _pagerMenuFlags.dg_DidHighlight  = [delegate respondsToSelector:@selector(pagerMenu:didHighlightAtIndex:)];
+    _pagerMenuFlags.dg_DidUnhighlight  = [delegate respondsToSelector:@selector(pagerMenu:didUnhighlightAtIndex:)];
 }
 
 - (void)setDataSource:(id<GPagerMenuDataSource>)dataSource
