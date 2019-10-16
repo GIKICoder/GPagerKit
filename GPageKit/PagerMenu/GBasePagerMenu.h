@@ -47,9 +47,9 @@ typedef NS_ENUM(NSInteger, GPagerMenuScrollPosition) {
 @property (nonatomic, assign) CGFloat    itemSpacing;
 @property (nonatomic, assign) CGSize     itemSize;
 @property (nonatomic, assign) NSInteger  selectIndex;
-@property (nonatomic, assign) CGFloat    selectItemScale;
 
-- (__kindof UIView *)objectAtIndex:(NSInteger)index;
+
+- (__kindof UIView *)menuItemAtIndex:(NSInteger)index;
 
 - (void)reloadData;
 - (void)reloadWithIndexs:(NSArray<NSNumber *> *)indexs;

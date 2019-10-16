@@ -1,35 +1,21 @@
 //
-//  ViewController.m
-//  GPageKit
+//  GPagerListController.m
+//  GPagerKitExample
 //
-//  Created by GIKI on 2019/9/10.
+//  Created by GIKI on 2019/10/16.
 //  Copyright © 2019 GIKI. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "GPagerListController.h"
 
-#import "GPagerVCTestViewController.h"
-#define XCColorRGB(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
-#define XCColorRGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:a]
-
-// 随机色
-#define XCRandomColor XCColorRGB(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
-@interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
-
+@interface GPagerListController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView * tableView;
-@property (nonatomic, strong) NSArray * datas;
 @end
 
-@implementation ViewController
+@implementation GPagerListController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.datas = @[@"GPagerVCTestViewController",
-                   @"GPagerViewTestController",
-                   @"GPagerMenuViewController",
-                   @"GBasePagerController"];
-    
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     tableView.delegate = self;
     tableView.dataSource = self;
@@ -39,7 +25,12 @@
     self.tableView = tableView;
     self.tableView.frame = self.view.bounds;
     [self.view addSubview:self.tableView];
+}
 
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    self.tableView.frame = self.view.bounds;
 }
 
 #pragma mark -- TableView DataSource
@@ -51,7 +42,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.datas.count;
+    return 20;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -60,7 +51,7 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"tableViewCell"];
     }
-    cell.textLabel.text = self.datas[indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"%ld",indexPath.row];
     return cell;
 }
 
@@ -68,16 +59,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString * clas = self.datas[indexPath.row];
-    Class clazz = NSClassFromString(clas);
-    UIViewController * vc = [[clazz alloc] init];
-    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 70;
 }
-
 
 @end

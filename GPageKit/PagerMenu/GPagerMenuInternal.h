@@ -26,11 +26,12 @@
     } _pagerMenuFlags;
 }
 @property (nonatomic, strong) NSArray<GPagerMenuLayoutInternal *> * menuLayouts;
-
+- (void)__setup;
 - (void)__didselectItemAtIndex:(NSUInteger)index;
 - (void)__deselectItemAtIndex:(NSUInteger)index;
 - (CGSize)__itemSizeAtIndex:(NSUInteger)index;
 - (CGFloat)__itemSpacingAtIndex:(NSUInteger)index;
+- (GPagerMenuLayoutInternal *)menuLayoutAtIndex:(NSInteger)index;
 @end
 
 @interface GPagerMenuLayoutInternal ()

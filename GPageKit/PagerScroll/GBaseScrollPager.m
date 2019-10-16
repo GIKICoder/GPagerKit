@@ -317,7 +317,6 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
 /* Jump to a specific page (-1 for header, self.numberOfPages for footer) */
 - (void)turnToPageAtIndex:(NSInteger)index animated:(BOOL)animated
 {
-
     index = MAX(0, index);
     index = MIN(self.numberOfPages-1, index);
 

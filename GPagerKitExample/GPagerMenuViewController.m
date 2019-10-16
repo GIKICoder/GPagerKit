@@ -26,15 +26,16 @@
     [super viewDidLoad];
     self.view.backgroundColor = UIColor.whiteColor;
     self.pagerMenuView = [[GPagerMenu alloc] init];
+    self.pagerMenuView.frame = CGRectMake(0, 100, [UIScreen mainScreen].bounds.size.width, 50);
     [self.view addSubview:self.pagerMenuView];
     self.pagerMenuView.backgroundColor = UIColor.whiteColor;
     self.pagerMenuView.dataSource = self;
     self.pagerMenuView.delegate = self;
-    self.pagerMenuView.selectItemScale = 1.4;
+    self.pagerMenuView.selectItemScale = 1.45;
     self.items = @[@"消息",@"推荐",@"最近",@"聊天到这里结束",@"活跃",@"动态",@"广场",@"世界",@"时光",@"北京",@"天气",@"好友"];
-    self.pagerMenuView.frame = CGRectMake(0, 100, [UIScreen mainScreen].bounds.size.width, 50);
+   
     [self.pagerMenuView reloadData];
-    
+    [self.pagerMenuView setSelectIndex:0];
     UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.titleLabel.font = [UIFont systemFontOfSize:15];
     [button setTitleColor:XCRandomColor forState:UIControlStateNormal];
@@ -42,6 +43,12 @@
     [button addTarget:self action:@selector(buttonClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:button];
     button.frame = CGRectMake(100, CGRectGetMaxY(self.pagerMenuView.frame)+20, 100, 50);
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+   
 }
 
 - (void)buttonClick
@@ -97,13 +104,13 @@
 {
     NSString * string = [self.items objectAtIndex:index];
     NSLog(@"点击了-- %@",string);
-    UIButton * btn = [menu objectAtIndex:index];
+    UIButton * btn = [menu menuItemAtIndex:index];
     [btn setTitleColor:UIColor.redColor forState:UIControlStateNormal];
 }
 
 - (void)pagerMenu:(GBasePagerMenu *)menu deselectItemAtIndex:(NSUInteger)index
 {
-    UIButton * btn = [menu objectAtIndex:index];
+    UIButton * btn = [menu menuItemAtIndex:index];
     [btn setTitleColor:UIColor.blackColor forState:UIControlStateNormal];
 }
 

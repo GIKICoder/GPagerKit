@@ -108,11 +108,8 @@ typedef NS_ENUM(NSUInteger, GPageDirection) {
 - (BOOL)canGoForward;
 - (BOOL)canGoBack;
 
-/** Advance/Retreat the page by one (including accessory views) */
 - (void)turnToNextPageAnimated:(BOOL)animated;
 - (void)turnToPreviousPageAnimated:(BOOL)animated;
-
-/* Jump to a specific page (-1 for header, self.numberOfPages for footer) */
 - (void)turnToPageAtIndex:(NSInteger)pageIndex animated:(BOOL)animated;
 @end
 

@@ -14,6 +14,11 @@
 
 @implementation GPagerMenu
 
+- (void)__setup
+{
+    self.selectItemScale = 1;
+    [super __setup];
+}
 
 - (UIImageView *)divideLine
 {
@@ -21,20 +26,26 @@
         _divideLine = [[UIImageView alloc] init];
         _divideLine.backgroundColor = [UIColor redColor];
         [self.scrollView addSubview:_divideLine];
+        _divideLine.layer.cornerRadius = 2;
+        _divideLine.layer.masksToBounds = YES;
     }
     return _divideLine;
 }
 
 - (void)__didselectItemAtIndex:(NSUInteger)index
 {
-    GPagerMenuLayoutInternal * layout = [self.menuLayouts objectAtIndex:index];
+    GPagerMenuLayoutInternal * layout = [self menuLayoutAtIndex:index];
     CGRect rect = layout.itemView.frame;
-    self.divideLine.frame = CGRectMake(rect.origin.x+(rect.size.width-40)*0.5, CGRectGetMaxY(self.scrollView.frame)-2, 40, 2);
+    self.divideLine.frame = CGRectMake(rect.origin.x+(rect.size.width-20)*0.5, CGRectGetMaxY(self.scrollView.frame)-4, 20, 4);
+    [UIView animateWithDuration:0.25 animations:^{
+        layout.itemView.transform = CGAffineTransformMakeScale(self.selectItemScale, self.selectItemScale);
+    }];
 }
 
 - (void)__deselectItemAtIndex:(NSUInteger)index
 {
-    
+     GPagerMenuLayoutInternal * layout = [self menuLayoutAtIndex:index];
+     layout.itemView.transform = CGAffineTransformIdentity;
 }
 
 - (CGSize)__itemSizeAtIndex:(NSUInteger)index

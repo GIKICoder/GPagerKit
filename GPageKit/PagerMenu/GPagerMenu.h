@@ -19,7 +19,8 @@ typedef NS_ENUM(NSInteger, GPagerMenuStyle) {
 @interface GPagerMenu : GBasePagerMenu
 
 @property (nonatomic, assign) GPagerMenuStyle  menuStyle;
-@property (nonatomic, assign) NSInteger  selectedIndex;
+@property (nonatomic, assign) CGFloat    selectItemScale;
+
 @end
 
 NS_ASSUME_NONNULL_END

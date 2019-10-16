@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B2E05892357174700221EF2 /* GBasePagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B2E05882357174700221EF2 /* GBasePagerController.m */; };
+		2B2E058C23571A7B00221EF2 /* GPagerListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B2E058B23571A7B00221EF2 /* GPagerListController.m */; };
 		2BC0D2452350AEED006129CF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC0D2442350AEED006129CF /* AppDelegate.m */; };
 		2BC0D2482350AEED006129CF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC0D2472350AEED006129CF /* ViewController.m */; };
 		2BC0D24B2350AEED006129CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BC0D2492350AEED006129CF /* Main.storyboard */; };
@@ -27,6 +29,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2B2E05872357174700221EF2 /* GBasePagerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GBasePagerController.h; sourceTree = "<group>"; };
+		2B2E05882357174700221EF2 /* GBasePagerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GBasePagerController.m; sourceTree = "<group>"; };
+		2B2E058A23571A7B00221EF2 /* GPagerListController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPagerListController.h; sourceTree = "<group>"; };
+		2B2E058B23571A7B00221EF2 /* GPagerListController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPagerListController.m; sourceTree = "<group>"; };
 		2BA624512355C313000CE215 /* GPagerMenuInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPagerMenuInternal.h; sourceTree = "<group>"; };
 		2BC0D2402350AEED006129CF /* GPagerKitExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GPagerKitExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BC0D2432350AEED006129CF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -74,6 +80,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2B2E05862357171A00221EF2 /* PagerController */ = {
+			isa = PBXGroup;
+			children = (
+				2B2E05872357174700221EF2 /* GBasePagerController.h */,
+				2B2E05882357174700221EF2 /* GBasePagerController.m */,
+			);
+			path = PagerController;
+			sourceTree = "<group>";
+		};
 		2BC0D2372350AEED006129CF = {
 			isa = PBXGroup;
 			children = (
@@ -104,6 +119,8 @@
 				2BC0D26C2350B0C3006129CF /* GPagerViewTestController.m */,
 				2BC0D27C23520EE7006129CF /* GPagerMenuViewController.h */,
 				2BC0D27D23520EE7006129CF /* GPagerMenuViewController.m */,
+				2B2E058A23571A7B00221EF2 /* GPagerListController.h */,
+				2B2E058B23571A7B00221EF2 /* GPagerListController.m */,
 				2BC0D2492350AEED006129CF /* Main.storyboard */,
 				2BC0D24C2350AEEE006129CF /* Assets.xcassets */,
 				2BC0D24E2350AEEE006129CF /* LaunchScreen.storyboard */,
@@ -116,6 +133,7 @@
 		2BC0D2592350AF35006129CF /* GPageKit */ = {
 			isa = PBXGroup;
 			children = (
+				2B2E05862357171A00221EF2 /* PagerController */,
 				2BC0D26E2350B325006129CF /* StretchyHeaderView */,
 				2BC0D25A2350AF35006129CF /* PagerMenu */,
 				2BC0D25B2350AF35006129CF /* PagerScroll */,
@@ -239,11 +257,13 @@
 				2BDE30C823557B2600112C77 /* GPagerMenu.m in Sources */,
 				2BC0D2782350B914006129CF /* UIScrollView+GStretchy.m in Sources */,
 				2BC0D27E23520EE7006129CF /* GPagerMenuViewController.m in Sources */,
+				2B2E058C23571A7B00221EF2 /* GPagerListController.m in Sources */,
 				2BC0D2672350AF36006129CF /* GViewScrollPager.m in Sources */,
 				2BC0D27B2350B922006129CF /* UIView+GStretchy.m in Sources */,
 				2BC0D2742350B75A006129CF /* GStretchyHeaderView.m in Sources */,
 				2BC0D2532350AEEE006129CF /* main.m in Sources */,
 				2BC0D2652350AF36006129CF /* GBaseScrollPager.m in Sources */,
+				2B2E05892357174700221EF2 /* GBasePagerController.m in Sources */,
 				2BC0D26A2350AF73006129CF /* GPagerVCTestViewController.m in Sources */,
 				2BC0D2452350AEED006129CF /* AppDelegate.m in Sources */,
 			);
