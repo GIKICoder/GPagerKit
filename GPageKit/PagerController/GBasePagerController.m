@@ -13,7 +13,7 @@
 @interface GBasePagerController ()<GPagerMenuDelegate,GPagerMenuDataSource,GScrollPagerDelegate,GScrollPagerDataSource>
 @property (nonatomic, strong) GPagerMenu * pagerMenu;
 @property (nonatomic, strong) GControllerScrollPager * scrollPager;
-
+@property (nonatomic, assign) BOOL  eachOther;
 @property (nonatomic, strong) NSArray * items;
 @end
 
@@ -99,9 +99,9 @@
 
 - (void)pagerMenu:(GBasePagerMenu *)menu didselectItemAtIndex:(NSUInteger)index
 {
-    [self.scrollPager turnToPageAtIndex:index animated:YES];
     UILabel * label = [menu menuItemAtIndex:index];
     label.textColor = [UIColor redColor];
+    [self.scrollPager turnToPageAtIndex:index animated:YES];
 }
 
 - (void)pagerMenu:(GBasePagerMenu *)menu deselectItemAtIndex:(NSUInteger)index
@@ -142,6 +142,11 @@
 
 - (void)pagerView:(__kindof GBaseScrollPager *)pagerView didTurnToPageAtIndex:(NSInteger)pageIndex
 {
-
+    if (self.eachOther) {
+        self.eachOther = NO;
+        return;
+    }
+    self.eachOther = YES;
+    [self.pagerMenu setSelectIndex:pageIndex];
 }
 @end

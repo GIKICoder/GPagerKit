@@ -297,7 +297,6 @@
     [self __invokeDidselectItem:selectLayout index:selectIndex];
     _selectIndex = selectIndex;
     [self scrollToRowAtIndex:selectIndex atScrollPosition:GPagerMenuScrollPositionMiddle animated:animated];
-    
 }
 
 - (void)scrollToRowAtIndex:(NSUInteger)index

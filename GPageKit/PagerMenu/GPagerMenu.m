@@ -32,6 +32,11 @@
     return _divideLine;
 }
 
+- (void)switchPagerMenu:(NSInteger)index
+{
+    
+}
+
 - (void)__didselectItemAtIndex:(NSUInteger)index
 {
     GPagerMenuLayoutInternal * layout = [self menuLayoutAtIndex:index];
