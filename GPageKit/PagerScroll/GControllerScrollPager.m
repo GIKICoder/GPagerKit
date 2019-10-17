@@ -57,6 +57,10 @@
     if (![pager isKindOfClass:UIViewController.class]) {
         return;
     }
+    if ([target.subviews containsObject:pager.view]) {
+        pager.view.hidden = NO;
+        return;
+    }
     [target addSubview:pager.view];
 }
 
@@ -73,8 +77,10 @@
     if (![pager isKindOfClass:UIViewController.class]) {
         return;
     }
+    
     if (pager.view.superview) {
-        [pager.view removeFromSuperview];
+        pager.view.hidden = YES;
+//        [pager.view removeFromSuperview];
     }
 }
 

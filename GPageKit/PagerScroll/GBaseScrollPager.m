@@ -84,23 +84,7 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
         CGRect rect = [weakSelf frameForViewAtIndex:pageNumber.unsignedIntegerValue];
         [weakSelf __setPager:page Frame:rect];
     }];
-    
-    /* todo by giki
-    //place the header/footer views
-    if (self.headerFooterView.superview) {
-        self.headerFooterView.frame = [self frameForViewAtIndex:self.headerFooterView.tag];
-    }
-    
-    //place the header view
-    if (self.headerView) {
-        self.headerView.frame = [self frameForViewAtIndex:self.headerView.tag];
-    }
-    
-    //place the footer view
-    if (self.footerView) {
-        self.footerView.frame = [self frameForViewAtIndex:self.footerView.tag];
-    }
-    */
+
     //re-enable the layout code
     self.disablePageLayout = NO;
 }
@@ -267,13 +251,11 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
     return [self pagerForIndex:self.pageIndex];
 }
 
-/** The currently visible primary page view on screen. Will be nil if an acessory is visible. */
 - (nullable __kindof UIView *)visiblePageView
 {
     return [self pagerForIndex:self.pageIndex];
 }
 
-/** Returns the page view currently assigned to the provided index, or nil otherwise. */
 - (nullable __kindof id)pagerForIndex:(NSInteger)pageIndex
 {
     // Return page
@@ -292,7 +274,6 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
     return self.scrollIndex < self.numberOfPageSlots-1;
 }
 
-/** Advance/Retreat the page by one (including accessory views) */
 - (void)turnToNextPageAnimated:(BOOL)animated
 {
     if ([self canGoForward] == NO) {
@@ -314,7 +295,6 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
     [self turnToPageAtIndex:index-1 animated:animated];
 }
 
-/* Jump to a specific page (-1 for header, self.numberOfPages for footer) */
 - (void)turnToPageAtIndex:(NSInteger)index animated:(BOOL)animated
 {
     index = MAX(0, index);
@@ -339,11 +319,8 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
     self.disablePageLayout = NO;
     [self layoutPages];
     
-    // Before animating, disable page layout (We'll manually handle placement from here)
     self.disablePageLayout = YES;
     
-    // If we're turning more than one page away, move the current page right up
-    // to the side of the target page so we can have a seamless jump animation
     if (labs(index - self.scrollIndex) > 1) {
         id page = [self visiblePager];
         NSInteger newIndex = 0;
@@ -413,7 +390,6 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
 
 - (void)resetPageLayout
 {
-    // Remove all pages from the hierarchy so they can be recalculated from scratch again
     [self.visiblePagers enumerateKeysAndObjectsUsingBlock: ^(NSNumber *key, id  page, BOOL *stop) {
         [self __removeFromSuperview:page];
         [[self recycledPagesSetForPage:page] addObject:page];

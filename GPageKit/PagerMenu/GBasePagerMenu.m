@@ -85,13 +85,17 @@
         BOOL temp = CGRectContainsPoint(obj.itemView.frame,point);
         if (temp) {
             [weakSelf setSelectIndex:idx];
-            if (_pagerMenuFlags.dg_DidselectIndex)
-                [self.delegate pagerMenu:self didselectItemAtIndex:idx];
+            [weakSelf tapSelectIndex:idx];
             *stop = YES;
         }
     }];
 }
 
+- (void)tapSelectIndex:(NSInteger)index
+{
+    if (_pagerMenuFlags.dg_TapSelectAtIndex)
+        [self.delegate pagerMenu:self tapSelectItemAtIndex:index];
+}
 
 - (void)__clean
 {
@@ -175,8 +179,6 @@
     if (_pagerMenuFlags.dg_DidUnhighlight) {
         [self.delegate pagerMenu:self didUnhighlightAtIndex:idx];
     }
-    if (_pagerMenuFlags.dg_DeselectIndex)
-        [self.delegate pagerMenu:self deselectItemAtIndex:idx];
 }
 
 - (void)__invokeDidselectItem:(GPagerMenuLayoutInternal *)layout index:(NSInteger)index
@@ -212,8 +214,7 @@
 {
     _delegate = delegate;
     
-    _pagerMenuFlags.dg_DidselectIndex = [delegate respondsToSelector:@selector(pagerMenu:didselectItemAtIndex:)];
-    _pagerMenuFlags.dg_DeselectIndex = [delegate respondsToSelector:@selector(pagerMenu:deselectItemAtIndex:)];
+    _pagerMenuFlags.dg_TapSelectAtIndex = [delegate respondsToSelector:@selector(pagerMenu:tapSelectItemAtIndex:)];
     _pagerMenuFlags.dg_DidHighlight  = [delegate respondsToSelector:@selector(pagerMenu:didHighlightAtIndex:)];
     _pagerMenuFlags.dg_DidUnhighlight  = [delegate respondsToSelector:@selector(pagerMenu:didUnhighlightAtIndex:)];
 }
