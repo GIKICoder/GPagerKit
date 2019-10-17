@@ -13,7 +13,6 @@
 @interface GBasePagerController ()<GPagerMenuDelegate,GPagerMenuDataSource,GScrollPagerDelegate,GScrollPagerDataSource>
 @property (nonatomic, strong) GPagerMenu * pagerMenu;
 @property (nonatomic, strong) GControllerScrollPager * scrollPager;
-@property (nonatomic, assign) BOOL  eachOther;
 @property (nonatomic, strong) NSArray * items;
 @end
 
@@ -97,17 +96,26 @@
     return 15;
 }
 
-- (void)pagerMenu:(GBasePagerMenu *)menu didselectItemAtIndex:(NSUInteger)index
+- (void)pagerMenu:(GBasePagerMenu *)menu didHighlightAtIndex:(NSUInteger)index
 {
     UILabel * label = [menu menuItemAtIndex:index];
     label.textColor = [UIColor redColor];
+}
+
+- (void)pagerMenu:(GBasePagerMenu *)menu didUnhighlightAtIndex:(NSUInteger)index
+{
+    UILabel * label = [menu menuItemAtIndex:index];
+    label.textColor = [UIColor blackColor];
+}
+
+- (void)pagerMenu:(GBasePagerMenu *)menu didselectItemAtIndex:(NSUInteger)index
+{
     [self.scrollPager turnToPageAtIndex:index animated:YES];
 }
 
 - (void)pagerMenu:(GBasePagerMenu *)menu deselectItemAtIndex:(NSUInteger)index
 {
-    UILabel * label = [menu menuItemAtIndex:index];
-    label.textColor = [UIColor blackColor];
+  
 }
 #pragma mark - GScrollPagerDataSource
 
@@ -130,6 +138,7 @@
 {
     GPagerListController * listController = [pagerView dequeueReusablePager];
     listController.view.frame = self.scrollPager.bounds;
+    [listController configWithDatas:@[]];
     return listController;
 }
 
@@ -142,11 +151,6 @@
 
 - (void)pagerView:(__kindof GBaseScrollPager *)pagerView didTurnToPageAtIndex:(NSInteger)pageIndex
 {
-    if (self.eachOther) {
-        self.eachOther = NO;
-        return;
-    }
-    self.eachOther = YES;
     [self.pagerMenu setSelectIndex:pageIndex];
 }
 @end

@@ -85,6 +85,8 @@
         BOOL temp = CGRectContainsPoint(obj.itemView.frame,point);
         if (temp) {
             [weakSelf setSelectIndex:idx];
+            if (_pagerMenuFlags.dg_DidselectIndex)
+                [self.delegate pagerMenu:self didselectItemAtIndex:idx];
             *stop = YES;
         }
     }];
@@ -155,7 +157,15 @@
 - (void)__layoutScrollerContentSize
 {
     GPagerMenuLayoutInternal * lastMenu = [self.menuLayouts lastObject];
-    self.scrollView.contentSize = CGSizeMake(CGRectGetMaxX(lastMenu.itemView.frame),self.scrollView.frame.size.height);
+    CGFloat width = CGRectGetMaxX(lastMenu.itemView.frame);
+    width = MAX(width, self.scrollView.frame.size.width);
+    CGSize size = CGSizeMake(width,self.scrollView.frame.size.height);
+    self.scrollView.contentSize = size;
+    if (width <= self.scrollView.frame.size.width) {
+        self.scrollView.scrollEnabled = NO;
+    } else {
+        self.scrollView.scrollEnabled = YES;
+    }
 }
 
 - (void)__invokeDeselectItem:(GPagerMenuLayoutInternal *)obj index:(NSInteger)idx
@@ -163,7 +173,7 @@
     [self __deselectItemAtIndex:idx];
     
     if (_pagerMenuFlags.dg_DidUnhighlight) {
-        [self.delegate pagerMenu:self didHighlightAtIndex:idx];
+        [self.delegate pagerMenu:self didUnhighlightAtIndex:idx];
     }
     if (_pagerMenuFlags.dg_DeselectIndex)
         [self.delegate pagerMenu:self deselectItemAtIndex:idx];
@@ -176,8 +186,6 @@
     if (_pagerMenuFlags.dg_DidHighlight) {
         [self.delegate pagerMenu:self didHighlightAtIndex:index];
     }
-    if (_pagerMenuFlags.dg_DidselectIndex)
-        [self.delegate pagerMenu:self didselectItemAtIndex:index];
 }
 
 #pragma mark - Override Method
@@ -311,6 +319,9 @@
           atScrollPosition:(GPagerMenuScrollPosition)scrollPosition
                   animated:(BOOL)animated
 {
+    if (!self.scrollView.scrollEnabled) {
+        return;
+    }
     if (index >= self.menuLayouts.count) {
         return;
     }

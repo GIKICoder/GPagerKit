@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface GPagerListController : UIViewController
 
+- (void)configWithDatas:(NSArray * )datas;
 @end
 
 NS_ASSUME_NONNULL_END

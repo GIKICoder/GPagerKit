@@ -301,7 +301,7 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
     
     NSInteger index = self.scrollIndex;
     
-    [self turnToPageAtIndex:index+1 animated:YES];
+    [self turnToPageAtIndex:index+1 animated:animated];
 }
 
 - (void)turnToPreviousPageAnimated:(BOOL)animated
@@ -311,7 +311,7 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
     }
     
     NSInteger index = self.scrollIndex;
-    [self turnToPageAtIndex:index-1 animated:YES];
+    [self turnToPageAtIndex:index-1 animated:animated];
 }
 
 /* Jump to a specific page (-1 for header, self.numberOfPages for footer) */
@@ -379,7 +379,7 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
     };
     
     // Set up the completion block
-    id completionBlock = ^(BOOL complete) {
+    void (^completionBlock)(BOOL complete) = ^(BOOL complete) {
         // Don't relayout if we intentionally killed the animation
         if (complete == NO) { return; }
         
@@ -392,15 +392,21 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
             [self.scrollView.delegate scrollViewDidEndScrollingAnimation:self.scrollView];
         }
     };
-    
-    // Perform the animation
-    [UIView animateWithDuration:0.35f
-                          delay:0.0f
-         usingSpringWithDamping:1.0f
-          initialSpringVelocity:0.3f
-                        options:UIViewAnimationOptionAllowUserInteraction
-                     animations:animationBlock
-                     completion:completionBlock];
+    if (animated) {
+        // Perform the animation
+        [UIView animateWithDuration:0.35f
+                              delay:0.0f
+             usingSpringWithDamping:1.0f
+              initialSpringVelocity:0.3f
+                            options:UIViewAnimationOptionAllowUserInteraction
+                         animations:animationBlock
+                         completion:completionBlock];
+    } else {
+        if (completionBlock) {
+            completionBlock(YES);
+        }
+    }
+
 }
 
 #pragma mark - Private Method

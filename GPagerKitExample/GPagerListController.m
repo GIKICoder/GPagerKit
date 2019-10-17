@@ -33,6 +33,10 @@
     self.tableView.frame = self.view.bounds;
 }
 
+- (void)configWithDatas:(NSArray * )datas
+{
+    [self.tableView reloadData];
+}
 #pragma mark -- TableView DataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -42,7 +46,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 20;
+    int x = arc4random() % 100;
+    return x;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
