@@ -108,15 +108,11 @@
     label.textColor = [UIColor blackColor];
 }
 
-- (void)pagerMenu:(GBasePagerMenu *)menu didselectItemAtIndex:(NSUInteger)index
+- (void)pagerMenu:(GBasePagerMenu *)menu tapSelectItemAtIndex:(NSUInteger)index
 {
     [self.scrollPager turnToPageAtIndex:index animated:YES];
 }
 
-- (void)pagerMenu:(GBasePagerMenu *)menu deselectItemAtIndex:(NSUInteger)index
-{
-  
-}
 #pragma mark - GScrollPagerDataSource
 
 /**
