@@ -49,6 +49,9 @@
     self.verticalTableView.dataSource = self;
     self.verticalTableView.tag = 10086;
     [self.view addSubview:self.verticalTableView];
+    self.verticalTableView.showsVerticalScrollIndicator = NO;
+    self.verticalTableView.showsHorizontalScrollIndicator = NO;
+    self.verticalScrollView.backgroundColor = UIColor.blueColor;
 }
 
 - (void)__setupVerticalScrollView1
@@ -80,7 +83,7 @@
     [self addChildViewController:self.pagerController];
 //    [self.verticalScrollView addSubview:self.pagerController.view];
     self.pagerController.view.backgroundColor = [UIColor yellowColor];
-    self.pagerController.view.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-88);
+    self.pagerController.view.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-10-88);
     self.verticalScrollView.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-88-12);
 }
 
@@ -125,6 +128,7 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"tableViewCell"];
         [cell.contentView addSubview:self.pagerController.view];
+        self.pagerController.view.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-10-88);
     }
     
     return cell;
@@ -139,7 +143,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return self.pagerController.view.frame.size.height;
+    return [UIScreen mainScreen].bounds.size.height-10-88;
 }
 
 @end

@@ -24,6 +24,12 @@
     [self loadDatas];
 }
 
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    self.scrollPager.frame = CGRectMake(0, CGRectGetHeight(self.pagerMenu.frame), [UIScreen mainScreen].bounds.size.width, self.view.frame.size.height-CGRectGetHeight(self.pagerMenu.frame));
+}
+
 - (void)__setupUI
 {
     self.view.backgroundColor = [UIColor whiteColor];
@@ -43,7 +49,7 @@
 - (void)setupScrollPager
 {
     self.scrollPager = [[GControllerScrollPager alloc] init];
-    self.scrollPager.frame = CGRectMake(0, CGRectGetMaxY(self.pagerMenu.frame), [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-CGRectGetMaxY(self.pagerMenu.frame));
+    self.scrollPager.frame = CGRectMake(0, CGRectGetHeight(self.pagerMenu.frame), [UIScreen mainScreen].bounds.size.width, self.view.frame.size.height-CGRectGetHeight(self.pagerMenu.frame));
     self.scrollPager.dataSource = self;
     self.scrollPager.delegate = self;
     [self.view addSubview:self.scrollPager];
