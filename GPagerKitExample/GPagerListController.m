@@ -7,9 +7,10 @@
 //
 
 #import "GPagerListController.h"
-
+#import "GStretchyHeaderView.h"
 @interface GPagerListController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) UITableView * tableView;
+@property (nonatomic, strong) GStretchyHeaderView * headerView;
 @end
 
 @implementation GPagerListController
@@ -25,6 +26,12 @@
     self.tableView = tableView;
     self.tableView.frame = self.view.bounds;
     [self.view addSubview:self.tableView];
+    self.tableView.scrollEnabled = NO;
+//    self.headerView = [[GStretchyHeaderView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 120)];
+//    self.headerView.minimumContentHeight = 120;
+//    self.headerView.maximumContentHeight = 160;
+//    self.headerView.contentView.backgroundColor = UIColor.redColor;
+//    [self.tableView addSubview:self.headerView];
 }
 
 - (void)viewDidLayoutSubviews

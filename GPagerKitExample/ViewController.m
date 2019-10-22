@@ -28,7 +28,9 @@
     self.datas = @[@"GPagerVCTestViewController",
                    @"GPagerViewTestController",
                    @"GPagerMenuViewController",
-                   @"GBasePagerController"];
+                   @"GBasePagerController",
+                   @"GVerticalPagerController",
+                   @"GPagerListController"];
     
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     tableView.delegate = self;

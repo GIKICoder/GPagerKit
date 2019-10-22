@@ -33,7 +33,7 @@
 
 - (void)setupMenu
 {
-    self.pagerMenu = [[GPagerMenu alloc] initWithFrame:CGRectMake(0, 88, [UIScreen mainScreen].bounds.size.width, 45)];
+    self.pagerMenu = [[GPagerMenu alloc] initWithFrame:CGRectMake(0,0, [UIScreen mainScreen].bounds.size.width, 45)];
     self.pagerMenu.delegate = self;
     self.pagerMenu.dataSource = self;
     self.pagerMenu.selectItemScale = 1.2;
