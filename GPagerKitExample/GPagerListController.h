@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "GSimultaneouslyGestureProcessor.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GPagerListController : UIViewController
 
+@property (nonatomic, weak  ) GSimultaneouslyGestureProcessor * gestureProcessor;
 - (void)configWithDatas:(NSArray * )datas;
 @end
 

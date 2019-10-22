@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "GSimultaneouslyGestureProcessor.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface GBasePagerController : UIViewController
-
+@property (nonatomic, weak  ) GSimultaneouslyGestureProcessor * gestureProcessor;
 @end
 
 NS_ASSUME_NONNULL_END

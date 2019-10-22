@@ -133,6 +133,7 @@
 - (UIViewController *)pagerView:(__kindof GBaseScrollPager *)pagerView pagerForIndex:(NSInteger)pageIndex
 {
     GPagerListController * listController = [pagerView dequeueReusablePager];
+    listController.gestureProcessor = self.gestureProcessor;
     listController.view.frame = self.scrollPager.bounds;
     [listController configWithDatas:@[]];
     return listController;
