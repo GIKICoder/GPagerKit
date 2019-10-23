@@ -13,7 +13,7 @@
 }
 
 - (instancetype)init {
-    return [self initWithDelegates:nil];
+    return [self initWithDelegates:@[]];
 }
 
 - (instancetype)initWithDelegates:(NSArray*)delegates {

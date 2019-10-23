@@ -11,24 +11,27 @@
 #import "GMultiDelegate.h"
 NS_ASSUME_NONNULL_BEGIN
 
-@class GSimultaneouslyGestureProcessor;
-@interface NSObject (GestureProcessor)
-
-@property (nonatomic, weak  ) GSimultaneouslyGestureProcessor * weakProcessor;
-
+@protocol GSimultaneouslyProtocol <NSObject>
+@optional
+- (UIScrollView *)currentScrollView;
 @end
 
+#define GSimultaneouslyGestureINST [GSimultaneouslyGestureProcessor sharedInstance]
+
+typedef NS_ENUM(NSUInteger, GSimultaneouslyType) {
+    GSimultaneouslyType_outer,
+    GSimultaneouslyType_inner,
+};
 @interface GSimultaneouslyGestureProcessor : NSObject
 
 + (instancetype)sharedInstance;
 
-@property (nonatomic, weak  ) UIScrollView * outerScrollView;
-@property (nonatomic, weak  ) UIScrollView * innerScrollView;
-
 @property (nonatomic, assign) BOOL  reachCriticalPoint;
 @property (nonatomic, assign) CGPoint  criticalPoint;
 
-- (GMultiDelegate *)registerMultiDelegate:(id)delegate;
+- (GMultiDelegate *)registerMultiDelegate:(id<GSimultaneouslyProtocol>)delegate type:(GSimultaneouslyType)type;
+
+- (void)destory;
 @end
 
 NS_ASSUME_NONNULL_END

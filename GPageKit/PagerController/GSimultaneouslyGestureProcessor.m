@@ -8,8 +8,16 @@
 
 #import "GSimultaneouslyGestureProcessor.h"
 
+@interface GSimultaneouslyItem : NSObject
+@property (nonatomic, strong) GMultiDelegate * delegate;
+@property (nonatomic, assign) GSimultaneouslyType  type;
+@end
+@implementation GSimultaneouslyItem
+@end
+
 @interface GSimultaneouslyGestureProcessor ()
 @property (nonatomic, strong) NSMutableArray * multiDelegates;
+@property (nonatomic, strong) NSMapTable * mapTable;
 @end
 @implementation GSimultaneouslyGestureProcessor
 
@@ -23,84 +31,59 @@
     return INST;
 }
 
-- (GMultiDelegate *)registerMultiDelegate:(id)delegate
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.mapTable = [[NSMapTable alloc] initWithKeyOptions:(NSPointerFunctionsWeakMemory) valueOptions:(NSPointerFunctionsStrongMemory) capacity:0];
+        self.criticalPoint = CGPointZero;
+    }
+    return self;
+}
+
+- (GMultiDelegate *)registerMultiDelegate:(id<GSimultaneouslyProtocol>)delegate type:(GSimultaneouslyType)type
 {
     GMultiDelegate * multi = [[GMultiDelegate alloc] initWithDelegates:@[self,delegate]];
-    [self.multiDelegates addObject:multi];
+    GSimultaneouslyItem * item = [[GSimultaneouslyItem alloc] init];
+    item.type = type;
+    item.delegate = multi;
+    UIScrollView * scrollView = [delegate currentScrollView];
+    NSAssert(scrollView, @"delegate must be impl currentScrollView");
+    [self.mapTable setObject:item forKey:scrollView];
     return multi;
+}
+
+- (void)destory
+{
+    [self.mapTable removeAllObjects];
+    self.reachCriticalPoint = NO;
+    self.criticalPoint = CGPointZero;
 }
 
 - (void)dealloc
 {
-    if (_innerScrollView) {
-       [_innerScrollView removeObserver:self forKeyPath:NSStringFromSelector(@selector(contentOffset))];
-    }
-    if (_outerScrollView) {
-        [_outerScrollView removeObserver:self forKeyPath:NSStringFromSelector(@selector(contentOffset))];
-    }
-}
-- (void)setOuterScrollView:(UIScrollView *)outerScrollView
-{
-    if (_outerScrollView) {
-        [_outerScrollView removeObserver:self forKeyPath:NSStringFromSelector(@selector(contentOffset))];
-    }
-    _outerScrollView = outerScrollView;
-    [_outerScrollView addObserver:self forKeyPath:NSStringFromSelector(@selector(contentOffset)) options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
-}
 
-- (void)setInnerScrollView:(UIScrollView *)innerScrollView
-{
-    if (_innerScrollView) {
-        [_innerScrollView removeObserver:self forKeyPath:NSStringFromSelector(@selector(contentOffset))];
-    }
-    _innerScrollView = innerScrollView;
-    [_innerScrollView addObserver:self forKeyPath:NSStringFromSelector(@selector(contentOffset)) options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
-}
-
-- (void)observeValueForKeyPath:(nullable NSString *)keyPath
-                      ofObject:(nullable id)object
-                        change:(nullable NSDictionary<NSString *, NSValue *> *)change
-                       context:(nullable void *)context {
-    if (object == self.outerScrollView) {
-        if (![keyPath isEqualToString:@"contentOffset"]) {
-            NSAssert(NO, @"keyPath '%@' is not being observed", keyPath);
-        }
-        
-        CGPoint contentOffset = change[NSKeyValueChangeNewKey].CGPointValue;
-        CGPoint previousContentOffset = change[NSKeyValueChangeOldKey].CGPointValue;
-//        NSLog(@"1111contentOffset - %f, 11111111previousContentOffset - %f",contentOffset,previousContentOffset);
-        if (contentOffset.y == previousContentOffset.y) {
-            return;
-        }
-        if (self.reachCriticalPoint) {
-//            self.criticalPoint = previousContentOffset;
-        }
-    } else if (object == self.innerScrollView) {
-        if (![keyPath isEqualToString:@"contentOffset"]) {
-            NSAssert(NO, @"keyPath '%@' is not being observed", keyPath);
-        }
-        CGPoint contentOffset = change[NSKeyValueChangeNewKey].CGPointValue;
-        CGPoint previousContentOffset = change[NSKeyValueChangeOldKey].CGPointValue;
-//        NSLog(@"contentOffset - %f, previousContentOffset - %f",contentOffset.y,previousContentOffset.y);
-        if (previousContentOffset.y < 0) {
-            self.reachCriticalPoint = NO;
-        }
-    }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if (self.outerScrollView == scrollView) {
+    GSimultaneouslyItem * item = [self.mapTable objectForKey:scrollView];
+    if (item && item.type == GSimultaneouslyType_outer) {
+        NSLog(@"outer scrollview scrolling ...");
         if (self.reachCriticalPoint) {
-            [self.outerScrollView setContentOffset:self.criticalPoint animated:NO];
+            [scrollView setContentOffset:CGPointMake(0, -10) animated:NO];
         }
+    } else if (item && item.type == GSimultaneouslyType_inner) {
+         NSLog(@"inner scrollview scrolling ...");
+        if (scrollView.contentOffset.y < 0) {
+            self.reachCriticalPoint = NO;
+        }
+        if (!self.reachCriticalPoint) {
+            [scrollView setContentOffset:CGPointZero animated:NO];
+        }
+        
     }
 }
 
-
-@end
-
-
-@implementation NSObject  (GestureProcessor)
 
 @end

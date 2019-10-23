@@ -8,7 +8,8 @@
 
 #import "GPagerListController.h"
 #import "GStretchyHeaderView.h"
-
+#import "GSimultaneouslyGestureProcessor.h"
+#import "MJRefresh.h"
 @interface  XCCDebugPageListView : UITableView
 
 @end
@@ -32,9 +33,10 @@
 
 @end
 
-@interface GPagerListController ()<UITableViewDelegate,UITableViewDataSource>
+@interface GPagerListController ()<UITableViewDelegate,UITableViewDataSource,GSimultaneouslyProtocol>
 @property (nonatomic, strong) XCCDebugPageListView * tableView;
 @property (nonatomic, strong) GStretchyHeaderView * headerView;
+@property (nonatomic, strong) MJRefreshHeader * refreshHeader;
 @end
 
 @implementation GPagerListController
@@ -42,14 +44,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     XCCDebugPageListView *tableView = [[XCCDebugPageListView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-    tableView.delegate = self;
+    self.tableView = tableView;
+    tableView.delegate = (id)[GSimultaneouslyGestureINST registerMultiDelegate:self type:GSimultaneouslyType_inner];
     tableView.dataSource = self;
     tableView.estimatedRowHeight = 0;
     tableView.estimatedSectionFooterHeight = 0;
     tableView.estimatedSectionHeaderHeight = 0;
-    self.tableView = tableView;
+ 
     self.tableView.frame = self.view.bounds;
     [self.view addSubview:self.tableView];
+    __weak typeof(self) weakSelf = self;
+    self.refreshHeader = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [weakSelf.refreshHeader endRefreshing];
+        });
+    }];
+    self.tableView.mj_header = self.refreshHeader;
+    self.refreshHeader.ignoredScrollViewContentInsetTop = 188;
 //    self.tableView.scrollEnabled = NO;
 //    self.headerView = [[GStretchyHeaderView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 120)];
 //    self.headerView.minimumContentHeight = 120;
@@ -72,9 +83,12 @@
 - (void)setGestureProcessor:(GSimultaneouslyGestureProcessor *)gestureProcessor
 {
     _gestureProcessor = gestureProcessor;
-    gestureProcessor.innerScrollView = self.tableView;
 }
 
+- (UIScrollView *)currentScrollView
+{
+    return self.tableView;
+}
 #pragma mark -- TableView DataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -114,8 +128,9 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if (!self.gestureProcessor.reachCriticalPoint) {
-        [scrollView setContentOffset:CGPointZero animated:NO];
-    }
+    NSLog(@"scrollViewDidScroll pagelist");
+//    if (!self.gestureProcessor.reachCriticalPoint) {
+//        [scrollView setContentOffset:CGPointZero animated:NO];
+//    }
 }
 @end

@@ -12,6 +12,7 @@
 #import "GSimultaneouslyGestureProcessor.h"
 #import "Masonry.h"
 #import "GMultiDelegate.h"
+#import "MJRefresh.h"
 @interface GVerticalPagerCell : UITableViewCell
 @property (nonatomic, strong) GBasePagerController * pagerController;
 @property (nonatomic, strong) GSimultaneouslyGestureProcessor * gestureProcessor;
@@ -50,7 +51,7 @@
 
 @end
 
-@interface GVerticalPagerController ()<GStretchyHeaderViewStretchDelegate,UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
+@interface GVerticalPagerController ()<GStretchyHeaderViewStretchDelegate,UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource,GSimultaneouslyProtocol>
 @property (nonatomic, strong) GBasePagerController * pagerController;
 @property (nonatomic, strong) GStretchyHeaderView * headerView;
 @property (nonatomic, strong) UIScrollView * verticalScrollView;
@@ -59,15 +60,15 @@
 @property (nonatomic, assign) BOOL  stretchFactor;
 @property (nonatomic, strong) GMultiDelegate * multiDelegate;
 @property (nonatomic, strong) GSimultaneouslyGestureProcessor * gestureProcessor;
+@property (nonatomic, strong) MJRefreshStateHeader * refreshHeader;
 @end
 
 @implementation GVerticalPagerController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.gestureProcessor = [[GSimultaneouslyGestureProcessor alloc] init];
+
     [self __setupUI];
-    self.gestureProcessor.outerScrollView = self.verticalTableView;
 }
 
 - (void)viewDidLayoutSubviews
@@ -86,14 +87,23 @@
 - (void)__setupVerticalScrollView
 {
     self.verticalTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,88, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-88) style:UITableViewStylePlain];
-    self.multiDelegate = [[GMultiDelegate alloc] initWithDelegates:@[self,self.gestureProcessor]];
-    self.verticalTableView.delegate = (id)self.multiDelegate;
+    self.verticalTableView.delegate = (id)[GSimultaneouslyGestureINST registerMultiDelegate:self type:GSimultaneouslyType_outer];
     self.verticalTableView.dataSource = self;
     self.verticalTableView.tag = 10086;
     [self.view addSubview:self.verticalTableView];
     self.verticalTableView.showsVerticalScrollIndicator = NO;
     self.verticalTableView.showsHorizontalScrollIndicator = NO;
-    self.verticalScrollView.backgroundColor = UIColor.blueColor;
+    __weak typeof(self) weakSelf = self;
+    self.refreshHeader = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [weakSelf.refreshHeader endRefreshing];
+        });
+    }];
+    self.refreshHeader.lastUpdatedTimeLabel.hidden = YES;
+    self.refreshHeader.stateLabel.hidden = YES;
+    self.verticalTableView.mj_header = self.refreshHeader;
+    self.refreshHeader.ignoredScrollViewContentInsetTop = 188;
+    
 }
 
 - (void)__setupVerticalScrollView1
@@ -117,6 +127,7 @@
     self.headerView.stretchDelegate = self;
     self.headerView.contentView.backgroundColor = UIColor.redColor;
     [self.verticalTableView addSubview:self.headerView];
+    [self.verticalTableView bringSubviewToFront:self.refreshHeader];
 }
 
 - (void)__setupPagerController
@@ -133,25 +144,28 @@
 - (void)stretchyHeaderView:(GStretchyHeaderView *)headerView
     didChangeStretchFactor:(CGFloat)stretchFactor
 {
-    NSLog(@"stretchFactor-%f",stretchFactor);
-     NSLog(@"contentOffset - %f",self.verticalTableView.contentOffset.y);
+//    NSLog(@"stretchFactor-%f",stretchFactor);
+//     NSLog(@"contentOffset - %f",self.verticalTableView.contentOffset.y);
     
     if (stretchFactor == 0) {
         self.stretchFactor = YES;
         self.gestureProcessor.reachCriticalPoint = YES;
         self.gestureProcessor.criticalPoint = CGPointMake(0, -10);// self.verticalTableView.contentOffset;
+        GSimultaneouslyGestureINST.reachCriticalPoint = YES;
+//        GSimultaneouslyGestureINST.criticalPoint = CGPointMake(0, -10);
     } else {
         self.stretchFactor = NO;
     }
 //    self.stretchFactor = (stretchFactor < 0);
 }
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-//{
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    NSLog(@"scrollViewDidScroll wwwwwwwwwwwwww");
 //    if (self.gestureProcessor.reachCriticalPoint) {
 //        [scrollView setContentOffset:self.gestureProcessor.criticalPoint animated:NO];
 ////        [self.gestureProcessor scrollViewDidScroll:scrollView];
 //    }
-//}
+}
 
 #pragma mark -- TableView DataSource
 
@@ -174,6 +188,11 @@
     cell.weakController = self;
     cell.gestureProcessor = self.gestureProcessor;
     return cell;
+}
+
+- (UIScrollView *)currentScrollView
+{
+    return self.verticalTableView;
 }
 
 #pragma mark -- TableView Delegate
