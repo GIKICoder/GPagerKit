@@ -12,6 +12,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface GBasePagerController : UIViewController
 @property (nonatomic, weak  ) GSimultaneouslyGestureProcessor * gestureProcessor;
+
+@property (nonatomic, assign, readonly) NSInteger  currentPageIndex;
+
+@property (nonatomic, strong, readonly) __kindof UIViewController *currentViewController;
 @end
 
 NS_ASSUME_NONNULL_END

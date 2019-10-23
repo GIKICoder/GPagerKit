@@ -9,10 +9,26 @@
 #import "GSimultaneouslyGestureProcessor.h"
 
 @interface GSimultaneouslyGestureProcessor ()
-
+@property (nonatomic, strong) NSMutableArray * multiDelegates;
 @end
 @implementation GSimultaneouslyGestureProcessor
 
++ (instancetype)sharedInstance
+{
+    static GSimultaneouslyGestureProcessor * INST = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        INST = [[GSimultaneouslyGestureProcessor alloc] init];
+    });
+    return INST;
+}
+
+- (GMultiDelegate *)registerMultiDelegate:(id)delegate
+{
+    GMultiDelegate * multi = [[GMultiDelegate alloc] initWithDelegates:@[self,delegate]];
+    [self.multiDelegates addObject:multi];
+    return multi;
+}
 
 - (void)dealloc
 {
@@ -80,6 +96,8 @@
         }
     }
 }
+
+
 @end
 
 
