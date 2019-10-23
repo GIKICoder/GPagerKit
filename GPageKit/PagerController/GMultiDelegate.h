@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic) NSPointerArray* delegates;
 @property (nonatomic, assign) BOOL silentWhenEmpty;
 
-- (id)initWithDelegates:(NSArray*)delegates;
+- (instancetype)initWithDelegates:(NSArray*)delegates;
 
 - (void)addDelegate:(id)delegate;
 - (void)addDelegate:(id)delegate beforeDelegate:(id)otherDelegate;

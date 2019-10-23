@@ -10,6 +10,12 @@
 #import <UIKit/UIKit.h>
 NS_ASSUME_NONNULL_BEGIN
 
+@interface NSObject (GestureProcessor)
+
+@property (nonatomic, weak  ) GSimultaneouslyGestureProcessor * weakProcessor;
+
+@end
+
 @interface GSimultaneouslyGestureProcessor : NSObject
 
 @property (nonatomic, weak  ) UIScrollView * outerScrollView;
@@ -17,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) BOOL  reachCriticalPoint;
 @property (nonatomic, assign) CGPoint  criticalPoint;
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView;
+
 @end
 
 NS_ASSUME_NONNULL_END

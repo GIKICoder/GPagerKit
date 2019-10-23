@@ -11,6 +11,7 @@
 #import "GStretchyHeaderView.h"
 #import "GSimultaneouslyGestureProcessor.h"
 #import "Masonry.h"
+#import "GMultiDelegate.h"
 @interface GVerticalPagerCell : UITableViewCell
 @property (nonatomic, strong) GBasePagerController * pagerController;
 @property (nonatomic, strong) GSimultaneouslyGestureProcessor * gestureProcessor;
@@ -56,6 +57,7 @@
 @property (nonatomic, strong) UITableView * verticalTableView;
 @property (nonatomic, assign) CGPoint contentOffset;
 @property (nonatomic, assign) BOOL  stretchFactor;
+@property (nonatomic, strong) GMultiDelegate * multiDelegate;
 @property (nonatomic, strong) GSimultaneouslyGestureProcessor * gestureProcessor;
 @end
 
@@ -84,7 +86,8 @@
 - (void)__setupVerticalScrollView
 {
     self.verticalTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,88, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-88) style:UITableViewStylePlain];
-    self.verticalTableView.delegate = self;
+    self.multiDelegate = [[GMultiDelegate alloc] initWithDelegates:@[self,self.gestureProcessor]];
+    self.verticalTableView.delegate = (id)self.multiDelegate;
     self.verticalTableView.dataSource = self;
     self.verticalTableView.tag = 10086;
     [self.view addSubview:self.verticalTableView];
@@ -97,6 +100,7 @@
 {
     self.verticalScrollView = [[UIScrollView alloc] init];
     [self.view addSubview:self.verticalScrollView];
+    
     self.verticalScrollView.delegate = self;
     self.verticalScrollView.tag = 10086;
     self.verticalScrollView.showsVerticalScrollIndicator = NO;
@@ -141,13 +145,13 @@
     }
 //    self.stretchFactor = (stretchFactor < 0);
 }
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    if (self.gestureProcessor.reachCriticalPoint) {
-        [scrollView setContentOffset:self.gestureProcessor.criticalPoint animated:NO];
-//        [self.gestureProcessor scrollViewDidScroll:scrollView];
-    }
-}
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+//{
+//    if (self.gestureProcessor.reachCriticalPoint) {
+//        [scrollView setContentOffset:self.gestureProcessor.criticalPoint animated:NO];
+////        [self.gestureProcessor scrollViewDidScroll:scrollView];
+//    }
+//}
 
 #pragma mark -- TableView DataSource
 

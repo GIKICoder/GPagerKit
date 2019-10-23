@@ -12,15 +12,15 @@
     NSPointerArray* _delegates;
 }
 
-- (id)init {
+- (instancetype)init {
     return [self initWithDelegates:nil];
 }
 
-- (id)initWithDelegates:(NSArray*)delegates {
+- (instancetype)initWithDelegates:(NSArray*)delegates {
     self = [super init];
     if (!self)
         return nil;
-    
+    _silentWhenEmpty = YES;
     _delegates = [NSPointerArray weakObjectsPointerArray];
     for (id delegate in delegates)
         [_delegates addPointer:(__bridge void*)delegate];

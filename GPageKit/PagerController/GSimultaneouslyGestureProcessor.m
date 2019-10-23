@@ -81,3 +81,8 @@
     }
 }
 @end
+
+
+@implementation NSObject  (GestureProcessor)
+
+@end
