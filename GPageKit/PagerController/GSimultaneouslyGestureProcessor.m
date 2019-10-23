@@ -9,7 +9,7 @@
 #import "GSimultaneouslyGestureProcessor.h"
 
 @interface GSimultaneouslyGestureProcessor ()
-@property (nonatomic, assign) CGPoint  criticalPoint;
+
 @end
 @implementation GSimultaneouslyGestureProcessor
 
@@ -57,7 +57,7 @@
             return;
         }
         if (self.reachCriticalPoint) {
-            self.criticalPoint = previousContentOffset;
+//            self.criticalPoint = previousContentOffset;
         }
     } else if (object == self.innerScrollView) {
         if (![keyPath isEqualToString:@"contentOffset"]) {
@@ -65,7 +65,7 @@
         }
         CGPoint contentOffset = change[NSKeyValueChangeNewKey].CGPointValue;
         CGPoint previousContentOffset = change[NSKeyValueChangeOldKey].CGPointValue;
-        NSLog(@"contentOffset - %f, previousContentOffset - %f",contentOffset.y,previousContentOffset.y);
+//        NSLog(@"contentOffset - %f, previousContentOffset - %f",contentOffset.y,previousContentOffset.y);
         if (previousContentOffset.y < 0) {
             self.reachCriticalPoint = NO;
         }

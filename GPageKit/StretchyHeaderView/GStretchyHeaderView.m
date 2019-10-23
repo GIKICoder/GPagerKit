@@ -27,7 +27,7 @@ static const CGFloat kNibDefaultMaximumContentHeight = 240;
 
 @end
 
-@interface GSKStretchyHeaderContentView : UIView
+@interface GStretchyHeaderContentView : UIView
 @end
 
 @implementation GStretchyHeaderView
@@ -63,7 +63,7 @@ static const CGFloat kNibDefaultMaximumContentHeight = 240;
 }
 
 - (void)setupContentView {
-    _contentView = [[GSKStretchyHeaderContentView alloc] initWithFrame:self.bounds];
+    _contentView = [[GStretchyHeaderContentView alloc] initWithFrame:self.bounds];
     [self g_transplantSubviewsToView:_contentView];
     [self addSubview:_contentView];
     [self setNeedsLayoutContentView];
@@ -312,7 +312,7 @@ static const CGFloat kNibDefaultMaximumContentHeight = 240;
 
 @end
 
-@implementation GSKStretchyHeaderContentView
+@implementation GStretchyHeaderContentView
 
 - (void)layoutSubviews {
     [super layoutSubviews];

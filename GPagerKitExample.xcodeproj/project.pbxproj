@@ -28,6 +28,7 @@
 		2BDE30C823557B2600112C77 /* GPagerMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BDE30C723557B2600112C77 /* GPagerMenu.m */; };
 		2BEBEAD5235F0AE2003E78AF /* GVerticalPagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BEBEAD4235F0AE2003E78AF /* GVerticalPagerController.m */; };
 		2BEBEAD8235F35F1003E78AF /* GSimultaneouslyGestureProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BEBEAD7235F35F1003E78AF /* GSimultaneouslyGestureProcessor.m */; };
+		2BEBEADB23603B88003E78AF /* GMultiDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BEBEADA23603B88003E78AF /* GMultiDelegate.m */; };
 		E0153F92C6F49BC55C95CC35 /* libPods-GPagerKitExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A483C032919F08B55544638 /* libPods-GPagerKitExample.a */; };
 /* End PBXBuildFile section */
 
@@ -74,6 +75,8 @@
 		2BEBEAD4235F0AE2003E78AF /* GVerticalPagerController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GVerticalPagerController.m; sourceTree = "<group>"; };
 		2BEBEAD6235F35F1003E78AF /* GSimultaneouslyGestureProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GSimultaneouslyGestureProcessor.h; sourceTree = "<group>"; };
 		2BEBEAD7235F35F1003E78AF /* GSimultaneouslyGestureProcessor.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GSimultaneouslyGestureProcessor.m; sourceTree = "<group>"; };
+		2BEBEAD923603B88003E78AF /* GMultiDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GMultiDelegate.h; sourceTree = "<group>"; };
+		2BEBEADA23603B88003E78AF /* GMultiDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GMultiDelegate.m; sourceTree = "<group>"; };
 		4A483C032919F08B55544638 /* libPods-GPagerKitExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-GPagerKitExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5918B01CBD5A713B0B233024 /* Pods-GPagerKitExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GPagerKitExample.release.xcconfig"; path = "Target Support Files/Pods-GPagerKitExample/Pods-GPagerKitExample.release.xcconfig"; sourceTree = "<group>"; };
 		9A7E81D2FDAED9155A0ACE87 /* Pods-GPagerKitExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GPagerKitExample.debug.xcconfig"; path = "Target Support Files/Pods-GPagerKitExample/Pods-GPagerKitExample.debug.xcconfig"; sourceTree = "<group>"; };
@@ -100,6 +103,8 @@
 				2BEBEAD4235F0AE2003E78AF /* GVerticalPagerController.m */,
 				2BEBEAD6235F35F1003E78AF /* GSimultaneouslyGestureProcessor.h */,
 				2BEBEAD7235F35F1003E78AF /* GSimultaneouslyGestureProcessor.m */,
+				2BEBEAD923603B88003E78AF /* GMultiDelegate.h */,
+				2BEBEADA23603B88003E78AF /* GMultiDelegate.m */,
 			);
 			path = PagerController;
 			sourceTree = "<group>";
@@ -328,6 +333,7 @@
 				2BC0D26A2350AF73006129CF /* GPagerVCTestViewController.m in Sources */,
 				2BC0D2452350AEED006129CF /* AppDelegate.m in Sources */,
 				2BEBEAD5235F0AE2003E78AF /* GVerticalPagerController.m in Sources */,
+				2BEBEADB23603B88003E78AF /* GMultiDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

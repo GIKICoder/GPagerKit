@@ -7,4 +7,5 @@ target 'GPagerKitExample' do
 
   # Pods for GPagerKitExample
   pod 'Masonry'
+#  pod 'GSKStretchyHeaderView'
 end

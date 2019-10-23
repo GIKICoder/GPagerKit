@@ -10,6 +10,45 @@
 #import "GBasePagerController.h"
 #import "GStretchyHeaderView.h"
 #import "GSimultaneouslyGestureProcessor.h"
+#import "Masonry.h"
+@interface GVerticalPagerCell : UITableViewCell
+@property (nonatomic, strong) GBasePagerController * pagerController;
+@property (nonatomic, strong) GSimultaneouslyGestureProcessor * gestureProcessor;
+@property (nonatomic, weak  ) UIViewController  * weakController;
+@end
+@implementation GVerticalPagerCell
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if (self) {
+        self.pagerController = [[GBasePagerController alloc] init];
+//        [self.weakController addChildViewController:self.pagerController];
+        //    [self.verticalScrollView addSubview:self.pagerController.view];
+        self.pagerController.view.backgroundColor = [UIColor yellowColor];
+//        self.pagerController.view.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-10-88);
+        [self.contentView addSubview:self.pagerController.view];
+        [self.pagerController.view mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.contentView);
+        }];
+        
+    }
+    return self;
+}
+
+- (void)setGestureProcessor:(GSimultaneouslyGestureProcessor *)gestureProcessor
+{
+    _gestureProcessor = gestureProcessor;
+    self.pagerController.gestureProcessor = gestureProcessor;
+}
+
+- (void)setWeakController:(UIViewController *)weakController
+{
+    _weakController = weakController;
+    [weakController addChildViewController:self.pagerController];
+}
+
+@end
+
 @interface GVerticalPagerController ()<GStretchyHeaderViewStretchDelegate,UIScrollViewDelegate,UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) GBasePagerController * pagerController;
 @property (nonatomic, strong) GStretchyHeaderView * headerView;
@@ -26,7 +65,7 @@
     [super viewDidLoad];
     self.gestureProcessor = [[GSimultaneouslyGestureProcessor alloc] init];
     [self __setupUI];
-    self.gestureProcessor.outerScrollView = self.verticalScrollView;
+    self.gestureProcessor.outerScrollView = self.verticalTableView;
 }
 
 - (void)viewDidLayoutSubviews
@@ -37,7 +76,7 @@
 
 - (void)__setupUI
 {
-    [self __setupPagerController];
+//    [self __setupPagerController];
     [self __setupVerticalScrollView];
     [self __setupHeaderView];
 }
@@ -91,12 +130,12 @@
     didChangeStretchFactor:(CGFloat)stretchFactor
 {
     NSLog(@"stretchFactor-%f",stretchFactor);
+     NSLog(@"contentOffset - %f",self.verticalTableView.contentOffset.y);
     
     if (stretchFactor == 0) {
-        NSLog(@"contentOffset - %f",self.verticalScrollView.contentOffset.y);
-        self.contentOffset = self.verticalScrollView.contentOffset;
         self.stretchFactor = YES;
         self.gestureProcessor.reachCriticalPoint = YES;
+        self.gestureProcessor.criticalPoint = CGPointMake(0, -10);// self.verticalTableView.contentOffset;
     } else {
         self.stretchFactor = NO;
     }
@@ -105,7 +144,7 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     if (self.gestureProcessor.reachCriticalPoint) {
-        [scrollView setContentOffset:self.contentOffset animated:NO];
+        [scrollView setContentOffset:self.gestureProcessor.criticalPoint animated:NO];
 //        [self.gestureProcessor scrollViewDidScroll:scrollView];
     }
 }
@@ -124,13 +163,12 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"tableViewCell"];
+    GVerticalPagerCell *cell = [tableView dequeueReusableCellWithIdentifier:@"tableViewCell"];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"tableViewCell"];
-        [cell.contentView addSubview:self.pagerController.view];
-        self.pagerController.view.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-10-88);
+        cell = [[GVerticalPagerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"tableViewCell"];
     }
-    
+    cell.weakController = self;
+    cell.gestureProcessor = self.gestureProcessor;
     return cell;
 }
 

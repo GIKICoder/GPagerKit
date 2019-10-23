@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak  ) UIScrollView * innerScrollView;
 
 @property (nonatomic, assign) BOOL  reachCriticalPoint;
-
+@property (nonatomic, assign) CGPoint  criticalPoint;
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView;
 @end
 
