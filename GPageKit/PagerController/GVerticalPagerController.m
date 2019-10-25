@@ -122,7 +122,7 @@
 - (void)__setupHeaderView
 {
     self.headerView = [[GStretchyHeaderView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 188)];
-    self.headerView.minimumContentHeight = 10;
+    self.headerView.minimumContentHeight = 0;
     self.headerView.maximumContentHeight = 188;
     self.headerView.stretchDelegate = self;
     self.headerView.contentView.backgroundColor = UIColor.redColor;

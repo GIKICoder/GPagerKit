@@ -71,7 +71,7 @@
     if (item && item.type == GSimultaneouslyType_outer) {
         NSLog(@"outer scrollview scrolling ...");
         if (self.reachCriticalPoint) {
-            [scrollView setContentOffset:CGPointMake(0, -10) animated:NO];
+            [scrollView setContentOffset:self.criticalPoint animated:NO];
         }
     } else if (item && item.type == GSimultaneouslyType_inner) {
          NSLog(@"inner scrollview scrolling ...");
