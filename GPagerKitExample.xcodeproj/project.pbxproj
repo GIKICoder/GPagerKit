@@ -35,6 +35,8 @@
 		2BC5D7A323FD191C0000F0B3 /* GPagerImageExampleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC5D7A223FD191C0000F0B3 /* GPagerImageExampleController.m */; };
 		2BC5D7A723FD3B000000F0B3 /* GPageListExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC5D7A623FD3B000000F0B3 /* GPageListExampleViewController.m */; };
 		2BC5D7AA23FD51940000F0B3 /* GPageListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC5D7A923FD51940000F0B3 /* GPageListViewController.m */; };
+		2BC5D7AE23FD57670000F0B3 /* GVerticalPageViewExampleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC5D7AD23FD57670000F0B3 /* GVerticalPageViewExampleController.m */; };
+		2BC5D7B123FD5A720000F0B3 /* GVerticalPageListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC5D7B023FD5A720000F0B3 /* GVerticalPageListViewController.m */; };
 		2BDE30C823557B2600112C77 /* GPagerMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BDE30C723557B2600112C77 /* GPagerMenu.m */; };
 		2BEBEAD5235F0AE2003E78AF /* GVerticalPagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BEBEAD4235F0AE2003E78AF /* GVerticalPagerController.m */; };
 		2BEBEAD8235F35F1003E78AF /* GSimultaneouslyGestureProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BEBEAD7235F35F1003E78AF /* GSimultaneouslyGestureProcessor.m */; };
@@ -95,6 +97,10 @@
 		2BC5D7A623FD3B000000F0B3 /* GPageListExampleViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPageListExampleViewController.m; sourceTree = "<group>"; };
 		2BC5D7A823FD51940000F0B3 /* GPageListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPageListViewController.h; sourceTree = "<group>"; };
 		2BC5D7A923FD51940000F0B3 /* GPageListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPageListViewController.m; sourceTree = "<group>"; };
+		2BC5D7AC23FD57670000F0B3 /* GVerticalPageViewExampleController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GVerticalPageViewExampleController.h; sourceTree = "<group>"; };
+		2BC5D7AD23FD57670000F0B3 /* GVerticalPageViewExampleController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GVerticalPageViewExampleController.m; sourceTree = "<group>"; };
+		2BC5D7AF23FD5A720000F0B3 /* GVerticalPageListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GVerticalPageListViewController.h; sourceTree = "<group>"; };
+		2BC5D7B023FD5A720000F0B3 /* GVerticalPageListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GVerticalPageListViewController.m; sourceTree = "<group>"; };
 		2BDE30C623557B2600112C77 /* GPagerMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPagerMenu.h; sourceTree = "<group>"; };
 		2BDE30C723557B2600112C77 /* GPagerMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPagerMenu.m; sourceTree = "<group>"; };
 		2BEBEAD3235F0AE2003E78AF /* GVerticalPagerController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GVerticalPagerController.h; sourceTree = "<group>"; };
@@ -243,6 +249,7 @@
 		2BC5D79023FD14420000F0B3 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				2BC5D7AB23FD57300000F0B3 /* VerticalPageController */,
 				2BC5D7A423FD3A930000F0B3 /* PageControllerDemo */,
 				2BC5D79123FD14540000F0B3 /* PagerScrollDemo */,
 			);
@@ -282,6 +289,17 @@
 				2BC5D7A923FD51940000F0B3 /* GPageListViewController.m */,
 			);
 			path = PageControllerDemo;
+			sourceTree = "<group>";
+		};
+		2BC5D7AB23FD57300000F0B3 /* VerticalPageController */ = {
+			isa = PBXGroup;
+			children = (
+				2BC5D7AC23FD57670000F0B3 /* GVerticalPageViewExampleController.h */,
+				2BC5D7AD23FD57670000F0B3 /* GVerticalPageViewExampleController.m */,
+				2BC5D7AF23FD5A720000F0B3 /* GVerticalPageListViewController.h */,
+				2BC5D7B023FD5A720000F0B3 /* GVerticalPageListViewController.m */,
+			);
+			path = VerticalPageController;
 			sourceTree = "<group>";
 		};
 		56845A405B05ED2AAFD5B422 /* Pods */ = {
@@ -427,6 +445,7 @@
 				2BC0D26D2350B0C3006129CF /* GPagerViewTestController.m in Sources */,
 				2BC0D2712350B6CE006129CF /* GBasePagerMenu.m in Sources */,
 				2BEBEAD8235F35F1003E78AF /* GSimultaneouslyGestureProcessor.m in Sources */,
+				2BC5D7AE23FD57670000F0B3 /* GVerticalPageViewExampleController.m in Sources */,
 				2BDE30C823557B2600112C77 /* GPagerMenu.m in Sources */,
 				2BC0D2782350B914006129CF /* UIScrollView+GStretchy.m in Sources */,
 				2BC0D27E23520EE7006129CF /* GPagerMenuViewController.m in Sources */,
@@ -434,6 +453,7 @@
 				2BC0D2672350AF36006129CF /* GViewScrollPager.m in Sources */,
 				2BC0D27B2350B922006129CF /* UIView+GStretchy.m in Sources */,
 				2BC5D79423FD14A50000F0B3 /* GPagerViewExampleController.m in Sources */,
+				2BC5D7B123FD5A720000F0B3 /* GVerticalPageListViewController.m in Sources */,
 				2BC5D7AA23FD51940000F0B3 /* GPageListViewController.m in Sources */,
 				2BC0D2742350B75A006129CF /* GStretchyHeaderView.m in Sources */,
 				2BC0D2532350AEEE006129CF /* main.m in Sources */,

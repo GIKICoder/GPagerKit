@@ -11,6 +11,7 @@
 #import "GControllerScrollPager.h"
 #import "GPagerMenu.h"
 #import "GPagerListController.h"
+#import "GPageListViewController.h"
 @interface GPageListExampleViewController ()<GPagerMenuDelegate,GPagerMenuDataSource,GScrollPagerDelegate,GScrollPagerDataSource>
 @property (nonatomic, strong) GPagerMenu * pagerMenu;
 @property (nonatomic, strong) GControllerScrollPager * scrollPager;
@@ -54,7 +55,7 @@
     self.scrollPager.dataSource = self;
     self.scrollPager.delegate = self;
     [self.view addSubview:self.scrollPager];
-    [self.scrollPager registerPagerClass:GPagerListController.class];
+    [self.scrollPager registerPagerClass:GPageListViewController.class];
 }
 
 - (void)loadDatas
@@ -140,7 +141,7 @@
  */
 - (UIViewController *)pagerView:(__kindof GBaseScrollPager *)pagerView pagerForIndex:(NSInteger)pageIndex
 {
-    GPagerListController * listController = [pagerView dequeueReusablePager];
+    GPageListViewController * listController = [pagerView dequeueReusablePager];
     listController.view.frame = self.scrollPager.bounds;
     [listController configWithDatas:@[]];
     return listController;

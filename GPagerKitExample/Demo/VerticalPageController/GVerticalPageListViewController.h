@@ -1,5 +1,5 @@
 //
-//  GPageListViewController.h
+//  GVerticalPageListViewController.h
 //  GPagerKitExample
 //
 //  Created by GIKI on 2020/2/19.
@@ -10,8 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GPageListViewController : UIViewController
-- (void)configWithDatas:(NSArray * )datas;
+@interface GVerticalPageListViewController : UIViewController
+
 @end
 
 NS_ASSUME_NONNULL_END
