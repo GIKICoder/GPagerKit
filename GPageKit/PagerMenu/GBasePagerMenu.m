@@ -94,7 +94,7 @@
 - (void)tapSelectIndex:(NSInteger)index
 {
     if (_pagerMenuFlags.dg_TapSelectAtIndex)
-        [self.delegate pagerMenu:self tapSelectItemAtIndex:index];
+        [self.delegate pagerMenu:self didSelectItemAtIndex:index];
 }
 
 - (void)__clean
@@ -214,7 +214,7 @@
 {
     _delegate = delegate;
     
-    _pagerMenuFlags.dg_TapSelectAtIndex = [delegate respondsToSelector:@selector(pagerMenu:tapSelectItemAtIndex:)];
+    _pagerMenuFlags.dg_TapSelectAtIndex = [delegate respondsToSelector:@selector(pagerMenu:didSelectItemAtIndex:)];
     _pagerMenuFlags.dg_DidHighlight  = [delegate respondsToSelector:@selector(pagerMenu:didHighlightAtIndex:)];
     _pagerMenuFlags.dg_DidUnhighlight  = [delegate respondsToSelector:@selector(pagerMenu:didUnhighlightAtIndex:)];
 }

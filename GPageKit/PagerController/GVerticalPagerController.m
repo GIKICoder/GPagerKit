@@ -161,10 +161,6 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     NSLog(@"scrollViewDidScroll wwwwwwwwwwwwww");
-//    if (self.gestureProcessor.reachCriticalPoint) {
-//        [scrollView setContentOffset:self.gestureProcessor.criticalPoint animated:NO];
-////        [self.gestureProcessor scrollViewDidScroll:scrollView];
-//    }
 }
 
 #pragma mark -- TableView DataSource

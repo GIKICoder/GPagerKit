@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol GPagerMenuDelegate <NSObject>
 @optional
-- (void)pagerMenu:(GBasePagerMenu *)menu tapSelectItemAtIndex:(NSUInteger)index;
+- (void)pagerMenu:(GBasePagerMenu *)menu didSelectItemAtIndex:(NSUInteger)index;
 - (void)pagerMenu:(GBasePagerMenu *)menu didHighlightAtIndex:(NSUInteger)index;
 - (void)pagerMenu:(GBasePagerMenu *)menu didUnhighlightAtIndex:(NSUInteger)index;
 @end

@@ -59,10 +59,10 @@ typedef NS_ENUM(NSUInteger, GPageDirection) {
 @protocol GScrollPagerDelegate <NSObject>
 @optional
 
-/**  move to another page */
+/**  将要跳转到pageIndex */
 - (void)pagerView:(__kindof GBaseScrollPager *)pagerView willJumpToPageAtIndex:(NSInteger)pageIndex;
 
-/** completed turning to a new page */
+/** 跳转到PageIndex */
 - (void)pagerView:(__kindof GBaseScrollPager *)pagerView didTurnToPageAtIndex:(NSInteger)pageIndex;
 
 @end
@@ -75,14 +75,14 @@ typedef NS_ENUM(NSUInteger, GPageDirection) {
 @property (nonatomic, assign) GPageDirection  pageScrollDirection;
 @property (nonatomic, assign) NSInteger  pageIndex;
 @property (nonatomic, assign) NSInteger  scrollIndex;
-/* A flag to temporarily disable laying out pages during animations */
+/* 动画期间暂时禁用页面布局的标志 */
 @property (nonatomic, assign) BOOL disablePageLayout;
-/** The number of pages in the scroll view */
+/** 滚动视图中的页数 */
 @property (nonatomic, assign) NSInteger numberOfPages;
 
 - (NSArray *)visiblePages;
 
-/// reload all pager layouts
+/// 刷新布局
 - (void)reloadPageScrollView;
 
 /// registers a pager class

@@ -114,7 +114,7 @@
     label.textColor = [UIColor blackColor];
 }
 
-- (void)pagerMenu:(GBasePagerMenu *)menu tapSelectItemAtIndex:(NSUInteger)index
+- (void)pagerMenu:(GBasePagerMenu *)menu didSelectItemAtIndex:(NSUInteger)index
 {
     [self.scrollPager turnToPageAtIndex:index animated:YES];
 }
