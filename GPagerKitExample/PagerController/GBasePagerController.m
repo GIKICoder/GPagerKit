@@ -27,7 +27,7 @@
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    self.scrollPager.frame = CGRectMake(0, CGRectGetHeight(self.pagerMenu.frame), [UIScreen mainScreen].bounds.size.width, self.view.frame.size.height-CGRectGetHeight(self.pagerMenu.frame));
+    self.scrollPager.frame = CGRectMake(0,88+45, [UIScreen mainScreen].bounds.size.width, self.view.frame.size.height-88-45);
 }
 
 - (void)__setupUI
@@ -39,7 +39,7 @@
 
 - (void)setupMenu
 {
-    self.pagerMenu = [[GPagerMenu alloc] initWithFrame:CGRectMake(0,0, [UIScreen mainScreen].bounds.size.width, 45)];
+    self.pagerMenu = [[GPagerMenu alloc] initWithFrame:CGRectMake(0,88, [UIScreen mainScreen].bounds.size.width, 45)];
     self.pagerMenu.delegate = self;
     self.pagerMenu.dataSource = self;
     self.pagerMenu.selectItemScale = 1.2;
@@ -61,6 +61,7 @@
     self.items = @[@"消息",@"推荐哈哈哈",@"最近",@"聊天到这里结束",@"活跃",@"动态",@"广场",@"世界",@"时光",@"北京",@"天气",@"好友"];
     [self.pagerMenu reloadData];
     [self.pagerMenu setSelectIndex:0];
+    [self.scrollPager reloadPageScrollView];
 }
 
 - (CGSize)calculate:(NSString *)string sizeWithFont:(UIFont *)font

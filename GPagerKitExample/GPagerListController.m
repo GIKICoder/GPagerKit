@@ -45,7 +45,7 @@
     [super viewDidLoad];
     XCCDebugPageListView *tableView = [[XCCDebugPageListView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.tableView = tableView;
-    tableView.delegate = (id)[GSimultaneouslyGestureINST registerMultiDelegate:self type:GSimultaneouslyType_inner];
+    tableView.delegate = self;// (id)[GSimultaneouslyGestureINST registerMultiDelegate:self type:GSimultaneouslyType_inner];
     tableView.dataSource = self;
     tableView.estimatedRowHeight = 0;
     tableView.estimatedSectionFooterHeight = 0;
@@ -61,12 +61,6 @@
     }];
     self.tableView.mj_header = self.refreshHeader;
     self.refreshHeader.ignoredScrollViewContentInsetTop = 188;
-//    self.tableView.scrollEnabled = NO;
-//    self.headerView = [[GStretchyHeaderView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 120)];
-//    self.headerView.minimumContentHeight = 120;
-//    self.headerView.maximumContentHeight = 160;
-//    self.headerView.contentView.backgroundColor = UIColor.redColor;
-//    [self.tableView addSubview:self.headerView];
 }
 
 - (void)viewDidLayoutSubviews

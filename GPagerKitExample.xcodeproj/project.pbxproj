@@ -104,12 +104,6 @@
 				2B2E05882357174700221EF2 /* GBasePagerController.m */,
 				2BEBEAD3235F0AE2003E78AF /* GVerticalPagerController.h */,
 				2BEBEAD4235F0AE2003E78AF /* GVerticalPagerController.m */,
-				2BEBEAD6235F35F1003E78AF /* GSimultaneouslyGestureProcessor.h */,
-				2BEBEAD7235F35F1003E78AF /* GSimultaneouslyGestureProcessor.m */,
-				2BC5D78C23FCD9C20000F0B3 /* UIScrollView+GSimultaneously.h */,
-				2BC5D78D23FCD9C20000F0B3 /* UIScrollView+GSimultaneously.m */,
-				2BEBEAD923603B88003E78AF /* GMultiDelegate.h */,
-				2BEBEADA23603B88003E78AF /* GMultiDelegate.m */,
 			);
 			path = PagerController;
 			sourceTree = "<group>";
@@ -140,6 +134,7 @@
 				2BC0D2442350AEED006129CF /* AppDelegate.m */,
 				2BC0D2462350AEED006129CF /* ViewController.h */,
 				2BC0D2472350AEED006129CF /* ViewController.m */,
+				2B2E05862357171A00221EF2 /* PagerController */,
 				2BC0D2692350AF73006129CF /* GPagerVCTestViewController.h */,
 				2BC0D2682350AF73006129CF /* GPagerVCTestViewController.m */,
 				2BC0D26B2350B0C3006129CF /* GPagerViewTestController.h */,
@@ -160,7 +155,7 @@
 		2BC0D2592350AF35006129CF /* GPageKit */ = {
 			isa = PBXGroup;
 			children = (
-				2B2E05862357171A00221EF2 /* PagerController */,
+				2BC5D78F23FD0DFA0000F0B3 /* GSimultaneouslyGesture */,
 				2BC0D26E2350B325006129CF /* StretchyHeaderView */,
 				2BC0D25A2350AF35006129CF /* PagerMenu */,
 				2BC0D25B2350AF35006129CF /* PagerScroll */,
@@ -205,6 +200,19 @@
 				2BC0D27A2350B922006129CF /* UIView+GStretchy.m */,
 			);
 			path = StretchyHeaderView;
+			sourceTree = "<group>";
+		};
+		2BC5D78F23FD0DFA0000F0B3 /* GSimultaneouslyGesture */ = {
+			isa = PBXGroup;
+			children = (
+				2BEBEAD6235F35F1003E78AF /* GSimultaneouslyGestureProcessor.h */,
+				2BEBEAD7235F35F1003E78AF /* GSimultaneouslyGestureProcessor.m */,
+				2BC5D78C23FCD9C20000F0B3 /* UIScrollView+GSimultaneously.h */,
+				2BC5D78D23FCD9C20000F0B3 /* UIScrollView+GSimultaneously.m */,
+				2BEBEAD923603B88003E78AF /* GMultiDelegate.h */,
+				2BEBEADA23603B88003E78AF /* GMultiDelegate.m */,
+			);
+			path = GSimultaneouslyGesture;
 			sourceTree = "<group>";
 		};
 		56845A405B05ED2AAFD5B422 /* Pods */ = {

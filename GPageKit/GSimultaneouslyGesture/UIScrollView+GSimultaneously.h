@@ -16,6 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) GSimultaneouslyType  simultaneouslyType;
 
 - (void)setSimultaneouslyDelegate:(id<GSimultaneouslyProtocol>)delegate;
+
+- (void)reachOuterScrollToCriticalPoint;
+- (void)reachInnerScrollToCriticalPoint;
+
 @end
 
 NS_ASSUME_NONNULL_END

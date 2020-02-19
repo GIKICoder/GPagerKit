@@ -27,4 +27,13 @@ static char kAssociatedObjectKey_simultaneouslyType;
     self.delegate = (id)[GSimultaneouslyGestureINST registerMultiDelegate:delegate type:self.simultaneouslyType];
 }
 
+- (void)reachOuterScrollToCriticalPoint
+{
+    [GSimultaneouslyGestureINST reachOuterScrollToCriticalPoint];
+}
+
+- (void)reachInnerScrollToCriticalPoint
+{
+    [GSimultaneouslyGestureINST reachInnerScrollToCriticalPoint];
+}
 @end

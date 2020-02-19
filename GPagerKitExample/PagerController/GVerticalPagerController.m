@@ -13,6 +13,7 @@
 #import "Masonry.h"
 #import "GMultiDelegate.h"
 #import "MJRefresh.h"
+#import "UIScrollView+GSimultaneously.h"
 @interface GVerticalPagerCell : UITableViewCell
 @property (nonatomic, strong) GBasePagerController * pagerController;
 @property (nonatomic, weak  ) UIViewController  * weakController;
@@ -79,7 +80,8 @@
 - (void)__setupVerticalScrollView
 {
     self.verticalTableView = [[UITableView alloc] initWithFrame:CGRectMake(0,88, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-88) style:UITableViewStylePlain];
-    self.verticalTableView.delegate = (id)[GSimultaneouslyGestureINST registerMultiDelegate:self type:GSimultaneouslyType_outer];
+    [self.verticalTableView setSimultaneouslyType:GSimultaneouslyType_outer];
+    [self.verticalTableView setSimultaneouslyDelegate:self];
     self.verticalTableView.dataSource = self;
     self.verticalTableView.tag = 10086;
     [self.view addSubview:self.verticalTableView];
@@ -137,7 +139,8 @@
 {
     if (stretchFactor == 0) {
         self.stretchFactor = YES;
-        [GSimultaneouslyGestureINST reachOuterScrollToCriticalPoint];
+//        [GSimultaneouslyGestureINST reachOuterScrollToCriticalPoint];
+        [self.verticalTableView reachOuterScrollToCriticalPoint];
 //        GSimultaneouslyGestureINST.criticalPoint = CGPointMake(0, -10);
     } else {
     }
