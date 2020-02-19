@@ -242,6 +242,7 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
         Class pageClass;
         [self.pagerClasses[identifier] getValue:&pageClass];
         pager = [self __constructPager:pageClass identifier:identifier];
+        [self __setPager:pager Frame:self.bounds];
     }
     return pager;
 }

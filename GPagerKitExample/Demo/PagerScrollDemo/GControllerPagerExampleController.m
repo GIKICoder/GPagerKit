@@ -9,7 +9,7 @@
 #import "GControllerPagerExampleController.h"
 #import "GControllerScrollPager.h"
 #import "Masonry.h"
-#import "GPagerListExampleController.h"
+#import "GPagerImageExampleController.h"
 @interface GControllerPagerExampleController ()<GScrollPagerDataSource,GScrollPagerDelegate>
 @property (nonatomic, strong) GControllerScrollPager * scrollPager;
 @property (nonatomic, strong) NSArray * itemDatas;
@@ -24,7 +24,7 @@
       self.scrollPager.dataSource = self;
       self.scrollPager.delegate = self;
       self.scrollPager.pageSpacing = 15;
-      [self.scrollPager registerPagerClass:GPagerListExampleController.class identifier:@"GPagerListExampleController"];
+      [self.scrollPager registerPagerClass:GPagerImageExampleController.class identifier:@"GPagerImageExampleController"];
       [self.view addSubview:self.scrollPager];
       [self.scrollPager mas_makeConstraints:^(MASConstraintMaker *make) {
           make.left.right.equalTo(self.view);
@@ -47,9 +47,9 @@
  @param pageIndex pageIndex description
  @return return value description
  */
-- (GPagerListExampleController *)pagerView:(__kindof GBaseScrollPager *)pagerView pagerForIndex:(NSInteger)pageIndex
+- (GPagerImageExampleController *)pagerView:(__kindof GBaseScrollPager *)pagerView pagerForIndex:(NSInteger)pageIndex
 {
-    GPagerListExampleController * vc = [pagerView dequeueReusablePagerForIdentifier:@"GPagerListExampleController"];
+    GPagerImageExampleController * vc = [pagerView dequeueReusablePagerForIdentifier:@"GPagerImageExampleController"];
     NSString * imageName = [self.itemDatas objectAtIndex:pageIndex];
     [vc setImageName:imageName];
     return vc;

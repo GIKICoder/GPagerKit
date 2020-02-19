@@ -1,5 +1,5 @@
 //
-//  GPagerListExampleController.h
+//  GPageListExampleViewController.h
 //  GPagerKitExample
 //
 //  Created by GIKI on 2020/2/19.
@@ -10,9 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GPagerListExampleController : UIViewController
-
-- (void)setImageName:(NSString *)imageName;
+@interface GPageListExampleViewController : UIViewController
 
 @end
 

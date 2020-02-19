@@ -1,19 +1,19 @@
 //
-//  GPagerListExampleController.m
+//  GPagerImageExampleController.m
 //  GPagerKitExample
 //
 //  Created by GIKI on 2020/2/19.
 //  Copyright © 2020 GIKI. All rights reserved.
 //
 
-#import "GPagerListExampleController.h"
+#import "GPagerImageExampleController.h"
 #import "Masonry.h"
-@interface GPagerListExampleController ()
+@interface GPagerImageExampleController ()
 @property (nonatomic, strong) UIImageView * imageView;
 @property (nonatomic, strong) UILabel * descLabel;
 @end
 
-@implementation GPagerListExampleController
+@implementation GPagerImageExampleController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
