@@ -8,12 +8,6 @@
 
 #import "ViewController.h"
 
-#import "GPagerVCTestViewController.h"
-#define XCColorRGB(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
-#define XCColorRGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:a]
-
-// 随机色
-#define XCRandomColor XCColorRGB(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
 @interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * tableView;
@@ -25,12 +19,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.datas = @[@"GPagerVCTestViewController",
-                   @"GPagerViewTestController",
-                   @"GPagerMenuViewController",
-                   @"GBasePagerController",
-                   @"GVerticalPagerController",
-                   @"GPagerListController"];
+    self.datas = @[
+        @{@"title":@"ViewScrollPager-Example",@"controller":@"GPagerViewExampleController"},
+        @{@"title":@"ControllerScrollPager-Example",@"controller":@"GControllerPagerExampleController"},
+    ];
     
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     tableView.delegate = self;
@@ -41,7 +33,7 @@
     self.tableView = tableView;
     self.tableView.frame = self.view.bounds;
     [self.view addSubview:self.tableView];
-
+    
 }
 
 #pragma mark -- TableView DataSource
@@ -62,7 +54,8 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"tableViewCell"];
     }
-    cell.textLabel.text = self.datas[indexPath.row];
+    NSDictionary * param = self.datas[indexPath.row];
+    cell.textLabel.text = param[@"title"];
     return cell;
 }
 
@@ -70,7 +63,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString * clas = self.datas[indexPath.row];
+    NSDictionary * param = self.datas[indexPath.row];
+    NSString * clas = param[@"controller"];
     Class clazz = NSClassFromString(clas);
     UIViewController * vc = [[clazz alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
