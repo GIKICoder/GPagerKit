@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol GSimultaneouslyProtocol <NSObject>
 @optional
 - (UIScrollView *)currentScrollView;
+- (CGPoint)fetchCriticalPoint:(UIScrollView *)scrollView;
 @end
 
 #define GSimultaneouslyGestureINST [GSimultaneouslyGestureProcessor sharedInstance]
@@ -26,11 +27,9 @@ typedef NS_ENUM(NSUInteger, GSimultaneouslyType) {
 
 + (instancetype)sharedInstance;
 
-@property (nonatomic, assign) BOOL  reachCriticalPoint;
-@property (nonatomic, assign) CGPoint  criticalPoint;
-
 - (GMultiDelegate *)registerMultiDelegate:(id<GSimultaneouslyProtocol>)delegate type:(GSimultaneouslyType)type;
-
+- (void)reachOuterScrollToCriticalPoint;
+- (void)reachInnerScrollToCriticalPoint;
 - (void)destory;
 @end
 

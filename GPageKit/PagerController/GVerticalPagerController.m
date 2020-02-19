@@ -15,7 +15,6 @@
 #import "MJRefresh.h"
 @interface GVerticalPagerCell : UITableViewCell
 @property (nonatomic, strong) GBasePagerController * pagerController;
-@property (nonatomic, strong) GSimultaneouslyGestureProcessor * gestureProcessor;
 @property (nonatomic, weak  ) UIViewController  * weakController;
 @end
 @implementation GVerticalPagerCell
@@ -37,12 +36,6 @@
     return self;
 }
 
-- (void)setGestureProcessor:(GSimultaneouslyGestureProcessor *)gestureProcessor
-{
-    _gestureProcessor = gestureProcessor;
-    self.pagerController.gestureProcessor = gestureProcessor;
-}
-
 - (void)setWeakController:(UIViewController *)weakController
 {
     _weakController = weakController;
@@ -59,7 +52,6 @@
 @property (nonatomic, assign) CGPoint contentOffset;
 @property (nonatomic, assign) BOOL  stretchFactor;
 @property (nonatomic, strong) GMultiDelegate * multiDelegate;
-@property (nonatomic, strong) GSimultaneouslyGestureProcessor * gestureProcessor;
 @property (nonatomic, strong) MJRefreshStateHeader * refreshHeader;
 @end
 
@@ -133,9 +125,8 @@
 - (void)__setupPagerController
 {
     self.pagerController = [[GBasePagerController alloc] init];
-    self.pagerController.gestureProcessor = self.gestureProcessor;
+//    self.pagerController.gestureProcessor = self.gestureProcessor;
     [self addChildViewController:self.pagerController];
-//    [self.verticalScrollView addSubview:self.pagerController.view];
     self.pagerController.view.backgroundColor = [UIColor yellowColor];
     self.pagerController.view.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-10-88);
     self.verticalScrollView.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-88-12);
@@ -144,24 +135,19 @@
 - (void)stretchyHeaderView:(GStretchyHeaderView *)headerView
     didChangeStretchFactor:(CGFloat)stretchFactor
 {
-//    NSLog(@"stretchFactor-%f",stretchFactor);
-//     NSLog(@"contentOffset - %f",self.verticalTableView.contentOffset.y);
-    
     if (stretchFactor == 0) {
         self.stretchFactor = YES;
-        self.gestureProcessor.reachCriticalPoint = YES;
-        self.gestureProcessor.criticalPoint = CGPointMake(0, -10);// self.verticalTableView.contentOffset;
-        GSimultaneouslyGestureINST.reachCriticalPoint = YES;
+        [GSimultaneouslyGestureINST reachOuterScrollToCriticalPoint];
 //        GSimultaneouslyGestureINST.criticalPoint = CGPointMake(0, -10);
     } else {
-        self.stretchFactor = NO;
     }
-//    self.stretchFactor = (stretchFactor < 0);
+//    self.stretchFactor = (stretchFactor == 0);
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     NSLog(@"scrollViewDidScroll wwwwwwwwwwwwww");
 }
+
 
 #pragma mark -- TableView DataSource
 
@@ -182,13 +168,22 @@
         cell = [[GVerticalPagerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"tableViewCell"];
     }
     cell.weakController = self;
-    cell.gestureProcessor = self.gestureProcessor;
     return cell;
 }
 
 - (UIScrollView *)currentScrollView
 {
     return self.verticalTableView;
+}
+
+- (BOOL)reachCritical:(UIScrollView *)scrollView
+{
+    return self.stretchFactor;
+}
+
+- (CGPoint)fetchCriticalPoint:(UIScrollView *)scrollView
+{
+    return CGPointMake(0,0);
 }
 
 #pragma mark -- TableView Delegate

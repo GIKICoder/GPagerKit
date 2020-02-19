@@ -12,11 +12,13 @@
     NSPointerArray* _delegates;
 }
 
-- (instancetype)init {
+- (instancetype)init
+{
     return [self initWithDelegates:@[]];
 }
 
-- (instancetype)initWithDelegates:(NSArray*)delegates {
+- (instancetype)initWithDelegates:(NSArray*)delegates
+{
     self = [super init];
     if (!self)
         return nil;
@@ -28,11 +30,18 @@
     return self;
 }
 
-- (void)addDelegate:(id)delegate {
+- (void)addDelegate:(id)delegate
+{
     [_delegates addPointer:(__bridge void*)delegate];
 }
 
-- (NSUInteger)indexOfDelegate:(id)delegate {
+- (id)lastDelegate
+{
+    return [_delegates allObjects].lastObject;
+}
+
+- (NSUInteger)indexOfDelegate:(id)delegate
+{
     for (NSUInteger i = 0; i < _delegates.count; i += 1) {
         if ([_delegates pointerAtIndex:i] == (__bridge void*)delegate) {
             return i;
@@ -41,14 +50,16 @@
     return NSNotFound;
 }
 
-- (void)addDelegate:(id)delegate beforeDelegate:(id)otherDelegate {
+- (void)addDelegate:(id)delegate beforeDelegate:(id)otherDelegate
+{
     NSUInteger index = [self indexOfDelegate:otherDelegate];
     if (index == NSNotFound)
         index = _delegates.count;
     [_delegates insertPointer:(__bridge void*)delegate atIndex:index];
 }
 
-- (void)addDelegate:(id)delegate afterDelegate:(id)otherDelegate {
+- (void)addDelegate:(id)delegate afterDelegate:(id)otherDelegate
+{
     NSUInteger index = [self indexOfDelegate:otherDelegate];
     if (index == NSNotFound)
         index = 0;
@@ -57,19 +68,22 @@
     [_delegates insertPointer:(__bridge void*)delegate atIndex:index];
 }
 
-- (void)removeDelegate:(id)delegate {
+- (void)removeDelegate:(id)delegate
+{
     NSUInteger index = [self indexOfDelegate:delegate];
     if (index != NSNotFound)
         [_delegates removePointerAtIndex:index];
     [_delegates compact];
 }
 
-- (void)removeAllDelegates {
+- (void)removeAllDelegates
+{
     for (NSUInteger i = _delegates.count; i > 0; i -= 1)
         [_delegates removePointerAtIndex:i - 1];
 }
 
-- (BOOL)respondsToSelector:(SEL)selector {
+- (BOOL)respondsToSelector:(SEL)selector
+{
     if ([super respondsToSelector:selector])
         return YES;
     
@@ -81,7 +95,8 @@
     return NO;
 }
 
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)selector {
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)selector
+{
     NSMethodSignature* signature = [super methodSignatureForSelector:selector];
     if (signature)
         return signature;
@@ -104,7 +119,8 @@
     return signature;
 }
 
-- (void)forwardInvocation:(NSInvocation *)invocation {
+- (void)forwardInvocation:(NSInvocation *)invocation
+{
     SEL selector = [invocation selector];
     BOOL responded = NO;
     

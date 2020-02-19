@@ -18,6 +18,7 @@
 @interface GSimultaneouslyGestureProcessor ()
 @property (nonatomic, strong) NSMutableArray * multiDelegates;
 @property (nonatomic, strong) NSMapTable * mapTable;
+@property (nonatomic, assign) BOOL  criticalState;
 @end
 @implementation GSimultaneouslyGestureProcessor
 
@@ -36,7 +37,6 @@
     self = [super init];
     if (self) {
         self.mapTable = [[NSMapTable alloc] initWithKeyOptions:(NSPointerFunctionsWeakMemory) valueOptions:(NSPointerFunctionsStrongMemory) capacity:0];
-        self.criticalPoint = CGPointZero;
     }
     return self;
 }
@@ -56,8 +56,7 @@
 - (void)destory
 {
     [self.mapTable removeAllObjects];
-    self.reachCriticalPoint = NO;
-    self.criticalPoint = CGPointZero;
+    self.criticalState = NO;
 }
 
 - (void)dealloc
@@ -65,21 +64,44 @@
 
 }
 
+- (void)reachOuterScrollToCriticalPoint
+{
+    self.criticalState = YES;
+}
+
+- (void)reachInnerScrollToCriticalPoint
+{
+    self.criticalState = NO;
+}
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     GSimultaneouslyItem * item = [self.mapTable objectForKey:scrollView];
     if (item && item.type == GSimultaneouslyType_outer) {
         NSLog(@"outer scrollview scrolling ...");
-        if (self.reachCriticalPoint) {
-            [scrollView setContentOffset:self.criticalPoint animated:NO];
+        GMultiDelegate * m_delegate = item.delegate;
+        id<GSimultaneouslyProtocol> delegate = [m_delegate lastDelegate];
+        CGPoint criticalPoint = CGPointZero;
+        if (delegate && [delegate respondsToSelector:@selector(fetchCriticalPoint:)]) {
+            criticalPoint = [delegate fetchCriticalPoint:scrollView];
+        }
+        if (self.criticalState) {
+            [scrollView setContentOffset:criticalPoint animated:NO];
         }
     } else if (item && item.type == GSimultaneouslyType_inner) {
-         NSLog(@"inner scrollview scrolling ...");
-        if (scrollView.contentOffset.y < 0) {
-            self.reachCriticalPoint = NO;
+        NSLog(@"inner scrollview scrolling ...");
+        GMultiDelegate * m_delegate = item.delegate;
+        id<GSimultaneouslyProtocol> delegate = [m_delegate lastDelegate];
+        
+        CGPoint criticalPoint = CGPointZero;
+        if (delegate && [delegate respondsToSelector:@selector(fetchCriticalPoint:)]) {
+            criticalPoint = [delegate fetchCriticalPoint:scrollView];
         }
-        if (!self.reachCriticalPoint) {
-            [scrollView setContentOffset:CGPointZero animated:NO];
+        if (scrollView.contentOffset.y < criticalPoint.y) {
+            [self reachInnerScrollToCriticalPoint];
+        }
+        if (!self.criticalState) {
+            [scrollView setContentOffset:criticalPoint animated:NO];
         }
         
     }

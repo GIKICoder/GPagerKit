@@ -12,7 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface GPagerListController : UIViewController
 
-@property (nonatomic, weak  ) GSimultaneouslyGestureProcessor * gestureProcessor;
 - (void)configWithDatas:(NSArray * )datas;
 @end
 

@@ -153,8 +153,6 @@
 
 - (void)pagerView:(__kindof GBaseScrollPager *)pagerView didTurnToPageAtIndex:(NSInteger)pageIndex
 {
-    GPagerListController * listController = [pagerView pagerForIndex:pageIndex];
-    listController.gestureProcessor = self.gestureProcessor;
     [self.pagerMenu setSelectIndex:pageIndex];
 }
 @end

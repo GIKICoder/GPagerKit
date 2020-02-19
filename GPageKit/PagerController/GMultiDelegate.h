@@ -23,6 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)removeDelegate:(id)delegate;
 - (void)removeAllDelegates;
+
+- (id)lastDelegate;
 @end
 
 NS_ASSUME_NONNULL_END

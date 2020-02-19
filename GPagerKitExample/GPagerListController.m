@@ -80,15 +80,25 @@
     [self.tableView reloadData];
 }
 
-- (void)setGestureProcessor:(GSimultaneouslyGestureProcessor *)gestureProcessor
-{
-    _gestureProcessor = gestureProcessor;
-}
 
 - (UIScrollView *)currentScrollView
 {
     return self.tableView;
 }
+
+- (BOOL)reachCritical:(UIScrollView *)scrollView
+{
+    if (scrollView.contentOffset.y < 0) {
+        return NO;
+    }
+    return YES;
+}
+
+- (CGPoint)fetchCriticalPoint:(UIScrollView *)scrollView
+{
+    return CGPointMake(0,0);
+}
+
 #pragma mark -- TableView DataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
