@@ -34,32 +34,36 @@
 @interface GVerticalPageListViewController ()<UITableViewDelegate,UITableViewDataSource,GSimultaneouslyProtocol>
 @property (nonatomic, strong) GVerticalPageListView * tableView;
 @property (nonatomic, strong) MJRefreshHeader * refreshHeader;
+@property (nonatomic, assign) NSInteger  dataCount;
 @end
 
 @implementation GVerticalPageListViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.dataCount = 10;
+    self.view.backgroundColor = UIColor.yellowColor;
     GVerticalPageListView *tableView = [[GVerticalPageListView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.tableView = tableView;
-    tableView.delegate = self;
     [tableView setSimultaneouslyType:GSimultaneouslyType_inner];
     [tableView setSimultaneouslyDelegate:self];
+    //    tableView.delegate = self;
     tableView.dataSource = self;
     tableView.estimatedRowHeight = 0;
     tableView.estimatedSectionFooterHeight = 0;
     tableView.estimatedSectionHeaderHeight = 0;
-    
     self.tableView.frame = self.view.bounds;
     [self.view addSubview:self.tableView];
-    //       __weak typeof(self) weakSelf = self;
-    //       self.refreshHeader = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-    //           dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-    //               [weakSelf.refreshHeader endRefreshing];
-    //           });
-    //       }];
-    //       self.tableView.mj_header = self.refreshHeader;
-    ////       self.refreshHeader.ignoredScrollViewContentInsetTop = 188;
+    /*
+    __weak typeof(self) weakSelf = self;
+    self.refreshHeader = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [weakSelf.refreshHeader endRefreshing];
+        });
+    }];
+    self.tableView.mj_header = self.refreshHeader;
+    self.refreshHeader.ignoredScrollViewContentInsetTop = 188;
+     */
 }
 
 - (void)viewDidLayoutSubviews
@@ -68,11 +72,19 @@
     self.tableView.frame = self.view.bounds;
 }
 
-- (void)configWithDatas:(NSArray * )datas
+- (void)configData:(NSString *)data
 {
+    self.dataCount = [self getRandomNumber:2 to:30];
+    if ([data isEqualToString:@"广场"]) {
+        self.dataCount = 1;
+    }
     [self.tableView reloadData];
 }
 
+- (int)getRandomNumber:(int)from to:(int)to
+{
+    return (int)(from + (arc4random() % ((to-from) + 1)));
+}
 
 - (UIScrollView *)currentScrollView
 {
@@ -94,7 +106,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 20;
+    return self.dataCount;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

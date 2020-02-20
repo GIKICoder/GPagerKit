@@ -10,7 +10,6 @@
 #import "GPageListExampleViewController.h"
 #import "GControllerScrollPager.h"
 #import "GPagerMenu.h"
-#import "GPagerListController.h"
 #import "GPageListViewController.h"
 @interface GPageListExampleViewController ()<GPagerMenuDelegate,GPagerMenuDataSource,GScrollPagerDelegate,GScrollPagerDataSource>
 @property (nonatomic, strong) GPagerMenu * pagerMenu;
