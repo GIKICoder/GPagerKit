@@ -24,16 +24,16 @@ static char kAssociatedObjectKey_simultaneouslyType;
 
 - (void)setSimultaneouslyDelegate:(id<GSimultaneouslyProtocol>)delegate
 {
-    self.delegate = (id)[GSimultaneouslyGestureINST registerMultiDelegate:delegate type:self.simultaneouslyType];
+//    self.delegate = (id)[GSimultaneouslyGestureINST registerMultiDelegate:delegate type:self.simultaneouslyType];
 }
 
 - (void)reachOuterScrollToCriticalPoint
 {
-    [GSimultaneouslyGestureINST reachOuterScrollToCriticalPoint];
+//    [GSimultaneouslyGestureINST reachOuterScrollToCriticalPoint];
 }
 
 - (void)reachInnerScrollToCriticalPoint
 {
-    [GSimultaneouslyGestureINST reachInnerScrollToCriticalPoint];
+//    [GSimultaneouslyGestureINST reachInnerScrollToCriticalPoint];
 }
 @end

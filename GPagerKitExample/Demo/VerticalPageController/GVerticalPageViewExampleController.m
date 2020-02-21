@@ -15,6 +15,7 @@
 #import "GControllerScrollPager.h"
 #import "GVerticalPageListViewController.h"
 #import "GPagerMenu.h"
+#import "NSObject+GSimultaneously.h"
 @interface GVerticalPageViewExampleController ()<GSimultaneouslyProtocol,GStretchyHeaderViewStretchDelegate,GScrollPagerDataSource,GScrollPagerDelegate,GPagerMenuDelegate,GPagerMenuDataSource,UIScrollViewDelegate>
 @property (nonatomic, strong) UIScrollView * verticalScrollView;
 @property (nonatomic, strong) GStretchyHeaderView * stretchyView;
@@ -27,6 +28,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.gesutreProcessor = [GSimultaneouslyGestureProcessor new];
     [self setupUI];
     [self loadDatas];
 }
@@ -59,8 +61,9 @@
     self.verticalScrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     self.verticalScrollView.backgroundColor = [UIColor redColor];
     self.verticalScrollView.tag = 1008623;
-    [self.verticalScrollView setSimultaneouslyType:GSimultaneouslyType_outer];
-    [self.verticalScrollView setSimultaneouslyDelegate:self];
+//    [self.verticalScrollView setSimultaneouslyType:GSimultaneouslyType_outer];
+//    [self.verticalScrollView setSimultaneouslyDelegate:self];
+    self.verticalScrollView.delegate = [self.gesutreProcessor registerMultiDelegate:self type:GSimultaneouslyType_outer];
     [self.view addSubview:self.verticalScrollView];
     
     [self setupStretchyHeaderView];
@@ -136,6 +139,9 @@
 {
     GVerticalPageListViewController * vc = [pagerView dequeueReusablePagerForIdentifier:@"GVerticalPageListViewController"];
     [vc configData:[self.items objectAtIndex:pageIndex]];
+    if (!vc.gesutreProcessor) {
+        vc.gesutreProcessor = self.gesutreProcessor;
+    }
     return vc;
 }
 
@@ -168,7 +174,7 @@
 - (void)stretchyHeaderView:(GStretchyHeaderView *)headerView didChangeStretchFactor:(CGFloat)stretchFactor
 {
     if (stretchFactor == 0) {
-        [self.verticalScrollView reachOuterScrollToCriticalPoint];
+        [self.gesutreProcessor reachOuterScrollToCriticalPoint];
     }
 }
 

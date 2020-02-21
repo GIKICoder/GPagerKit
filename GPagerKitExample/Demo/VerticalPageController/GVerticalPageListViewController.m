@@ -10,6 +10,7 @@
 #import "MJRefresh.h"
 #import "UIScrollView+GSimultaneously.h"
 #import "Masonry.h"
+#import "NSObject+GSimultaneously.h"
 @interface GVerticalPageListView : UITableView
 
 @end
@@ -63,9 +64,9 @@
     GVerticalPageListView *tableView = [[GVerticalPageListView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.tableView = tableView;
     tableView.dataSource = self;
-    [tableView setSimultaneouslyType:GSimultaneouslyType_inner];
-    [tableView setSimultaneouslyDelegate:self];
-    //    tableView.delegate = self;
+//    [tableView setSimultaneouslyType:GSimultaneouslyType_inner];
+//    [tableView setSimultaneouslyDelegate:self];
+    tableView.delegate = self;
     tableView.rowHeight = 0;
     tableView.estimatedRowHeight = 0;
     tableView.estimatedSectionFooterHeight = 0;
@@ -85,6 +86,12 @@
     self.tableView.mj_header = self.refreshHeader;
     self.refreshHeader.ignoredScrollViewContentInsetTop = 188;
      */
+}
+
+- (void)setGesutreProcessor:(GSimultaneouslyGestureProcessor *)gesutreProcessor
+{
+    [super setGesutreProcessor:gesutreProcessor];
+    self.tableView.delegate = [gesutreProcessor registerMultiDelegate:self type:GSimultaneouslyType_inner];
 }
 
 - (void)viewDidLayoutSubviews
