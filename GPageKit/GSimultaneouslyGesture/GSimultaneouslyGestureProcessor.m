@@ -43,6 +43,7 @@
 
 - (GMultiDelegate *)registerMultiDelegate:(id<GSimultaneouslyProtocol>)delegate type:(GSimultaneouslyType)type
 {
+    [self resetStatus];
     GMultiDelegate * multi = [[GMultiDelegate alloc] initWithDelegates:@[self,delegate]];
     GSimultaneouslyItem * item = [[GSimultaneouslyItem alloc] init];
     item.type = type;
@@ -53,10 +54,15 @@
     return multi;
 }
 
+- (void)resetStatus
+{
+    self.criticalState = NO;
+}
+
 - (void)destory
 {
     [self.mapTable removeAllObjects];
-    self.criticalState = NO;
+    [self resetStatus];
 }
 
 - (void)dealloc
@@ -97,7 +103,7 @@
         if (delegate && [delegate respondsToSelector:@selector(fetchCriticalPoint:)]) {
             criticalPoint = [delegate fetchCriticalPoint:scrollView];
         }
-        if (scrollView.contentOffset.y < criticalPoint.y) {
+        if (scrollView.contentOffset.y <= criticalPoint.y) {
             [self reachInnerScrollToCriticalPoint];
         }
         if (!self.criticalState) {

@@ -30,6 +30,7 @@ typedef NS_ENUM(NSUInteger, GSimultaneouslyType) {
 - (GMultiDelegate *)registerMultiDelegate:(id<GSimultaneouslyProtocol>)delegate type:(GSimultaneouslyType)type;
 - (void)reachOuterScrollToCriticalPoint;
 - (void)reachInnerScrollToCriticalPoint;
+- (void)resetStatus;
 - (void)destory;
 @end
 
