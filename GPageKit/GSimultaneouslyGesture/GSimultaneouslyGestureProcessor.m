@@ -43,7 +43,6 @@
 
 - (GMultiDelegate *)registerMultiDelegate:(id<GSimultaneouslyProtocol>)delegate type:(GSimultaneouslyType)type
 {
-    [[GSimultaneouslyGestureProcessor sharedInstance] destory];
     GMultiDelegate * multi = [[GMultiDelegate alloc] initWithDelegates:@[self,delegate]];
     GSimultaneouslyItem * item = [[GSimultaneouslyItem alloc] init];
     item.type = type;

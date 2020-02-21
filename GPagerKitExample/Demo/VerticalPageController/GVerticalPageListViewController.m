@@ -9,11 +9,20 @@
 #import "GVerticalPageListViewController.h"
 #import "MJRefresh.h"
 #import "UIScrollView+GSimultaneously.h"
+#import "Masonry.h"
 @interface GVerticalPageListView : UITableView
 
 @end
 
 @implementation GVerticalPageListView
+
+- (void)setContentSize:(CGSize)contentSize
+{
+    [super setContentSize:contentSize];
+    if (contentSize.height < 20) {
+        NSLog(@"string");
+    }
+}
 /**
  同时识别多个手势
  
@@ -23,11 +32,19 @@
  */
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
-    if (otherGestureRecognizer.view.tag == 10086) {
+    if (otherGestureRecognizer.view.tag == 1008623) {
         return YES;
     }
+    // 判断 otherGestureRecognizer 是不是系统 POP 手势
+//    if ([otherGestureRecognizer.view isKindOfClass:NSClassFromString(@"UILayoutContainerView")]) {
+//        // 判断 POP 手势的状态是 begin 还是 fail，同时判断 scrollView 的 ContentOffset.x 是不是在最左边
+//        if (otherGestureRecognizer.state == UIGestureRecognizerStateBegan && self.contentOffset.x == 0) {
+//            return YES;
+//        }
+//    }
     return NO;
 }
+
 
 @end
 
@@ -45,15 +62,19 @@
     self.view.backgroundColor = UIColor.yellowColor;
     GVerticalPageListView *tableView = [[GVerticalPageListView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.tableView = tableView;
+    tableView.dataSource = self;
     [tableView setSimultaneouslyType:GSimultaneouslyType_inner];
     [tableView setSimultaneouslyDelegate:self];
     //    tableView.delegate = self;
-    tableView.dataSource = self;
+    tableView.rowHeight = 0;
     tableView.estimatedRowHeight = 0;
     tableView.estimatedSectionFooterHeight = 0;
     tableView.estimatedSectionHeaderHeight = 0;
     self.tableView.frame = self.view.bounds;
     [self.view addSubview:self.tableView];
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view);
+    }];
     /*
     __weak typeof(self) weakSelf = self;
     self.refreshHeader = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -69,12 +90,12 @@
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    self.tableView.frame = self.view.bounds;
+//    self.tableView.frame = self.view.bounds;
 }
 
 - (void)configData:(NSString *)data
 {
-    self.dataCount = [self getRandomNumber:2 to:30];
+    self.dataCount = [self getRandomNumber:3 to:30];
     if ([data isEqualToString:@"广场"]) {
         self.dataCount = 1;
     }
@@ -135,7 +156,7 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    NSLog(@"scrollViewDidScroll pagelist");
+//    NSLog(@"scrollViewDidScroll pagelist");
     //    if (!self.gestureProcessor.reachCriticalPoint) {
     //        [scrollView setContentOffset:CGPointZero animated:NO];
     //    }

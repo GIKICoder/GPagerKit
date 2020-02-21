@@ -15,7 +15,7 @@
 #import "GControllerScrollPager.h"
 #import "GVerticalPageListViewController.h"
 #import "GPagerMenu.h"
-@interface GVerticalPageViewExampleController ()<GSimultaneouslyProtocol,GStretchyHeaderViewStretchDelegate,GScrollPagerDataSource,GScrollPagerDelegate,GPagerMenuDelegate,GPagerMenuDataSource>
+@interface GVerticalPageViewExampleController ()<GSimultaneouslyProtocol,GStretchyHeaderViewStretchDelegate,GScrollPagerDataSource,GScrollPagerDelegate,GPagerMenuDelegate,GPagerMenuDataSource,UIScrollViewDelegate>
 @property (nonatomic, strong) UIScrollView * verticalScrollView;
 @property (nonatomic, strong) GStretchyHeaderView * stretchyView;
 @property (nonatomic, strong) GControllerScrollPager * scrollPager;
@@ -27,7 +27,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[GSimultaneouslyGestureProcessor sharedInstance] destory];
     [self setupUI];
     [self loadDatas];
 }
@@ -35,8 +34,8 @@
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    [self.stretchyView setMaximumContentHeight:188 resetAnimated:NO];
-    self.verticalScrollView.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height+188);
+//    [self.stretchyView setMaximumContentHeight:188 resetAnimated:NO];
+
 }
 
 - (void)loadDatas
@@ -59,7 +58,7 @@
 {
     self.verticalScrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     self.verticalScrollView.backgroundColor = [UIColor redColor];
-    self.verticalScrollView.tag = 10086;
+    self.verticalScrollView.tag = 1008623;
     [self.verticalScrollView setSimultaneouslyType:GSimultaneouslyType_outer];
     [self.verticalScrollView setSimultaneouslyDelegate:self];
     [self.view addSubview:self.verticalScrollView];
@@ -67,6 +66,7 @@
     [self setupStretchyHeaderView];
     [self setupMenu];
     [self setupScrollPager];
+    self.verticalScrollView.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height+188);
 }
 
 - (void)setupStretchyHeaderView
@@ -75,6 +75,7 @@
     self.stretchyView.minimumContentHeight = 88;
     self.stretchyView.maximumContentHeight = 188;
     self.stretchyView.stretchDelegate = self;
+//    self.stretchyView.contentExpands = NO;
     self.stretchyView.contentView.backgroundColor = UIColor.blueColor;
     [self.verticalScrollView addSubview:self.stretchyView];
 }
@@ -110,6 +111,12 @@
     }];
 }
 
+#pragma mark - <#breif#>
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    NSLog(@"vertical -- scrollViewDidScroll");
+}
 
 #pragma mark - <#breif#>
 
