@@ -11,7 +11,6 @@
 #import "GSimultaneouslyGestureProcessor.h"
 #import "Masonry.h"
 #import "MJRefresh.h"
-#import "UIScrollView+GSimultaneously.h"
 #import "GControllerScrollPager.h"
 #import "GVerticalPageListViewController.h"
 #import "GPagerMenu.h"
@@ -61,9 +60,7 @@
     self.verticalScrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
     self.verticalScrollView.backgroundColor = [UIColor redColor];
     self.verticalScrollView.tag = 1008623;
-//    [self.verticalScrollView setSimultaneouslyType:GSimultaneouslyType_outer];
-//    [self.verticalScrollView setSimultaneouslyDelegate:self];
-    self.verticalScrollView.delegate = [self.gesutreProcessor registerMultiDelegate:self type:GSimultaneouslyType_outer];
+    self.verticalScrollView.delegate = (id)[self.gesutreProcessor registerMultiDelegate:self type:GSimultaneouslyType_outer];
     [self.view addSubview:self.verticalScrollView];
     
     [self setupStretchyHeaderView];

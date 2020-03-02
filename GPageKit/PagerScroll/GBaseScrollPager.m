@@ -453,9 +453,7 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
         [self.delegate pagerView:self didTurnToPageAtIndex:newPageIndex];
     }
     
-    //-------------------------------------------------------------------
-    
-    //work out if any visible pages need to be removed, and remove as necessary
+
     __block NSInteger visiblePagesCount = 0;
     NSSet *keysToRemove = [self.visiblePagers keysOfEntriesWithOptions:0 passingTest:^BOOL (NSNumber *pageNumber, id page, BOOL *stop) {
         if ([pageNumber isKindOfClass:[NSNumber class]] == NO) { return NO; }
@@ -477,13 +475,10 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
         return NO;
     }];
     [self.visiblePagers removeObjectsForKeys:[keysToRemove allObjects]];
-    //-------------------------------------------------------------------
-    
-    //if the number of visible pages is what we were expecting, there's no need to continue
+
     if (visiblePagesCount == visiblePagesRange.length)
         return;
     
-    //go through and insert all new pages necessary
     for (NSInteger i = visiblePagesRange.location; i < NSMaxRange(visiblePagesRange); i++) {
         [self layoutViewAtScrollIndex:i];
     }
@@ -526,7 +521,6 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
 
 - (NSMutableSet *)recycledPagesSetForPage:(id)pager
 {
-    // See if the page implemented an identifier, but defer to the default if not
     NSString *identifier = kGPagerDefaultPageIdentifier;
     if ([[pager class] respondsToSelector:@selector(pageIdentifier)]) {
         NSString * identifierT = [[pager class] pageIdentifier];
@@ -540,7 +534,7 @@ static NSString * const kGPagerDefaultPageIdentifier = @"__GPagerDefaultPageIden
             identifier = identifierT;
         }
     }
-    // See if a set object already exists for that identifier. Create a new one if not
+
     NSMutableSet *set = self.recycledPageSets[identifier];
     if (set == nil) {
         set = [NSMutableSet set];

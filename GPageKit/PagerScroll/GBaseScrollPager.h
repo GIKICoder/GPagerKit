@@ -92,13 +92,10 @@ typedef NS_ENUM(NSUInteger, GPageDirection) {
 /// return a recycled pager
 - (nullable __kindof id)dequeueReusablePager;
 
-/// return a recycled pager by identifier
 - (nullable __kindof id)dequeueReusablePagerForIdentifier:(NSString *)identifier;
 
-/** The currently visible primary view on screen. Can be a page or accessories. */
 - (nullable __kindof id)visiblePager;
 
-/** The currently visible primary page view on screen. Will be nil if an acessory is visible. */
 - (nullable __kindof UIView *)visiblePageView;
 
 /// return a recycled pager with pageindex

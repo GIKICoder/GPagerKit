@@ -22,16 +22,6 @@
 @end
 @implementation GSimultaneouslyGestureProcessor
 
-+ (instancetype)sharedInstance
-{
-    static GSimultaneouslyGestureProcessor * INST = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        INST = [[GSimultaneouslyGestureProcessor alloc] init];
-    });
-    return INST;
-}
-
 - (instancetype)init
 {
     self = [super init];

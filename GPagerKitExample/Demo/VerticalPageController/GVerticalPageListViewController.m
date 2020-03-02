@@ -8,7 +8,6 @@
 
 #import "GVerticalPageListViewController.h"
 #import "MJRefresh.h"
-#import "UIScrollView+GSimultaneously.h"
 #import "Masonry.h"
 #import "NSObject+GSimultaneously.h"
 @interface GVerticalPageListView : UITableView
@@ -91,7 +90,7 @@
 - (void)setGesutreProcessor:(GSimultaneouslyGestureProcessor *)gesutreProcessor
 {
     [super setGesutreProcessor:gesutreProcessor];
-    self.tableView.delegate = [gesutreProcessor registerMultiDelegate:self type:GSimultaneouslyType_inner];
+    self.tableView.delegate = (id)[gesutreProcessor registerMultiDelegate:self type:GSimultaneouslyType_inner];
 }
 
 - (void)viewDidLayoutSubviews
