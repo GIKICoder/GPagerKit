@@ -19,6 +19,7 @@
 @property (nonatomic, strong) NSMutableArray * multiDelegates;
 @property (nonatomic, strong) NSMapTable * mapTable;
 @property (nonatomic, assign) BOOL  criticalState;
+@property (nonatomic, assign) BOOL  beginDrag;
 @end
 @implementation GSimultaneouslyGestureProcessor
 
@@ -57,7 +58,7 @@
 
 - (void)dealloc
 {
-
+    
 }
 
 - (void)reachOuterScrollToCriticalPoint
@@ -74,7 +75,7 @@
 {
     GSimultaneouslyItem * item = [self.mapTable objectForKey:scrollView];
     if (item && item.type == GSimultaneouslyType_outer) {
-        NSLog(@"outer scrollview scrolling ...");
+        //        NSLog(@"outer scrollview scrolling ...");
         GMultiDelegate * m_delegate = item.delegate;
         id<GSimultaneouslyProtocol> delegate = [m_delegate lastDelegate];
         CGPoint criticalPoint = CGPointZero;
@@ -85,7 +86,7 @@
             [scrollView setContentOffset:criticalPoint animated:NO];
         }
     } else if (item && item.type == GSimultaneouslyType_inner) {
-        NSLog(@"inner scrollview scrolling ...");
+        //        NSLog(@"inner scrollview scrolling ...");
         GMultiDelegate * m_delegate = item.delegate;
         id<GSimultaneouslyProtocol> delegate = [m_delegate lastDelegate];
         
@@ -93,7 +94,7 @@
         if (delegate && [delegate respondsToSelector:@selector(fetchCriticalPoint:)]) {
             criticalPoint = [delegate fetchCriticalPoint:scrollView];
         }
-        if (scrollView.contentOffset.y <= criticalPoint.y) {
+        if (scrollView.contentOffset.y <= criticalPoint.y && self.beginDrag) {
             [self reachInnerScrollToCriticalPoint];
         }
         if (!self.criticalState) {
@@ -103,5 +104,27 @@
     }
 }
 
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    NSLog(@"scrollViewWillBeginDragging");
+    GSimultaneouslyItem * item = [self.mapTable objectForKey:scrollView];
+    if (item && item.type == GSimultaneouslyType_outer) {
+        
+    } else if (item && item.type == GSimultaneouslyType_inner) {
+        self.beginDrag = YES;
+    }
+}
+
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    NSLog(@"scrollViewDidEndDragging");
+    GSimultaneouslyItem * item = [self.mapTable objectForKey:scrollView];
+    if (item && item.type == GSimultaneouslyType_outer) {
+        
+    } else if (item && item.type == GSimultaneouslyType_inner) {
+        self.beginDrag = NO;
+    }
+}
 
 @end

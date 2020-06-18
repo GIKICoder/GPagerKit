@@ -98,7 +98,7 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    NSLog(@"scrollViewDidScroll pagelist");
+//    NSLog(@"scrollViewDidScroll pagelist");
 //    if (!self.gestureProcessor.reachCriticalPoint) {
 //        [scrollView setContentOffset:CGPointZero animated:NO];
 //    }

@@ -115,7 +115,7 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    NSLog(@"vertical -- scrollViewDidScroll");
+//    NSLog(@"vertical -- scrollViewDidScroll");
 }
 
 #pragma mark - <#breif#>
@@ -134,6 +134,10 @@
  */
 - (GVerticalPageListViewController *)pagerView:(__kindof GBaseScrollPager *)pagerView pagerForIndex:(NSInteger)pageIndex
 {
+    NSString * identifier = [NSString stringWithFormat:@"%ld",pageIndex];
+//    [self.scrollPager registerPagerClass:GVerticalPageListViewController.class identifier:identifier];
+//    GVerticalPageListViewController * vc = [pagerView dequeueReusablePagerForIdentifier:identifier]; //
+    
     GVerticalPageListViewController * vc = [pagerView dequeueReusablePagerForIdentifier:@"GVerticalPageListViewController"];
     [vc configData:[self.items objectAtIndex:pageIndex]];
     if (!vc.gesutreProcessor) {

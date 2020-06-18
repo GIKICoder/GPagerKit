@@ -21,7 +21,6 @@
 		2BC0D2782350B914006129CF /* UIScrollView+GStretchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC0D2772350B914006129CF /* UIScrollView+GStretchy.m */; };
 		2BC0D27B2350B922006129CF /* UIView+GStretchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC0D27A2350B922006129CF /* UIView+GStretchy.m */; };
 		2BC2E09724000A3B00B4321F /* NSObject+GSimultaneously.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC2E09624000A3B00B4321F /* NSObject+GSimultaneously.m */; };
-		2BC2E09A24000AD800B4321F /* GSimultaneouslyScrollManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC2E09924000AD800B4321F /* GSimultaneouslyScrollManager.m */; };
 		2BC5D79423FD14A50000F0B3 /* GPagerViewExampleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC5D79323FD14A50000F0B3 /* GPagerViewExampleController.m */; };
 		2BC5D79A23FD157C0000F0B3 /* demo_004.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2BC5D79623FD157B0000F0B3 /* demo_004.jpg */; };
 		2BC5D79B23FD157C0000F0B3 /* demo_002.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2BC5D79723FD157C0000F0B3 /* demo_002.jpg */; };
@@ -68,8 +67,6 @@
 		2BC0D27A2350B922006129CF /* UIView+GStretchy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+GStretchy.m"; sourceTree = "<group>"; };
 		2BC2E09524000A3B00B4321F /* NSObject+GSimultaneously.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+GSimultaneously.h"; sourceTree = "<group>"; };
 		2BC2E09624000A3B00B4321F /* NSObject+GSimultaneously.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+GSimultaneously.m"; sourceTree = "<group>"; };
-		2BC2E09824000AD800B4321F /* GSimultaneouslyScrollManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GSimultaneouslyScrollManager.h; sourceTree = "<group>"; };
-		2BC2E09924000AD800B4321F /* GSimultaneouslyScrollManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GSimultaneouslyScrollManager.m; sourceTree = "<group>"; };
 		2BC5D79223FD14A50000F0B3 /* GPagerViewExampleController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPagerViewExampleController.h; sourceTree = "<group>"; };
 		2BC5D79323FD14A50000F0B3 /* GPagerViewExampleController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GPagerViewExampleController.m; sourceTree = "<group>"; };
 		2BC5D79623FD157B0000F0B3 /* demo_004.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = demo_004.jpg; sourceTree = "<group>"; };
@@ -205,8 +202,6 @@
 				2BEBEAD7235F35F1003E78AF /* GSimultaneouslyGestureProcessor.m */,
 				2BC2E09524000A3B00B4321F /* NSObject+GSimultaneously.h */,
 				2BC2E09624000A3B00B4321F /* NSObject+GSimultaneously.m */,
-				2BC2E09824000AD800B4321F /* GSimultaneouslyScrollManager.h */,
-				2BC2E09924000AD800B4321F /* GSimultaneouslyScrollManager.m */,
 				2BEBEAD923603B88003E78AF /* GMultiDelegate.h */,
 				2BEBEADA23603B88003E78AF /* GMultiDelegate.m */,
 			);
@@ -406,7 +401,6 @@
 			files = (
 				2BC0D2642350AF36006129CF /* GControllerScrollPager.m in Sources */,
 				2BC5D7A023FD18A90000F0B3 /* GControllerPagerExampleController.m in Sources */,
-				2BC2E09A24000AD800B4321F /* GSimultaneouslyScrollManager.m in Sources */,
 				2BC0D2482350AEED006129CF /* ViewController.m in Sources */,
 				2BC5D7A723FD3B000000F0B3 /* GPageListExampleViewController.m in Sources */,
 				2BC0D2712350B6CE006129CF /* GBasePagerMenu.m in Sources */,
