@@ -75,7 +75,9 @@
 {
     GSimultaneouslyItem * item = [self.mapTable objectForKey:scrollView];
     if (item && item.type == GSimultaneouslyType_outer) {
-        //        NSLog(@"outer scrollview scrolling ...");
+#ifdef DEBUG
+        NSLog(@"outer scrollview scrolling ...");
+#endif
         GMultiDelegate * m_delegate = item.delegate;
         id<GSimultaneouslyProtocol> delegate = [m_delegate lastDelegate];
         CGPoint criticalPoint = CGPointZero;
@@ -86,7 +88,9 @@
             [scrollView setContentOffset:criticalPoint animated:NO];
         }
     } else if (item && item.type == GSimultaneouslyType_inner) {
-        //        NSLog(@"inner scrollview scrolling ...");
+#ifdef DEBUG
+         NSLog(@"inner scrollview scrolling ...");
+#endif
         GMultiDelegate * m_delegate = item.delegate;
         id<GSimultaneouslyProtocol> delegate = [m_delegate lastDelegate];
         
@@ -106,7 +110,9 @@
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
+#ifdef DEBUG
     NSLog(@"scrollViewWillBeginDragging");
+#endif
     GSimultaneouslyItem * item = [self.mapTable objectForKey:scrollView];
     if (item && item.type == GSimultaneouslyType_outer) {
         
@@ -118,7 +124,9 @@
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
+#ifdef DEBUG
     NSLog(@"scrollViewDidEndDragging");
+#endif
     GSimultaneouslyItem * item = [self.mapTable objectForKey:scrollView];
     if (item && item.type == GSimultaneouslyType_outer) {
         
