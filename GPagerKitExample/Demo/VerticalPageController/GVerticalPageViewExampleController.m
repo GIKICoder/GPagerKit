@@ -15,28 +15,58 @@
 #import "GVerticalPageListViewController.h"
 #import "GPagerMenu.h"
 #import "NSObject+GSimultaneously.h"
+#import "MJRefresh.h"
 @interface GVerticalPageViewExampleController ()<GSimultaneouslyProtocol,GStretchyHeaderViewStretchDelegate,GScrollPagerDataSource,GScrollPagerDelegate,GPagerMenuDelegate,GPagerMenuDataSource,UIScrollViewDelegate>
 @property (nonatomic, strong) UIScrollView * verticalScrollView;
 @property (nonatomic, strong) GStretchyHeaderView * stretchyView;
 @property (nonatomic, strong) GControllerScrollPager * scrollPager;
+@property (nonatomic, strong) UIView * headerView;
 @property (nonatomic, strong) GPagerMenu * pagerMenu;
 @property (nonatomic, strong) NSArray * items;
+@property (nonatomic, strong) MJRefreshNormalHeader * refreshHeader;
 @end
 
 @implementation GVerticalPageViewExampleController
 
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.navigationController.navigationBar.hidden = YES;
+        self.navigationController.navigationBarHidden = YES;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    if ([self respondsToSelector:@selector(automaticallyAdjustsScrollViewInsets)]) {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
+    self.navigationController.navigationBarHidden = YES;
+    [self.navigationController.navigationBar removeFromSuperview];
     self.gesutreProcessor = [GSimultaneouslyGestureProcessor new];
-    [self setupUI];
-    [self loadDatas];
+      [self setupUI];
+      [self loadDatas];
 }
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
+    self.navigationController.navigationBarHidden = YES;
+    [self.navigationController.navigationBar removeFromSuperview];
+}
+
 
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
 //    [self.stretchyView setMaximumContentHeight:188 resetAnimated:NO];
-
+    [self.verticalScrollView bringSubviewToFront:self.refreshHeader];
 }
 
 - (void)loadDatas
@@ -58,15 +88,26 @@
 - (void)setupUI
 {
     self.verticalScrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-    self.verticalScrollView.backgroundColor = [UIColor redColor];
+    self.verticalScrollView.backgroundColor = [UIColor whiteColor];
     self.verticalScrollView.tag = 1008623;
     self.verticalScrollView.delegate = (id)[self.gesutreProcessor registerMultiDelegate:self type:GSimultaneouslyType_outer];
+//    self.verticalScrollView.bounces = NO;
     [self.view addSubview:self.verticalScrollView];
     
     [self setupStretchyHeaderView];
     [self setupMenu];
     [self setupScrollPager];
     self.verticalScrollView.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height+188);
+    __weak typeof(self) weakSelf = self;
+    
+    self.refreshHeader = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [weakSelf.refreshHeader endRefreshing];
+        });
+    }];
+    self.refreshHeader.backgroundColor = UIColor.brownColor;
+    self.verticalScrollView.mj_header = self.refreshHeader;
+    self.refreshHeader.ignoredScrollViewContentInsetTop = 188;
 }
 
 - (void)setupStretchyHeaderView
@@ -75,9 +116,21 @@
     self.stretchyView.minimumContentHeight = 88;
     self.stretchyView.maximumContentHeight = 188;
     self.stretchyView.stretchDelegate = self;
-//    self.stretchyView.contentExpands = NO;
+    self.stretchyView.contentAnchor = GStretchyHeaderViewContentAnchorBottom;
+    self.stretchyView.contentExpands = NO;
     self.stretchyView.contentView.backgroundColor = UIColor.blueColor;
     [self.verticalScrollView addSubview:self.stretchyView];
+//    self.stretchyView.contentExpands = NO;
+    
+    self.headerView = [UIView new];
+    [self.stretchyView addSubview:self.headerView];
+    self.headerView.backgroundColor = UIColor.redColor;
+//    [self.headerView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.right.bottom.equalTo(self.stretchyView);
+//        make.height.mas_equalTo(188);
+//    }];
+    self.headerView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 188);
+    self.headerView.autoresizingMask =  UIViewAutoresizingFlexibleTopMargin;
 }
 
 - (void)setupMenu
@@ -174,6 +227,7 @@
 
 - (void)stretchyHeaderView:(GStretchyHeaderView *)headerView didChangeStretchFactor:(CGFloat)stretchFactor
 {
+    NSLog(@"didChangeStretchFactor -- %f",stretchFactor);
     if (stretchFactor == 0) {
         [self.gesutreProcessor reachOuterScrollToCriticalPoint];
     }

@@ -24,7 +24,7 @@
         @{@"title":@"ControllerScrollPager-Example",@"controller":@"GControllerPagerExampleController"},
         @{@"title":@"PageListController-Example",@"controller":@"GPageListExampleViewController"},
         @{@"title":@"VerticalPageListController-Example",@"controller":@"GVerticalPageViewExampleController"},
-        
+        @{@"title":@"StretchyView",@"controller":@"GStretchyDemoViewController"},
     ];
     
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];

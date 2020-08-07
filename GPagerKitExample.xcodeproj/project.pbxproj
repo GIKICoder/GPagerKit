@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B4EDE2324DD05F7005B0B68 /* GStretchyDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B4EDE2224DD05F7005B0B68 /* GStretchyDemoViewController.m */; };
+		2B4EDE2624DD06EB005B0B68 /* GStretchyDemoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B4EDE2524DD06EB005B0B68 /* GStretchyDemoView.m */; };
+		2B66756E24DD2FF2005D0A6E /* UIView+XCUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B66756C24DD2FF2005D0A6E /* UIView+XCUtils.m */; };
 		2BC0D2452350AEED006129CF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC0D2442350AEED006129CF /* AppDelegate.m */; };
 		2BC0D2482350AEED006129CF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BC0D2472350AEED006129CF /* ViewController.m */; };
 		2BC0D24B2350AEED006129CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BC0D2492350AEED006129CF /* Main.storyboard */; };
@@ -39,6 +42,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2B4EDE2124DD05F7005B0B68 /* GStretchyDemoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GStretchyDemoViewController.h; sourceTree = "<group>"; };
+		2B4EDE2224DD05F7005B0B68 /* GStretchyDemoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GStretchyDemoViewController.m; sourceTree = "<group>"; };
+		2B4EDE2424DD06EB005B0B68 /* GStretchyDemoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GStretchyDemoView.h; sourceTree = "<group>"; };
+		2B4EDE2524DD06EB005B0B68 /* GStretchyDemoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GStretchyDemoView.m; sourceTree = "<group>"; };
+		2B66756C24DD2FF2005D0A6E /* UIView+XCUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+XCUtils.m"; sourceTree = "<group>"; };
+		2B66756D24DD2FF2005D0A6E /* UIView+XCUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+XCUtils.h"; sourceTree = "<group>"; };
 		2BA624512355C313000CE215 /* GPagerMenuInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GPagerMenuInternal.h; sourceTree = "<group>"; };
 		2BC0D2402350AEED006129CF /* GPagerKitExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GPagerKitExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BC0D2432350AEED006129CF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -108,6 +117,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2B4EDE2024DD05CD005B0B68 /* GStretchyViewDemo */ = {
+			isa = PBXGroup;
+			children = (
+				2B4EDE2124DD05F7005B0B68 /* GStretchyDemoViewController.h */,
+				2B4EDE2224DD05F7005B0B68 /* GStretchyDemoViewController.m */,
+				2B4EDE2424DD06EB005B0B68 /* GStretchyDemoView.h */,
+				2B4EDE2524DD06EB005B0B68 /* GStretchyDemoView.m */,
+			);
+			path = GStretchyViewDemo;
+			sourceTree = "<group>";
+		};
 		2BC0D2372350AEED006129CF = {
 			isa = PBXGroup;
 			children = (
@@ -211,6 +231,9 @@
 		2BC5D79023FD14420000F0B3 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				2B66756D24DD2FF2005D0A6E /* UIView+XCUtils.h */,
+				2B66756C24DD2FF2005D0A6E /* UIView+XCUtils.m */,
+				2B4EDE2024DD05CD005B0B68 /* GStretchyViewDemo */,
 				2BC5D7AB23FD57300000F0B3 /* VerticalPageController */,
 				2BC5D7A423FD3A930000F0B3 /* PageControllerDemo */,
 				2BC5D79123FD14540000F0B3 /* PagerScrollDemo */,
@@ -402,6 +425,7 @@
 				2BC0D2642350AF36006129CF /* GControllerScrollPager.m in Sources */,
 				2BC5D7A023FD18A90000F0B3 /* GControllerPagerExampleController.m in Sources */,
 				2BC0D2482350AEED006129CF /* ViewController.m in Sources */,
+				2B66756E24DD2FF2005D0A6E /* UIView+XCUtils.m in Sources */,
 				2BC5D7A723FD3B000000F0B3 /* GPageListExampleViewController.m in Sources */,
 				2BC0D2712350B6CE006129CF /* GBasePagerMenu.m in Sources */,
 				2BEBEAD8235F35F1003E78AF /* GSimultaneouslyGestureProcessor.m in Sources */,
@@ -410,6 +434,7 @@
 				2BDE30C823557B2600112C77 /* GPagerMenu.m in Sources */,
 				2BC0D2782350B914006129CF /* UIScrollView+GStretchy.m in Sources */,
 				2BC0D2672350AF36006129CF /* GViewScrollPager.m in Sources */,
+				2B4EDE2624DD06EB005B0B68 /* GStretchyDemoView.m in Sources */,
 				2BC0D27B2350B922006129CF /* UIView+GStretchy.m in Sources */,
 				2BC5D79423FD14A50000F0B3 /* GPagerViewExampleController.m in Sources */,
 				2BC5D7B123FD5A720000F0B3 /* GVerticalPageListViewController.m in Sources */,
@@ -418,6 +443,7 @@
 				2BC0D2532350AEEE006129CF /* main.m in Sources */,
 				2BC0D2652350AF36006129CF /* GBaseScrollPager.m in Sources */,
 				2BC0D2452350AEED006129CF /* AppDelegate.m in Sources */,
+				2B4EDE2324DD05F7005B0B68 /* GStretchyDemoViewController.m in Sources */,
 				2BC5D7A323FD191C0000F0B3 /* GPagerImageExampleController.m in Sources */,
 				2BEBEADB23603B88003E78AF /* GMultiDelegate.m in Sources */,
 			);
