@@ -97,12 +97,36 @@ static const CGFloat kNibDefaultMaximumContentHeight = 240;
 
 #pragma mark - Public methods
 
+/// 设置HeaderView 高度, 并且重置ScrollView的offset
+/// @param maximumContentHeight HeaderView 高度
+/// @param animated <#animated description#>
 - (void)setMaximumContentHeight:(CGFloat)maximumContentHeight
                   resetAnimated:(BOOL)animated {
     self.maximumContentHeight = maximumContentHeight;
-    [UIView animateWithDuration:animated ? 0.3 : 0 animations:^{
-        self.scrollView.contentOffset = CGPointMake(0, -(self.maximumContentHeight + self.contentInset.top));
-    }];
+    [self.scrollView setContentOffset:CGPointMake(0, -(self.maximumContentHeight + self.contentInset.top)) animated:animated];
+}
+
+
+/// 只更新headerView 高度. 不改变相对位置.
+/// @param maximumContentHeight 需要更新的headerView高度
+/// @param animated animated description
+- (void)updateMaximumContentHeight:(CGFloat)maximumContentHeight animation:(BOOL)animated
+{
+    CGFloat diff = self.maximumContentHeight - maximumContentHeight;
+    CGPoint offset = self.scrollView.contentOffset;
+    self.maximumContentHeight = maximumContentHeight; //
+    [self.scrollView setContentOffset:CGPointMake(offset.x, (diff+offset.y)) animated:animated];
+}
+
+/// 只更新headerView 高度. 不改变相对位置.
+/// @param maximumContentHeight 需要更新的headerView高度
+/// @param diffOffset 内部控件需要改变的相对位置,增加- 减少+
+/// @param animated <#animated description#>
+- (void)updateMaximumContentHeight:(CGFloat)maximumContentHeight offset:(CGFloat)diffOffset animation:(BOOL)animated
+{
+    CGPoint offset = self.scrollView.contentOffset;
+    self.maximumContentHeight = maximumContentHeight; //diff+
+    [self.scrollView setContentOffset:CGPointMake(offset.x, (diffOffset+offset.y)) animated:animated];
 }
 
 #pragma mark - Overriden methods
@@ -199,6 +223,7 @@ static const CGFloat kNibDefaultMaximumContentHeight = 240;
         }
         
         CGPoint contentOffset = change[NSKeyValueChangeNewKey].CGPointValue;
+        NSLog(@"observeValueForKeyPath - %@",NSStringFromCGPoint(contentOffset));
         CGPoint previousContentOffset = change[NSKeyValueChangeOldKey].CGPointValue;
         [self.scrollView g_layoutStretchyHeaderView:self
                                         contentOffset:contentOffset

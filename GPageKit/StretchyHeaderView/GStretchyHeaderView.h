@@ -105,11 +105,25 @@ typedef NS_ENUM(NSUInteger, GStretchyHeaderViewExpansionMode) {
  */
 @property(nonatomic) IBInspectable BOOL contentExpands;
 
-/**
- *  Sets a new maximumContent height and scrolls to the top.
- */
+/// 设置HeaderView 高度, 并且重置ScrollView的offset
+/// @param maximumContentHeight HeaderView 高度
+/// @param animated <#animated description#>
 - (void)setMaximumContentHeight:(CGFloat)maximumContentHeight
                   resetAnimated:(BOOL)animated;
+
+/// 只更新headerView 高度. 不改变相对位置.
+/// @param maximumContentHeight 需要更新的headerView高度
+/// @param animated animated description
+- (void)updateMaximumContentHeight:(CGFloat)maximumContentHeight
+                         animation:(BOOL)animated;
+
+/// 只更新headerView 高度. 不改变相对位置.
+/// @param maximumContentHeight 需要更新的headerView高度
+/// @param diffOffset 内部控件需要改变的相对位置,增加- 减少+
+/// @param animated <#animated description#>
+- (void)updateMaximumContentHeight:(CGFloat)maximumContentHeight
+                            offset:(CGFloat)diffOffset
+                         animation:(BOOL)animated;
 @end
 
 

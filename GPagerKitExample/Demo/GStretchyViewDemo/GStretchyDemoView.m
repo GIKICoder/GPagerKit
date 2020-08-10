@@ -76,17 +76,23 @@
 - (void)buttonClick
 {
     if (!self.isExpand) {
-        self.maximumContentHeight = 300;
-        self.height = 300;
+        
+//        self.maximumContentHeight = 300;
+        CGFloat height = 230;
+        self.height = height;
         [self.textLabel mas_updateConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(50);
         }];
-                [self setMaximumContentHeight:300 resetAnimated:YES];
+        
+//        UIEdgeInsets edgeInsets = self.contentInset;
+//        self.contentInset = UIEdgeInsetsMake(edgeInsets.top-100, edgeInsets.left, edgeInsets.bottom, edgeInsets.right);
+        [self updateMaximumContentHeight:height offset:-30 animation:YES];
     } else {
-        self.maximumContentHeight = 200;
+//        self.maximumContentHeight = 200;
         [self.textLabel mas_updateConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(20);
         }];
+        [self updateMaximumContentHeight:200 animation:YES];
     }
     self.isExpand = !self.isExpand;
 }
