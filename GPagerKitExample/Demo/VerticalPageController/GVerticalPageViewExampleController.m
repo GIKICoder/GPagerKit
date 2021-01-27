@@ -51,6 +51,7 @@
     self.gesutreProcessor = [GSimultaneouslyGestureProcessor new];
       [self setupUI];
       [self loadDatas];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateVerticalHeader) name:@"updateVerticalHeader" object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -100,14 +101,14 @@
     self.verticalScrollView.contentSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height+188);
     __weak typeof(self) weakSelf = self;
     
-    self.refreshHeader = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [weakSelf.refreshHeader endRefreshing];
-        });
-    }];
-    self.refreshHeader.backgroundColor = UIColor.brownColor;
-    self.verticalScrollView.mj_header = self.refreshHeader;
-    self.refreshHeader.ignoredScrollViewContentInsetTop = 188;
+//    self.refreshHeader = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            [weakSelf.refreshHeader endRefreshing];
+//        });
+//    }];
+//    self.refreshHeader.backgroundColor = UIColor.brownColor;
+//    self.verticalScrollView.mj_header = self.refreshHeader;
+//    self.refreshHeader.ignoredScrollViewContentInsetTop = 188;
 }
 
 - (void)setupStretchyHeaderView
@@ -116,15 +117,17 @@
     self.stretchyView.minimumContentHeight = 88;
     self.stretchyView.maximumContentHeight = 188;
     self.stretchyView.stretchDelegate = self;
-    self.stretchyView.contentAnchor = GStretchyHeaderViewContentAnchorBottom;
-    self.stretchyView.contentExpands = NO;
+//    self.stretchyView.contentAnchor = GStretchyHeaderViewContentAnchorBottom;
+//    self.stretchyView.contentExpands = NO;
     self.stretchyView.contentView.backgroundColor = UIColor.blueColor;
     [self.verticalScrollView addSubview:self.stretchyView];
+    self.stretchyView.manageScrollViewInsets = NO;
 //    self.stretchyView.contentExpands = NO;
     
     self.headerView = [UIView new];
-    [self.stretchyView addSubview:self.headerView];
+    [self.stretchyView.contentView addSubview:self.headerView];
     self.headerView.backgroundColor = UIColor.redColor;
+//    self.stretchyView.contentInset = UIEdgeInsetsMake(-44, 0, 0, 0);
 //    [self.headerView mas_makeConstraints:^(MASConstraintMaker *make) {
 //        make.left.right.bottom.equalTo(self.stretchyView);
 //        make.height.mas_equalTo(188);
@@ -164,11 +167,23 @@
     }];
 }
 
+- (void)updateVerticalHeader
+{
+//    CGRect rect = self.stretchyView.frame;
+//    self.stretchyView.frame = CGRectMake(rect.origin.x, rect.origin.y, rect.size.width, 288);
+    self.stretchyView.maximumContentHeight = 288;
+    CGRect rect2 = self.headerView.frame;
+    self.headerView.frame  = CGRectMake(rect2.origin.x, rect2.origin.y, rect2.size.width, 288);
+}
+
 #pragma mark - <#breif#>
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-//    NSLog(@"vertical -- scrollViewDidScroll");
+    NSLog(@"vertical -- scrollViewDidScroll -- %@",NSStringFromCGPoint(scrollView.contentOffset));
+    if (scrollView.contentOffset.y == -232) {
+//        [self.gesutreProcessor reachOuterScrollToCriticalPoint];
+    }
 }
 
 #pragma mark - <#breif#>
@@ -221,6 +236,16 @@
 - (CGPoint)fetchCriticalPoint:(UIScrollView *)scrollView
 {
     return CGPointMake(0, 20);
+}
+
+- (BOOL)headerViewCanStretchy
+{
+    return (self.stretchyView.stretchFactor < 1.39);
+}
+
+- (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView
+{
+    NSLog(@"scrollViewDidScrollToTop");
 }
 
 #pragma mark - <#breif#>

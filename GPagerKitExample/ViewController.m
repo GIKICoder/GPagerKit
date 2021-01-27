@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-
+#import "GStretchViewHeaderController.h"
 @interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView * tableView;
@@ -25,6 +25,7 @@
         @{@"title":@"PageListController-Example",@"controller":@"GPageListExampleViewController"},
         @{@"title":@"VerticalPageListController-Example",@"controller":@"GVerticalPageViewExampleController"},
         @{@"title":@"StretchyView",@"controller":@"GStretchyDemoViewController"},
+        @{@"title":@"GStretchViewHeaderController",@"controller":@"GStretchViewHeaderController"},
     ];
     
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];

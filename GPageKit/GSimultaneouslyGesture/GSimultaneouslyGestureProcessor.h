@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @optional
 - (UIScrollView *)currentScrollView;
 - (CGPoint)fetchCriticalPoint:(UIScrollView *)scrollView;
+- (BOOL)headerViewCanStretchy;
 @end
 
 typedef NS_ENUM(NSUInteger, GSimultaneouslyType) {

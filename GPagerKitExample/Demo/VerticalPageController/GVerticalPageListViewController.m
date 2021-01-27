@@ -10,6 +10,7 @@
 #import "MJRefresh.h"
 #import "Masonry.h"
 #import "NSObject+GSimultaneously.h"
+#import "GVerticalSubViewController.h"
 @interface GVerticalPageListView : UITableView
 
 @end
@@ -75,16 +76,15 @@
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
-    /*
+
     __weak typeof(self) weakSelf = self;
     self.refreshHeader = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [weakSelf.refreshHeader endRefreshing];
         });
     }];
-    self.tableView.mj_header = self.refreshHeader;
-    self.refreshHeader.ignoredScrollViewContentInsetTop = 188;
-     */
+//    self.tableView.mj_header = self.refreshHeader;
+//    self.refreshHeader.ignoredScrollViewContentInsetTop = 188;
 }
 
 - (void)setGesutreProcessor:(GSimultaneouslyGestureProcessor *)gesutreProcessor
@@ -150,6 +150,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    GVerticalSubViewController * VC = [GVerticalSubViewController new];
+    [self.navigationController pushViewController:VC animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -166,6 +168,10 @@
     //    if (!self.gestureProcessor.reachCriticalPoint) {
     //        [scrollView setContentOffset:CGPointZero animated:NO];
     //    }
+}
+- (void)scrollViewDidScrollToTop:(UIScrollView *)scrollView
+{
+    NSLog(@"scrollViewDidScrollToTop222222");
 }
 
 @end

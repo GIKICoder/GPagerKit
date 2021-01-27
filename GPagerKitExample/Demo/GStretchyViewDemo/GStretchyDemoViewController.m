@@ -8,9 +8,11 @@
 
 #import "GStretchyDemoViewController.h"
 #import "GStretchyDemoView.h"
+#import "Masonry.h"
 @interface GStretchyDemoViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, strong) GStretchyDemoView * headerView;
 @property (nonatomic, strong) UITableView * tableView;
+@property (nonatomic, strong) UIView * customView;
 @end
 
 @implementation GStretchyDemoViewController
@@ -63,9 +65,19 @@
     self.tableView.frame = self.view.bounds;
     
     self.headerView = [[GStretchyDemoView alloc] init];
+    self.headerView.expansionMode = GStretchyHeaderViewExpansionModeTopOnly;
     [self.tableView addSubview:self.headerView];
     
-//    self.tableView.bounces = NO;
+    self.customView = [UIView new];
+    self.customView.backgroundColor = UIColor.redColor;
+//    self.customView.frame = CGRectMake(0, 88, [UIScreen mainScreen].bounds.size.width, 300-88);
+    [self.headerView.contentView addSubview:self.customView];
+//    self.customView.autoresizingMask =  UIViewAutoresizingFlexibleTopMargin;
+    [self.customView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(CGSizeMake([UIScreen mainScreen].bounds.size.width, 200-88));
+        make.bottom.mas_equalTo(self.headerView.mas_bottom);
+        make.left.mas_equalTo(0);
+    }];
 }
 
 #pragma mark -- TableView DataSource
@@ -94,7 +106,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
+    if (indexPath.row == 5) {
+        [self.headerView setMaximumContentHeight:300];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

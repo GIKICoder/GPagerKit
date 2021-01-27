@@ -20,6 +20,7 @@
 @property (nonatomic, strong) NSMapTable * mapTable;
 @property (nonatomic, assign) BOOL  criticalState;
 @property (nonatomic, assign) BOOL  beginDrag;
+@property (nonatomic, assign) BOOL  outerBounces;
 @end
 @implementation GSimultaneouslyGestureProcessor
 
@@ -48,6 +49,7 @@
 - (void)resetStatus
 {
     self.criticalState = NO;
+    self.outerBounces = NO;
 }
 
 - (void)destory
@@ -87,6 +89,16 @@
         if (self.criticalState) {
             [scrollView setContentOffset:criticalPoint animated:NO];
         }
+        BOOL can = YES;
+        if (delegate && [delegate respondsToSelector:@selector(headerViewCanStretchy)]) {
+            can = [delegate headerViewCanStretchy];
+        }
+        if (!scrollView.bounces) {
+            self.outerBounces = YES;
+        } else {
+            self.outerBounces = can;
+        }
+        self.outerBounces = !can;
     } else if (item && item.type == GSimultaneouslyType_inner) {
 #ifdef DEBUG
          NSLog(@"inner scrollview scrolling ...");
@@ -98,10 +110,11 @@
         if (delegate && [delegate respondsToSelector:@selector(fetchCriticalPoint:)]) {
             criticalPoint = [delegate fetchCriticalPoint:scrollView];
         }
+     
         if (scrollView.contentOffset.y <= criticalPoint.y && self.beginDrag) {
             [self reachInnerScrollToCriticalPoint];
         }
-        if (!self.criticalState) {
+        if (!self.criticalState && !self.outerBounces) {
             [scrollView setContentOffset:criticalPoint animated:NO];
         }
         
