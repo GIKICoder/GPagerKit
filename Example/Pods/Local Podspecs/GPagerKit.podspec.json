@@ -1,0 +1,22 @@
+{
+  "name": "GPagerKit",
+  "version": "0.1.0",
+  "summary": "A short description of GPagerKit.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/GIKI/GPagerKit",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "GIKI": "810373457@qq.com"
+  },
+  "source": {
+    "git": "https://github.com/GIKI/GPagerKit.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "10.0"
+  },
+  "source_files": "GPagerKit/Classes/**/*"
+}

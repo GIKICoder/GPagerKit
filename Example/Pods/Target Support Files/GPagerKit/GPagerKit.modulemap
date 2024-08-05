@@ -1,0 +1,6 @@
+framework module GPagerKit {
+  umbrella header "GPagerKit-umbrella.h"
+
+  export *
+  module * { export * }
+}

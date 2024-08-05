@@ -1,0 +1,31 @@
+PODS:
+  - FDFullscreenPopGesture (1.1)
+  - GPagerKit (0.1.0)
+  - Masonry (1.1.0)
+  - MJRefresh (3.7.6)
+
+DEPENDENCIES:
+  - FDFullscreenPopGesture
+  - GPagerKit (from `../`)
+  - Masonry
+  - MJRefresh
+
+SPEC REPOS:
+  trunk:
+    - FDFullscreenPopGesture
+    - Masonry
+    - MJRefresh
+
+EXTERNAL SOURCES:
+  GPagerKit:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  FDFullscreenPopGesture: a8a620179e3d9c40e8e00256dcee1c1a27c6d0f0
+  GPagerKit: b338b14fae00e1f0dbb8143e7294162651fdd96b
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  MJRefresh: 2fe7fb43a5167ceda20bb7e63f130c04fd1814a5
+
+PODFILE CHECKSUM: 25580bf48525b39804789f821e0e4b5a6432adeb
+
+COCOAPODS: 1.15.2
